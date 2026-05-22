@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adding 3 Numbers — Ms. Newby Teaches Lesson 5</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito',sans-serif;background:#111;overflow:hidden;height:100vh;width:100vw;}
+.deck{width:100vw;height:100vh;position:relative;}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;opacity:0;pointer-events:none;transition:opacity .45s ease;overflow:hidden;}
+.slide.active{opacity:1;pointer-events:all;}
+.nav{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:1rem;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);border-radius:999px;padding:.6rem 1.4rem;z-index:100;}
+.nav-btn{background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.3);color:white;border-radius:50%;width:40px;height:40px;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.nav-btn:hover{background:rgba(255,255,255,.3);}
+.slide-counter{color:rgba(255,255,255,.85);font-weight:700;font-size:.9rem;min-width:60px;text-align:center;}
+.dot-row{display:flex;gap:.4rem;}
+.dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer;transition:all .2s;}
+.dot.on{background:white;transform:scale(1.3);}
+.fs-hint{position:fixed;top:1rem;right:1.2rem;background:rgba(0,0,0,.5);color:rgba(255,255,255,.75);font-size:.78rem;font-weight:700;padding:.35rem .8rem;border-radius:8px;z-index:100;cursor:pointer;}
+
+/* S1 — TITLE */
+.s1{background:linear-gradient(145deg,#7F1D1D,#DC2626,#EF4444);}
+.s1 .bounce{font-size:clamp(4rem,10vw,7rem);animation:bounce 2s infinite;}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+.s1 h1{font-family:'Fredoka One',cursive;font-size:clamp(2.5rem,6vw,4.5rem);color:#FFE566;text-align:center;line-height:1.1;text-shadow:3px 3px 0 rgba(0,0,0,.25);margin-bottom:.6rem;}
+.s1 h2{font-size:clamp(1rem,2.5vw,1.6rem);color:rgba(255,255,255,.9);font-weight:700;margin-bottom:2rem;text-align:center;}
+.badge-row{display:flex;flex-wrap:wrap;justify-content:center;gap:.6rem;}
+.badge{background:rgba(255,255,255,.18);border:1.5px solid rgba(255,255,255,.35);color:white;font-weight:800;font-size:.85rem;padding:.35rem 1.1rem;border-radius:999px;}
+
+/* S2 — HOOK */
+.s2{background:linear-gradient(145deg,#14532D,#15803D,#16A34A);}
+.big-q{font-family:'Fredoka One',cursive;font-size:clamp(1.6rem,4vw,2.8rem);color:white;text-align:center;text-shadow:2px 2px 0 rgba(0,0,0,.2);margin-bottom:1.5rem;max-width:800px;line-height:1.3;}
+.apple-groups{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem;}
+.apple-group{background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);border-radius:18px;padding:1rem 1.4rem;text-align:center;}
+.apple-group .apples{font-size:clamp(1.5rem,4vw,2.5rem);margin-bottom:.4rem;line-height:1.2;}
+.apple-group .lbl{font-family:'Fredoka One',cursive;font-size:clamp(1rem,2.5vw,1.5rem);color:#FFE566;}
+.apple-group .num{font-family:'Fredoka One',cursive;font-size:clamp(1.8rem,4vw,2.8rem);color:white;}
+.callout{background:white;border-radius:16px;padding:1rem 2rem;font-size:clamp(.9rem,2.2vw,1.25rem);font-weight:800;color:#14532D;text-align:center;box-shadow:0 4px 16px rgba(0,0,0,.15);max-width:700px;}
+
+/* S3 — VOCAB */
+.s3{background:linear-gradient(145deg,#1E1B4B,#3730A3,#4338CA);}
+.slide-title{font-family:'Fredoka One',cursive;font-size:clamp(2rem,5vw,3.2rem);color:#FFE566;margin-bottom:1.2rem;text-align:center;text-shadow:2px 2px 0 rgba(0,0,0,.2);}
+.vocab-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.9rem;max-width:900px;width:100%;}
+.vocab-card{background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);border-radius:18px;padding:1rem 1.2rem;text-align:center;}
+.vocab-card .vw{font-family:'Fredoka One',cursive;font-size:clamp(1.2rem,3vw,1.8rem);color:#FFE566;margin-bottom:.3rem;}
+.vocab-card .vd{color:rgba(255,255,255,.9);font-weight:700;font-size:clamp(.8rem,1.8vw,1rem);}
+.trick-box{margin-top:1rem;background:rgba(255,255,255,.18);border:2px solid rgba(255,255,255,.35);border-radius:14px;padding:.9rem 1.8rem;font-weight:800;color:white;font-size:clamp(.9rem,2vw,1.15rem);text-align:center;max-width:720px;}
+
+/* S4 — I DO */
+.s4{background:linear-gradient(145deg,#1D4ED8,#2563EB,#3B82F6);}
+.lesson-layout{display:flex;gap:2rem;align-items:center;justify-content:center;flex-wrap:wrap;max-width:920px;}
+.steps-col{flex:1;min-width:260px;}
+.step-item{display:flex;align-items:flex-start;gap:.8rem;padding:.7rem 0;border-bottom:1px solid rgba(255,255,255,.15);}
+.step-item:last-child{border-bottom:none;}
+.step-num-circle{width:40px;height:40px;border-radius:50%;background:#FFE566;color:#1D4ED8;font-weight:900;font-size:1.1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-text h4{color:#FFE566;font-size:clamp(.9rem,2.2vw,1.1rem);font-weight:800;margin-bottom:.2rem;}
+.step-text p{color:rgba(255,255,255,.88);font-size:clamp(.8rem,1.9vw,.98rem);line-height:1.4;}
+.problem-box{background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.3);border-radius:16px;padding:1.2rem;max-width:360px;text-align:center;}
+.problem-story{color:white;font-weight:700;font-size:clamp(.85rem,2vw,1.05rem);margin-bottom:1rem;line-height:1.5;}
+.three-addends{display:flex;align-items:center;justify-content:center;gap:.6rem;margin-bottom:.8rem;}
+.addend-circle{width:clamp(44px,7vw,64px);height:clamp(44px,7vw,64px);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Fredoka One',cursive;font-size:clamp(1.3rem,3vw,2rem);font-weight:900;box-shadow:0 4px 12px rgba(0,0,0,.2);}
+.plus-sign{font-family:'Fredoka One',cursive;font-size:clamp(1.2rem,3vw,1.8rem);color:rgba(255,255,255,.7);}
+.equals-sign{font-family:'Fredoka One',cursive;font-size:clamp(1.2rem,3vw,1.8rem);color:rgba(255,255,255,.7);}
+.answer-circle{width:clamp(52px,8vw,76px);height:clamp(52px,8vw,76px);border-radius:50%;background:#FFE566;display:flex;align-items:center;justify-content:center;font-family:'Fredoka One',cursive;font-size:clamp(1.5rem,4vw,2.4rem);color:#1D4ED8;box-shadow:0 4px 16px rgba(0,0,0,.2);}
+.strategy-tag{background:#FFE566;color:#1D4ED8;border-radius:999px;padding:.4rem 1rem;font-weight:800;font-size:.85rem;display:inline-block;}
+
+/* S5 — STRATEGIES */
+.s5{background:linear-gradient(145deg,#6D28D9,#7C3AED,#8B5CF6);}
+.strat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;max-width:860px;width:100%;}
+.strat-card{background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);border-radius:18px;padding:1.2rem;}
+.strat-card h4{font-family:'Fredoka One',cursive;font-size:clamp(1.1rem,2.8vw,1.5rem);color:#FFE566;margin-bottom:.5rem;}
+.strat-card .example{font-family:'Fredoka One',cursive;font-size:clamp(1.1rem,2.5vw,1.4rem);color:white;background:rgba(255,255,255,.12);border-radius:10px;padding:.4rem .8rem;margin-bottom:.4rem;text-align:center;}
+.strat-card p{color:rgba(255,255,255,.85);font-size:clamp(.8rem,1.9vw,.95rem);font-weight:700;}
+
+/* S6 — WE DO */
+.s6{background:linear-gradient(145deg,#0F766E,#0D9488,#14B8A6);}
+.instruction{color:rgba(255,255,255,.9);font-weight:700;font-size:clamp(.9rem,2.2vw,1.2rem);text-align:center;margin-bottom:1.2rem;}
+.we-do-layout{display:flex;gap:2rem;align-items:center;justify-content:center;flex-wrap:wrap;}
+.answer-reveal{background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);border-radius:16px;padding:1.2rem 1.5rem;min-width:240px;text-align:center;}
+.answer-reveal h3{font-weight:800;color:rgba(255,255,255,.7);font-size:.85rem;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.7rem;}
+.reveal-btn{margin-top:.9rem;background:#FFE566;color:#0D9488;border:none;border-radius:999px;padding:.6rem 1.5rem;font-family:'Nunito',sans-serif;font-weight:900;font-size:1rem;cursor:pointer;transition:transform .15s;box-shadow:0 4px 12px rgba(0,0,0,.2);}
+.reveal-btn:hover{transform:scale(1.05);}
+.answer-shown{display:none;}
+.answer-shown.visible{display:block;font-family:'Fredoka One',cursive;font-size:clamp(1.5rem,3.5vw,2.2rem);color:#FFE566;margin-top:.6rem;animation:popIn .35s ease;}
+@keyframes popIn{0%{transform:scale(.6);opacity:0}80%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
+
+/* S7 — YOU DO */
+.s7{background:linear-gradient(145deg,#78350F,#92400E,#B45309);}
+.steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.9rem;max-width:800px;width:100%;margin-bottom:1.4rem;}
+.step-card{background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);border-radius:18px;padding:1.2rem 1rem;text-align:center;}
+.step-card .step-big{font-size:2.5rem;margin-bottom:.4rem;}
+.step-card h4{font-family:'Fredoka One',cursive;font-size:clamp(1rem,2.5vw,1.35rem);color:#FFE566;margin-bottom:.25rem;}
+.step-card p{color:rgba(255,255,255,.85);font-size:clamp(.78rem,1.9vw,.95rem);font-weight:700;}
+.go-banner{background:#FFE566;border-radius:999px;padding:.8rem 2.5rem;font-family:'Fredoka One',cursive;font-size:clamp(1.2rem,3.5vw,2rem);color:#78350F;box-shadow:0 6px 20px rgba(0,0,0,.2);animation:pulse 1.8s infinite;}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+
+/* S8 — CELEBRATE */
+.s8{background:linear-gradient(145deg,#1a1a6e,#DC2626,#EF4444);}
+.review-cards{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;margin-bottom:1.1rem;max-width:750px;}
+.review-card{background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);border-radius:18px;padding:1rem 1.5rem;text-align:center;flex:1;min-width:180px;}
+.review-card h4{font-weight:800;color:rgba(255,255,255,.7);font-size:.82rem;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.5rem;}
+.review-card .eq{font-family:'Fredoka One',cursive;font-size:clamp(1.2rem,2.8vw,1.8rem);color:#FFE566;}
+.self-check{display:flex;gap:.8rem;flex-wrap:wrap;justify-content:center;margin-bottom:1rem;}
+.check-badge{border-radius:999px;padding:.5rem 1.4rem;font-weight:800;font-size:.9rem;}
+.check-green{background:#22C55E;color:white;}
+.check-orange{background:#F97316;color:white;}
+.star-msg{font-family:'Fredoka One',cursive;font-size:clamp(1rem,2.5vw,1.4rem);color:white;text-align:center;padding:.8rem 1.5rem;background:rgba(255,255,255,.12);border-radius:16px;border:2px solid rgba(255,255,255,.3);max-width:640px;}
+
+.confetti-piece{position:absolute;width:12px;height:12px;border-radius:2px;animation:fall linear forwards;pointer-events:none;}
+@keyframes fall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
+</style>
+</head>
+<body>
+<div class="fs-hint" onclick="toggleFS()">⛶ Fullscreen (F)</div>
+<div class="deck" id="deck">
+
+  <!-- S1 TITLE -->
+  <div class="slide s1 active">
+    <div class="bounce">🍎</div>
+    <h1>Adding 3 Numbers<br>Word Problems</h1>
+    <h2>5 + 5 + 6 = ? — Let's find the SMART way to add!</h2>
+    <div class="badge-row">
+      <div class="badge">➕ 2nd Grade Skill</div>
+      <div class="badge">👥 Small Group</div>
+      <div class="badge">⏱ 30 Minutes</div>
+      <div class="badge">🔢 Lesson 5 of 100</div>
+    </div>
+  </div>
+
+  <!-- S2 HOOK -->
+  <div class="slide s2">
+    <div class="big-q">🍎 Ella has 3 groups of apples.<br>Can you count them ALL without counting one by one?</div>
+    <div class="apple-groups">
+      <div class="apple-group">
+        <div class="apples">🍎🍎🍎🍎🍎</div>
+        <div class="lbl">Small</div>
+        <div class="num">5</div>
+      </div>
+      <div class="apple-group" style="font-size:1.5rem;">
+        <div class="apples">🍏🍏🍏🍏🍏</div>
+        <div class="lbl">Big</div>
+        <div class="num">5</div>
+      </div>
+      <div class="apple-group" style="font-size:1.8rem;">
+        <div class="apples">🍎🍎🍎🍎🍎🍎</div>
+        <div class="lbl">Huge</div>
+        <div class="num">6</div>
+      </div>
+    </div>
+    <div class="callout">💡 When we add THREE numbers together — that's called <strong>3-ADDEND ADDITION!</strong><br>Trick: Look for DOUBLES or MAKE A TEN first!</div>
+  </div>
+
+  <!-- S3 VOCAB -->
+  <div class="slide s3">
+    <div class="slide-title">📖 Words We Need to Know</div>
+    <div class="vocab-grid">
+      <div class="vocab-card"><div class="vw">Addend</div><div class="vd">The numbers being ADDED together<br>In 5+5+6, the addends are 5, 5, and 6</div></div>
+      <div class="vocab-card"><div class="vw">Sum</div><div class="vd">The ANSWER to an addition problem<br>5 + 5 + 6 = <strong>16</strong> ← the sum</div></div>
+      <div class="vocab-card"><div class="vw">Doubles</div><div class="vd">Adding a number to ITSELF<br>5 + 5 = 10 is a doubles fact!</div></div>
+      <div class="vocab-card"><div class="vw">Make a Ten</div><div class="vd">Find two addends that add to 10 FIRST, then add the third</div></div>
+      <div class="vocab-card"><div class="vw">Word Problem</div><div class="vd">A math STORY that asks you to solve something</div></div>
+    </div>
+    <div class="trick-box">🏆 Strategy: Look for DOUBLES first! If two addends match → add them first, then add the third!</div>
+  </div>
+
+  <!-- S4 I DO — exact assessment problem -->
+  <div class="slide s4">
+    <div class="slide-title" style="font-family:'Fredoka One',cursive;font-size:clamp(1.8rem,4.5vw,3rem);color:#FFE566;text-align:center;margin-bottom:1rem;text-shadow:2px 2px 0 rgba(0,0,0,.2);">👀 Watch Me — Ella's Apple Problem!</div>
+    <div class="lesson-layout">
+      <div class="problem-box">
+        <div class="problem-story">"Ella has 5 small apples, 5 big apples, and 6 huge apples. How many apples does she have?"</div>
+        <div class="three-addends">
+          <div class="addend-circle" style="background:#DC2626;">5</div>
+          <div class="plus-sign">+</div>
+          <div class="addend-circle" style="background:#DC2626;">5</div>
+          <div class="plus-sign">+</div>
+          <div class="addend-circle" style="background:#F97316;">6</div>
+          <div class="equals-sign">=</div>
+          <div class="answer-circle">16</div>
+        </div>
+        <div class="strategy-tag">🎯 5 + 5 = 10 (DOUBLES!) then 10 + 6 = 16</div>
+      </div>
+      <div class="steps-col">
+        <div class="step-item">
+          <div class="step-num-circle">1</div>
+          <div class="step-text"><h4>Read the problem</h4><p>What groups do we have? 5, 5, and 6 apples. We need the TOTAL.</p></div>
+        </div>
+        <div class="step-item">
+          <div class="step-num-circle">2</div>
+          <div class="step-text"><h4>Look for DOUBLES first!</h4><p><strong style="color:#FFE566">5 and 5</strong> are doubles! 5 + 5 = 10. Circle those two!</p></div>
+        </div>
+        <div class="step-item">
+          <div class="step-num-circle">3</div>
+          <div class="step-text"><h4>Add the third number</h4><p>10 + 6 = <strong style="color:#FFE566">16</strong>. That's our answer!</p></div>
+        </div>
+        <div class="step-item">
+          <div class="step-num-circle">✏️</div>
+          <div class="step-text"><h4>Write the full equation</h4><p>5 + 5 + 6 = <strong style="color:#FFE566">16 apples</strong></p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S5 STRATEGIES -->
+  <div class="slide s5">
+    <div class="slide-title" style="font-family:'Fredoka One',cursive;font-size:clamp(2rem,5vw,3.2rem);color:#FFE566;margin-bottom:1.2rem;text-align:center;text-shadow:2px 2px 0 rgba(0,0,0,.2);">🧠 Two Smart Strategies!</div>
+    <div class="strat-grid">
+      <div class="strat-card">
+        <h4>🎯 Strategy 1: DOUBLES</h4>
+        <div class="example">5 + 5 + 6</div>
+        <p>Spot two numbers that are the SAME. Add them first → they make 10! Then add the third.</p>
+        <div class="example" style="margin-top:.5rem;">5+5=10 → 10+6=<span style="color:#FFE566">16</span> ✅</div>
+      </div>
+      <div class="strat-card">
+        <h4>🔟 Strategy 2: MAKE A TEN</h4>
+        <div class="example">8 + 2 + 5</div>
+        <p>Find two numbers that ADD UP TO 10. Add those first, then add the third number.</p>
+        <div class="example" style="margin-top:.5rem;">8+2=10 → 10+5=<span style="color:#FFE566">15</span> ✅</div>
+      </div>
+      <div class="strat-card">
+        <h4>➡️ Strategy 3: LEFT TO RIGHT</h4>
+        <div class="example">3 + 4 + 7</div>
+        <p>When no doubles or tens, just add left to right. First two numbers, then add the third.</p>
+        <div class="example" style="margin-top:.5rem;">3+4=7 → 7+7=<span style="color:#FFE566">14</span> ✅</div>
+      </div>
+    </div>
+    <div class="trick-box" style="margin-top:.8rem;max-width:760px;">🙌 Always check for DOUBLES or MAKE A TEN first — they make the math SO much easier!</div>
+  </div>
+
+  <!-- S6 WE DO -->
+  <div class="slide s6">
+    <div class="slide-title" style="font-family:'Fredoka One',cursive;font-size:clamp(1.8rem,4.5vw,3rem);color:#FFE566;margin-bottom:.7rem;text-align:center;text-shadow:2px 2px 0 rgba(0,0,0,.2);">🤝 We Do — Your Turn!</div>
+    <div class="instruction">Write your equation and answer on your whiteboard. Use the SMART strategy!</div>
+    <div class="we-do-layout">
+      <div class="problem-box" style="max-width:380px;">
+        <div class="problem-story">"Tom has 3 red crayons, 4 blue crayons, and 7 green crayons. How many crayons does he have in all?"</div>
+        <div class="three-addends">
+          <div class="addend-circle" style="background:#DC2626;">3</div>
+          <div class="plus-sign">+</div>
+          <div class="addend-circle" style="background:#2563EB;">4</div>
+          <div class="plus-sign">+</div>
+          <div class="addend-circle" style="background:#16A34A;">7</div>
+          <div class="equals-sign">=</div>
+          <div style="width:60px;height:60px;border-radius:50%;background:rgba(255,255,255,.2);border:3px dashed rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center;font-family:'Fredoka One',cursive;font-size:1.8rem;color:transparent;">?</div>
+        </div>
+        <div style="color:rgba(255,255,255,.75);font-weight:700;font-size:.9rem;">💡 Hint: Can you MAKE A TEN?</div>
+      </div>
+      <div class="answer-reveal">
+        <h3>What's the answer?</h3>
+        <div style="font-family:'Fredoka One',cursive;font-size:1rem;color:rgba(255,255,255,.7);">3 + 4 + 7 = ___</div>
+        <button class="reveal-btn" onclick="revealAnswer()">🖍️ Show Answer</button>
+        <div class="answer-shown" id="answerReveal">
+          14 crayons! ✅<br>
+          <span style="font-size:.85rem;font-weight:700;opacity:.8;">3+7=10 (make ten!) then 10+4=14</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S7 YOU DO -->
+  <div class="slide s7">
+    <div class="slide-title" style="font-family:'Fredoka One',cursive;font-size:clamp(2rem,5vw,3.2rem);color:#FFE566;margin-bottom:1.1rem;text-align:center;text-shadow:2px 2px 0 rgba(0,0,0,.2);">⭐ You Do — Practice Time!</div>
+    <div class="steps-grid">
+      <div class="step-card"><div class="step-big">1️⃣</div><h4>Read the story</h4><p>Find the THREE numbers being added</p></div>
+      <div class="step-card"><div class="step-big">2️⃣</div><h4>Check for doubles</h4><p>Do any two numbers match? Add those first!</p></div>
+      <div class="step-card"><div class="step-big">3️⃣</div><h4>Check for make-a-ten</h4><p>Do any two numbers add to 10?</p></div>
+      <div class="step-card"><div class="step-big">4️⃣</div><h4>Write the equation</h4><p>___ + ___ + ___ = ___ ← total!</p></div>
+    </div>
+    <div class="go-banner">📄 Grab your practice sheet — 20 word problems! Let's GO! 🚀</div>
+  </div>
+
+  <!-- S8 CELEBRATE -->
+  <div class="slide s8">
+    <div class="slide-title" style="font-family:'Fredoka One',cursive;font-size:clamp(2rem,5.5vw,3.5rem);color:#FFE566;margin-bottom:.5rem;text-align:center;text-shadow:3px 3px 0 rgba(0,0,0,.2);">🏆 Let's Check Our Work!</div>
+    <div style="color:rgba(255,255,255,.88);font-weight:700;font-size:1rem;text-align:center;margin-bottom:1rem;">The test problem — did you get it?</div>
+    <div class="review-cards">
+      <div class="review-card">
+        <h4>Ella's apples (the test!)</h4>
+        <div class="eq">5 + 5 + 6 = 16 ✅</div>
+        <div style="color:rgba(255,255,255,.7);font-size:.82rem;margin-top:.3rem;font-weight:700;">Doubles: 5+5=10, then +6=16</div>
+      </div>
+      <div class="review-card">
+        <h4>Tom's crayons (we did)</h4>
+        <div class="eq">3 + 4 + 7 = 14 ✅</div>
+        <div style="color:rgba(255,255,255,.7);font-size:.82rem;margin-top:.3rem;font-weight:700;">Make 10: 3+7=10, then +4=14</div>
+      </div>
+      <div class="review-card">
+        <h4>My best strategy is...</h4>
+        <div style="font-size:2rem;margin:.4rem 0;">🎯</div>
+        <div style="color:rgba(255,255,255,.85);font-size:.85rem;font-weight:700;">Doubles? Make a ten?<br>Left to right?</div>
+      </div>
+    </div>
+    <div class="self-check">
+      <div class="check-badge check-green">🟢 Got it right = circle GREEN</div>
+      <div class="check-badge check-orange">🟠 Missed it = circle ORANGE</div>
+    </div>
+    <div class="star-msg">🍎 Adding 3 numbers is multiplication in disguise — you're already thinking like a mathematician! ⭐</div>
+  </div>
+
+</div>
+<nav class="nav">
+  <button class="nav-btn" onclick="go(-1)">◀</button>
+  <div class="dot-row" id="dots"></div>
+  <div class="slide-counter" id="counter">1 / 8</div>
+  <button class="nav-btn" onclick="go(1)">▶</button>
+</nav>
+<script>
+const slides=document.querySelectorAll('.slide'),dotsEl=document.getElementById('dots'),counterEl=document.getElementById('counter');
+let cur=0;
+slides.forEach((_,i)=>{const d=document.createElement('div');d.className='dot'+(i===0?' on':'');d.onclick=()=>goTo(i);dotsEl.appendChild(d);});
+function goTo(n){slides[cur].classList.remove('active');dotsEl.children[cur].classList.remove('on');cur=Math.max(0,Math.min(n,slides.length-1));slides[cur].classList.add('active');dotsEl.children[cur].classList.add('on');counterEl.textContent=(cur+1)+' / '+slides.length;if(cur===slides.length-1)launchConfetti();}
+function go(dir){goTo(cur+dir);}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key===' '){e.preventDefault();go(1);}if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();go(-1);}if(e.key==='f'||e.key==='F')toggleFS();});
+function revealAnswer(){document.getElementById('answerReveal').classList.add('visible');document.querySelector('.reveal-btn').style.display='none';}
+function toggleFS(){if(!document.fullscreenElement)document.documentElement.requestFullscreen();else document.exitFullscreen();}
+function launchConfetti(){const cols=['#FFE566','#DC2626','#16A34A','#3B82F6','#F97316','#FFFFFF'];for(let i=0;i<60;i++){const p=document.createElement('div');p.className='confetti-piece';p.style.cssText=`left:${Math.random()*100}vw;top:-20px;background:${cols[Math.floor(Math.random()*cols.length)]};width:${8+Math.random()*10}px;height:${8+Math.random()*10}px;border-radius:${Math.random()>.5?'50%':'2px'};animation-duration:${2+Math.random()*3}s;animation-delay:${Math.random()*1.5}s;`;document.body.appendChild(p);setTimeout(()=>p.remove(),6000);}}
+</script>
+</body>
+</html>

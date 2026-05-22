@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Identifying Shapes — Ms. Newby Teaches Lesson 9</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito',sans-serif;background:#111;overflow:hidden;height:100vh;width:100vw;}
+.deck{width:100vw;height:100vh;position:relative;}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;opacity:0;pointer-events:none;transition:opacity .45s ease;overflow:hidden;}
+.slide.active{opacity:1;pointer-events:all;}
+.nav{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:1rem;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);border-radius:999px;padding:.6rem 1.4rem;z-index:100;}
+.nav-btn{background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.3);color:white;border-radius:50%;width:40px;height:40px;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.nav-btn:hover{background:rgba(255,255,255,.3);}
+.slide-counter{color:rgba(255,255,255,.85);font-weight:700;font-size:.9rem;min-width:60px;text-align:center;}
+.dot-row{display:flex;gap:.4rem;}
+.dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer;transition:all .2s;}
+.dot.on{background:white;transform:scale(1.3);}
+.fs-hint{position:fixed;top:1rem;right:1.2rem;background:rgba(0,0,0,.5);color:rgba(255,255,255,.75);font-size:.78rem;font-weight:700;padding:.35rem .8rem;border-radius:8px;z-index:100;cursor:pointer;}
+
+.s1{background:linear-gradient(145deg,#064E3B,#065F46,#059669);}
+.s2{background:linear-gradient(145deg,#0C4A6E,#0369A1,#0284C7);}
+.s3{background:linear-gradient(145deg,#1E1B4B,#3730A3,#4338CA);}
+.s4{background:linear-gradient(145deg,#4C1D95,#6D28D9,#7C3AED);}
+.s5{background:linear-gradient(145deg,#78350F,#92400E,#B45309);}
+.s6{background:linear-gradient(145deg,#134E4A,#0F766E,#0D9488);}
+.s7{background:linear-gradient(145deg,#7C2D12,#C2410C,#EA580C);}
+.s8{background:linear-gradient(145deg,#1a1a6e,#059669,#16A34A);}
+
+.bounce{font-size:clamp(4rem,10vw,7rem);animation:bounce 2s infinite;}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+h1.title{font-family:'Fredoka One',cursive;font-size:clamp(2.5rem,6vw,4.5rem);color:#FFE566;text-align:center;line-height:1.1;text-shadow:3px 3px 0 rgba(0,0,0,.25);margin-bottom:.6rem;}
+.subtitle{font-size:clamp(1rem,2.5vw,1.6rem);color:rgba(255,255,255,.9);font-weight:700;margin-bottom:2rem;text-align:center;}
+.badge-row{display:flex;flex-wrap:wrap;justify-content:center;gap:.6rem;}
+.badge{background:rgba(255,255,255,.18);border:1.5px solid rgba(255,255,255,.35);color:white;font-weight:800;font-size:.85rem;padding:.35rem 1.1rem;border-radius:999px;}
+.slide-title{font-family:'Fredoka One',cursive;font-size:clamp(2rem,5vw,3.2rem);color:#FFE566;margin-bottom:1.2rem;text-align:center;text-shadow:2px 2px 0 rgba(0,0,0,.2);}
+.callout{background:white;border-radius:16px;padding:1rem 2rem;font-size:clamp(.9rem,2.2vw,1.25rem);font-weight:800;text-align:center;box-shadow:0 4px 16px rgba(0,0,0,.15);max-width:700px;}
+.trick-box{margin-top:1rem;background:rgba(255,255,255,.18);border:2px solid rgba(255,255,255,.35);border-radius:14px;padding:.9rem 1.8rem;font-weight:800;color:white;font-size:clamp(.9rem,2vw,1.15rem);text-align:center;max-width:720px;}
+
+/* Shape cards grid */
+.shapes-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;max-width:920px;width:100%;}
+.shape-card{background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.25);border-radius:18px;padding:1rem;text-align:center;transition:transform .2s;}
+.shape-card:hover{transform:scale(1.04);}
+.shape-card .name{font-family:'Fredoka One',cursive;font-size:clamp(1.1rem,2.8vw,1.6rem);color:#FFE566;margin-top:.5rem;}
+.shape-card .sides{font-size:clamp(.78rem,1.9vw,.95rem);color:rgba(255,255,255,.85);font-weight:700;margin-top:.2rem;}
+.shape-card.highlight{border-color:#FFE566;background:rgba(255,230,102,.15);}
+
+/* The test row */
+.test-row{display:flex;gap:1.5rem;justify-content:center;align-items:flex-end;flex-wrap:wrap;margin-bottom:1.2rem;}
+.test-shape{display:flex;flex-direction:column;align-items:center;gap:.5rem;padding:.8rem 1.2rem;border-radius:14px;background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);}
+.test-shape.correct-one{border-color:#FFE566;background:rgba(255,230,102,.2);}
+.shape-label{font-weight:800;font-size:clamp(.8rem,2vw,1rem);color:rgba(255,255,255,.8);}
+.correct-label{color:#FFE566!important;}
+
+/* Steps */
+.lesson-layout{display:flex;gap:2rem;align-items:center;justify-content:center;flex-wrap:wrap;max-width:920px;}
+.steps-col{flex:1;min-width:260px;}
+.step-item{display:flex;align-items:flex-start;gap:.8rem;padding:.7rem 0;border-bottom:1px solid rgba(255,255,255,.15);}
+.step-item:last-child{border-bottom:none;}
+.step-num-circle{width:40px;height:40px;border-radius:50%;background:#FFE566;font-weight:900;font-size:1.1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-text h4{color:#FFE566;font-size:clamp(.9rem,2.2vw,1.1rem);font-weight:800;margin-bottom:.2rem;}
+.step-text p{color:rgba(255,255,255,.88);font-size:clamp(.8rem,1.9vw,.98rem);line-height:1.4;}
+
+/* We do */
+.we-do-layout{display:flex;gap:2rem;align-items:center;justify-content:center;flex-wrap:wrap;}
+.answer-reveal{background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);border-radius:16px;padding:1.2rem 1.5rem;min-width:240px;text-align:center;}
+.answer-reveal h3{font-weight:800;color:rgba(255,255,255,.7);font-size:.85rem;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.7rem;}
+.reveal-btn{margin-top:.9rem;background:#FFE566;border:none;border-radius:999px;padding:.6rem 1.5rem;font-family:'Nunito',sans-serif;font-weight:900;font-size:1rem;cursor:pointer;transition:transform .15s;box-shadow:0 4px 12px rgba(0,0,0,.2);}
+.reveal-btn:hover{transform:scale(1.05);}
+.answer-shown{display:none;}
+.answer-shown.visible{display:block;font-family:'Fredoka One',cursive;font-size:clamp(1.5rem,3.5vw,2.2rem);color:#FFE566;margin-top:.6rem;animation:popIn .35s ease;}
+@keyframes popIn{0%{transform:scale(.6);opacity:0}80%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
+
+.steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.9rem;max-width:800px;width:100%;margin-bottom:1.4rem;}
+.step-card{background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);border-radius:18px;padding:1.2rem 1rem;text-align:center;}
+.step-card .step-big{font-size:2.5rem;margin-bottom:.4rem;}
+.step-card h4{font-family:'Fredoka One',cursive;font-size:clamp(1rem,2.5vw,1.35rem);color:#FFE566;margin-bottom:.25rem;}
+.step-card p{color:rgba(255,255,255,.85);font-size:clamp(.78rem,1.9vw,.95rem);font-weight:700;}
+.go-banner{background:#FFE566;border-radius:999px;padding:.8rem 2.5rem;font-family:'Fredoka One',cursive;font-size:clamp(1.2rem,3.5vw,2rem);box-shadow:0 6px 20px rgba(0,0,0,.2);animation:pulse 1.8s infinite;}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+
+.review-cards{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;margin-bottom:1.1rem;max-width:900px;}
+.review-card{background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);border-radius:18px;padding:1rem;text-align:center;flex:1;min-width:130px;}
+.review-card h4{font-weight:800;color:rgba(255,255,255,.7);font-size:.78rem;text-transform:uppercase;margin-bottom:.4rem;}
+.review-card .eq{font-family:'Fredoka One',cursive;font-size:clamp(.9rem,2vw,1.2rem);color:#FFE566;}
+.self-check{display:flex;gap:.8rem;flex-wrap:wrap;justify-content:center;margin-bottom:1rem;}
+.check-badge{border-radius:999px;padding:.5rem 1.4rem;font-weight:800;font-size:.9rem;}
+.check-green{background:#22C55E;color:white;}
+.check-orange{background:#F97316;color:white;}
+.star-msg{font-family:'Fredoka One',cursive;font-size:clamp(1rem,2.5vw,1.4rem);color:white;text-align:center;padding:.8rem 1.5rem;background:rgba(255,255,255,.12);border-radius:16px;border:2px solid rgba(255,255,255,.3);max-width:680px;}
+.confetti-piece{position:absolute;width:12px;height:12px;border-radius:2px;animation:fall linear forwards;pointer-events:none;}
+@keyframes fall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
+</style>
+</head>
+<body>
+<div class="fs-hint" onclick="toggleFS()">⛶ Fullscreen (F)</div>
+<div class="deck" id="deck">
+
+  <!-- S1 TITLE -->
+  <div class="slide s1 active">
+    <div class="bounce">🔷</div>
+    <h1 class="title">Identifying Shapes</h1>
+    <div class="subtitle">Triangle · Quadrilateral · Pentagon · Hexagon · Cube</div>
+    <div class="badge-row">
+      <div class="badge">🔷 2nd Grade Skill</div>
+      <div class="badge">👥 Small Group</div>
+      <div class="badge">⏱ 30 Minutes</div>
+      <div class="badge">🔢 Lesson 9 of 100</div>
+    </div>
+  </div>
+
+  <!-- S2 HOOK — the test question -->
+  <div class="slide s2">
+    <div style="font-family:'Fredoka One',cursive;font-size:clamp(1.8rem,4.5vw,3rem);color:white;text-align:center;margin-bottom:1.4rem;text-shadow:2px 2px 0 rgba(0,0,0,.2);">🔍 Can you find the PENTAGON?</div>
+    <div class="test-row">
+      <div class="test-shape">
+        <svg width="70" height="70" viewBox="0 0 70 70">
+          <polygon points="35,5 65,25 55,60 15,60 5,25" fill="white" stroke="#1E293B" stroke-width="2.5"/>
+        </svg>
+        <div class="shape-label">Diamond?</div>
+      </div>
+      <div class="test-shape">
+        <svg width="70" height="70" viewBox="0 0 70 70">
+          <polygon points="35,5 62,20 62,50 35,65 8,50 8,20" fill="white" stroke="#1E293B" stroke-width="2.5"/>
+        </svg>
+        <div class="shape-label">Hexagon?</div>
+      </div>
+      <div class="test-shape correct-one">
+        <svg width="70" height="70" viewBox="0 0 70 70">
+          <polygon points="35,5 65,28 54,62 16,62 5,28" fill="#FFE566" stroke="#B45309" stroke-width="3"/>
+        </svg>
+        <div class="shape-label correct-label">⭕ PENTAGON! ✅</div>
+      </div>
+      <div class="test-shape">
+        <svg width="70" height="70" viewBox="0 0 70 70">
+          <polygon points="35,8 65,62 5,62" fill="white" stroke="#1E293B" stroke-width="2.5"/>
+        </svg>
+        <div class="shape-label">Triangle?</div>
+      </div>
+      <div class="test-shape">
+        <svg width="70" height="70" viewBox="0 0 70 70">
+          <rect x="10" y="15" width="38" height="38" fill="white" stroke="#1E293B" stroke-width="2"/>
+          <polygon points="10,15 48,15 58,5 20,5" fill="white" stroke="#1E293B" stroke-width="2"/>
+          <polygon points="48,15 58,5 58,43 48,53" fill="white" stroke="#1E293B" stroke-width="2"/>
+        </svg>
+        <div class="shape-label">Cube?</div>
+      </div>
+    </div>
+    <div class="callout" style="color:#0C4A6E;">💡 The PENTAGON has exactly <strong>5 sides</strong> — count them! 1, 2, 3, 4, 5 ✅</div>
+  </div>
+
+  <!-- S3 ALL 5 SHAPES OVERVIEW -->
+  <div class="slide s3">
+    <div class="slide-title">📐 Know These 5 Shapes!</div>
+    <div class="shapes-grid">
+      <div class="shape-card">
+        <svg width="70" height="65" viewBox="0 0 70 65">
+          <polygon points="35,5 65,60 5,60" fill="rgba(255,255,255,.2)" stroke="#FFE566" stroke-width="3"/>
+        </svg>
+        <div class="name">Triangle</div>
+        <div class="sides">3 sides · 3 corners</div>
+      </div>
+      <div class="shape-card">
+        <svg width="70" height="65" viewBox="0 0 70 65">
+          <polygon points="35,5 65,33 35,62 5,33" fill="rgba(255,255,255,.2)" stroke="#FFE566" stroke-width="3"/>
+        </svg>
+        <div class="name">Diamond</div>
+        <div class="sides">4 sides · 4 corners</div>
+      </div>
+      <div class="shape-card highlight">
+        <svg width="70" height="68" viewBox="0 0 70 68">
+          <polygon points="35,5 62,25 52,60 18,60 8,25" fill="rgba(255,230,102,.3)" stroke="#FFE566" stroke-width="3"/>
+        </svg>
+        <div class="name">Pentagon ⭐</div>
+        <div class="sides">5 sides · 5 corners</div>
+      </div>
+      <div class="shape-card">
+        <svg width="70" height="65" viewBox="0 0 70 65">
+          <polygon points="35,5 60,20 60,48 35,63 10,48 10,20" fill="rgba(255,255,255,.2)" stroke="#FFE566" stroke-width="3"/>
+        </svg>
+        <div class="name">Hexagon</div>
+        <div class="sides">6 sides · 6 corners</div>
+      </div>
+      <div class="shape-card">
+        <svg width="70" height="68" viewBox="0 0 70 68">
+          <rect x="5" y="22" width="38" height="38" fill="rgba(255,255,255,.2)" stroke="#FFE566" stroke-width="2.5"/>
+          <polygon points="5,22 43,22 58,7 20,7" fill="rgba(255,255,255,.15)" stroke="#FFE566" stroke-width="2.5"/>
+          <polygon points="43,22 58,7 58,45 43,60" fill="rgba(255,255,255,.1)" stroke="#FFE566" stroke-width="2.5"/>
+        </svg>
+        <div class="name">Cube</div>
+        <div class="sides">3D shape · 6 faces</div>
+      </div>
+    </div>
+    <div class="trick-box">🧠 Count the sides to name the shape: 3=Triangle · 4=Diamond · 5=Pentagon · 6=Hexagon · 3D=Cube</div>
+  </div>
+
+  <!-- S4 SIDES TRICK -->
+  <div class="slide s4">
+    <div class="slide-title">🔢 The COUNT THE SIDES Trick!</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.8rem;max-width:840px;width:100%;margin-bottom:1.2rem;">
+      <div style="background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);border-radius:14px;padding:.8rem;text-align:center;">
+        <div style="font-family:'Fredoka One',cursive;font-size:2.5rem;color:#FFE566;">3</div>
+        <div style="font-weight:800;color:white;font-size:.95rem;">sides</div>
+        <div style="color:rgba(255,255,255,.75);font-weight:700;font-size:.85rem;">= TRIANGLE</div>
+        <svg width="50" height="45" viewBox="0 0 50 45" style="margin-top:.4rem"><polygon points="25,3 47,42 3,42" fill="none" stroke="white" stroke-width="2.5"/></svg>
+      </div>
+      <div style="background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);border-radius:14px;padding:.8rem;text-align:center;">
+        <div style="font-family:'Fredoka One',cursive;font-size:2.5rem;color:#FFE566;">4</div>
+        <div style="font-weight:800;color:white;font-size:.95rem;">sides</div>
+        <div style="color:rgba(255,255,255,.75);font-weight:700;font-size:.85rem;">= DIAMOND</div>
+        <svg width="50" height="45" viewBox="0 0 50 45" style="margin-top:.4rem"><polygon points="25,3 47,22 25,42 3,22" fill="none" stroke="white" stroke-width="2.5"/></svg>
+      </div>
+      <div style="background:rgba(255,230,102,.2);border:2px solid #FFE566;border-radius:14px;padding:.8rem;text-align:center;">
+        <div style="font-family:'Fredoka One',cursive;font-size:2.5rem;color:#FFE566;">5</div>
+        <div style="font-weight:800;color:white;font-size:.95rem;">sides</div>
+        <div style="color:#FFE566;font-weight:800;font-size:.85rem;">= PENTAGON ⭐</div>
+        <svg width="50" height="48" viewBox="0 0 50 48" style="margin-top:.4rem"><polygon points="25,3 46,18 38,44 12,44 4,18" fill="rgba(255,230,102,.3)" stroke="#FFE566" stroke-width="2.5"/></svg>
+      </div>
+      <div style="background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);border-radius:14px;padding:.8rem;text-align:center;">
+        <div style="font-family:'Fredoka One',cursive;font-size:2.5rem;color:#FFE566;">6</div>
+        <div style="font-weight:800;color:white;font-size:.95rem;">sides</div>
+        <div style="color:rgba(255,255,255,.75);font-weight:700;font-size:.85rem;">= HEXAGON</div>
+        <svg width="50" height="48" viewBox="0 0 50 48" style="margin-top:.4rem"><polygon points="25,3 45,14 45,34 25,45 5,34 5,14" fill="none" stroke="white" stroke-width="2.5"/></svg>
+      </div>
+      <div style="background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);border-radius:14px;padding:.8rem;text-align:center;">
+        <div style="font-family:'Fredoka One',cursive;font-size:2.5rem;color:#FFE566;">3D</div>
+        <div style="font-weight:800;color:white;font-size:.95rem;">6 faces</div>
+        <div style="color:rgba(255,255,255,.75);font-weight:700;font-size:.85rem;">= CUBE</div>
+        <svg width="50" height="48" viewBox="0 0 50 48" style="margin-top:.4rem">
+          <rect x="4" y="16" width="28" height="28" fill="none" stroke="white" stroke-width="2"/>
+          <polygon points="4,16 32,16 44,4 16,4" fill="none" stroke="white" stroke-width="2"/>
+          <polygon points="32,16 44,4 44,32 32,44" fill="none" stroke="white" stroke-width="2"/>
+        </svg>
+      </div>
+    </div>
+    <div class="trick-box">✏️ To name a shape: ALWAYS count the sides first! Flat shapes = 2D. Box shapes = 3D (CUBE)</div>
+  </div>
+
+  <!-- S5 REAL WORLD SHAPES -->
+  <div class="slide s5">
+    <div class="slide-title">🌍 Shapes in Real Life!</div>
+    <div class="shapes-grid" style="grid-template-columns:repeat(auto-fit,minmax(170px,1fr));">
+      <div class="shape-card"><div style="font-size:2.5rem;">🔺</div><div class="name">Triangle</div><div class="sides">Road signs · Nachos · Slice of pizza</div></div>
+      <div class="shape-card"><div style="font-size:2.5rem;">💎</div><div class="name">Diamond</div><div class="sides">Baseball field · Playing card diamond</div></div>
+      <div class="shape-card highlight"><div style="font-size:2.5rem;">⬠</div><div class="name">Pentagon ⭐</div><div class="sides">The Pentagon building! Soccer ball patches</div></div>
+      <div class="shape-card"><div style="font-size:2.5rem;">⬡</div><div class="name">Hexagon</div><div class="sides">Honeycomb · Snowflakes · Bolts &amp; nuts</div></div>
+      <div class="shape-card"><div style="font-size:2.5rem;">📦</div><div class="name">Cube</div><div class="sides">Dice · Ice cubes · Boxes · Rubik's cube</div></div>
+    </div>
+    <div class="trick-box" style="margin-top:.8rem;max-width:720px;">🍯 HEXAGON memory trick: Honeycombs have HEX-agon cells — bees are great mathematicians!</div>
+  </div>
+
+  <!-- S6 I DO — count sides step by step -->
+  <div class="slide s6">
+    <div class="slide-title" style="font-size:clamp(1.8rem,4.5vw,3rem);">👀 Watch Me Count the Sides!</div>
+    <div class="lesson-layout">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:1rem;">
+        <div style="background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.3);border-radius:16px;padding:1.2rem;">
+          <svg width="180" height="175" viewBox="0 0 180 175">
+            <!-- Pentagon with numbered sides -->
+            <polygon points="90,12 158,65 133,148 47,148 22,65" fill="rgba(255,230,102,.25)" stroke="#FFE566" stroke-width="4"/>
+            <!-- Side numbers -->
+            <text x="128" y="38" font-size="16" font-weight="bold" fill="white" font-family="Nunito">①</text>
+            <text x="155" y="112" font-size="16" font-weight="bold" fill="white" font-family="Nunito">②</text>
+            <text x="98" y="165" font-size="16" font-weight="bold" fill="white" font-family="Nunito">③</text>
+            <text x="28" y="165" font-size="16" font-weight="bold" fill="white" font-family="Nunito">④</text>
+            <text x="10" y="112" font-size="16" font-weight="bold" fill="white" font-family="Nunito">⑤</text>
+          </svg>
+        </div>
+        <div style="background:#FFE566;border-radius:14px;padding:.7rem 1.8rem;font-family:'Fredoka One',cursive;font-size:clamp(1.2rem,3vw,1.8rem);color:#065F46;text-align:center;">
+          5 sides = PENTAGON ✅
+        </div>
+      </div>
+      <div class="steps-col">
+        <div class="step-item">
+          <div class="step-num-circle" style="color:#065F46">1</div>
+          <div class="step-text"><h4>Look at the shape</h4><p>Is it flat (2D) or does it look like a box (3D)?</p></div>
+        </div>
+        <div class="step-item">
+          <div class="step-num-circle" style="color:#065F46">2</div>
+          <div class="step-text"><h4>Count the SIDES</h4><p>Point to each side and count out loud: 1, 2, 3, 4, <strong style="color:#FFE566">5!</strong></p></div>
+        </div>
+        <div class="step-item">
+          <div class="step-num-circle" style="color:#065F46">3</div>
+          <div class="step-text"><h4>Match the number</h4><p>5 sides → <strong style="color:#FFE566">PENTAGON!</strong> Remember: PENT = 5 (like a pentagram ⭐)</p></div>
+        </div>
+        <div class="step-item">
+          <div class="step-num-circle" style="color:#065F46">✅</div>
+          <div class="step-text"><h4>Circle that shape!</h4><p>On the test — circle the pentagon. You found it!</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S7 WE DO — circle the hexagon -->
+  <div class="slide s7">
+    <div class="slide-title" style="font-size:clamp(1.8rem,4.5vw,3rem);">🤝 We Do — Circle the HEXAGON!</div>
+    <div style="color:rgba(255,255,255,.9);font-weight:700;font-size:clamp(.9rem,2.2vw,1.2rem);text-align:center;margin-bottom:1.2rem;">Which one has 6 sides? Write your answer on your whiteboard!</div>
+    <div style="display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.2rem;">
+      <!-- Triangle -->
+      <div style="background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);border-radius:14px;padding:.8rem 1.2rem;text-align:center;">
+        <svg width="70" height="65" viewBox="0 0 70 65"><polygon points="35,5 65,60 5,60" fill="rgba(255,255,255,.2)" stroke="white" stroke-width="2.5"/></svg>
+        <div style="font-weight:800;color:rgba(255,255,255,.7);font-size:.85rem;margin-top:.4rem;">A</div>
+      </div>
+      <!-- Hexagon -->
+      <div id="hexBox" style="background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);border-radius:14px;padding:.8rem 1.2rem;text-align:center;">
+        <svg width="70" height="68" viewBox="0 0 70 68"><polygon points="35,5 60,20 60,48 35,63 10,48 10,20" fill="rgba(255,255,255,.2)" stroke="white" stroke-width="2.5"/></svg>
+        <div style="font-weight:800;color:rgba(255,255,255,.7);font-size:.85rem;margin-top:.4rem;">B</div>
+      </div>
+      <!-- Diamond -->
+      <div style="background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);border-radius:14px;padding:.8rem 1.2rem;text-align:center;">
+        <svg width="70" height="65" viewBox="0 0 70 65"><polygon points="35,5 65,33 35,62 5,33" fill="rgba(255,255,255,.2)" stroke="white" stroke-width="2.5"/></svg>
+        <div style="font-weight:800;color:rgba(255,255,255,.7);font-size:.85rem;margin-top:.4rem;">C</div>
+      </div>
+      <!-- Pentagon -->
+      <div style="background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);border-radius:14px;padding:.8rem 1.2rem;text-align:center;">
+        <svg width="70" height="68" viewBox="0 0 70 68"><polygon points="35,5 62,25 52,60 18,60 8,25" fill="rgba(255,255,255,.2)" stroke="white" stroke-width="2.5"/></svg>
+        <div style="font-weight:800;color:rgba(255,255,255,.7);font-size:.85rem;margin-top:.4rem;">D</div>
+      </div>
+    </div>
+    <div class="we-do-layout" style="justify-content:center;">
+      <div class="answer-reveal">
+        <h3>Which is the hexagon?</h3>
+        <div style="color:rgba(255,255,255,.8);font-weight:700;">Count the sides on each shape!</div>
+        <button class="reveal-btn" style="color:#7C2D12;" onclick="revealAnswer()">🔷 Show Answer</button>
+        <div class="answer-shown" id="answerReveal">Shape B is the HEXAGON! ✅<br><span style="font-size:.85rem;font-weight:700;opacity:.8;">6 sides → HEX-agon!</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S8 CELEBRATE -->
+  <div class="slide s8">
+    <div class="slide-title" style="font-size:clamp(2rem,5.5vw,3.5rem);">🏆 Shape EXPERT Status!</div>
+    <div style="color:rgba(255,255,255,.88);font-weight:700;font-size:1rem;text-align:center;margin-bottom:1rem;">You know all 5 shapes — let's prove it!</div>
+    <div class="review-cards">
+      <div class="review-card">
+        <svg width="50" height="46" viewBox="0 0 50 46" style="margin-bottom:.3rem"><polygon points="25,3 47,43 3,43" fill="rgba(255,255,255,.2)" stroke="#FFE566" stroke-width="2.5"/></svg>
+        <h4>Triangle</h4>
+        <div class="eq">3 sides ✅</div>
+      </div>
+      <div class="review-card">
+        <svg width="50" height="46" viewBox="0 0 50 46" style="margin-bottom:.3rem"><polygon points="25,3 47,24 25,44 3,24" fill="rgba(255,255,255,.2)" stroke="#FFE566" stroke-width="2.5"/></svg>
+        <h4>Diamond</h4>
+        <div class="eq">4 sides ✅</div>
+      </div>
+      <div class="review-card" style="border-color:#FFE566;background:rgba(255,230,102,.15);">
+        <svg width="50" height="48" viewBox="0 0 50 48" style="margin-bottom:.3rem"><polygon points="25,3 46,18 38,44 12,44 4,18" fill="rgba(255,230,102,.3)" stroke="#FFE566" stroke-width="2.5"/></svg>
+        <h4>Pentagon ⭐</h4>
+        <div class="eq">5 sides ✅</div>
+      </div>
+      <div class="review-card">
+        <svg width="50" height="48" viewBox="0 0 50 48" style="margin-bottom:.3rem"><polygon points="25,3 45,14 45,34 25,45 5,34 5,14" fill="rgba(255,255,255,.2)" stroke="#FFE566" stroke-width="2.5"/></svg>
+        <h4>Hexagon</h4>
+        <div class="eq">6 sides ✅</div>
+      </div>
+      <div class="review-card">
+        <svg width="50" height="48" viewBox="0 0 50 48" style="margin-bottom:.3rem">
+          <rect x="4" y="16" width="28" height="28" fill="rgba(255,255,255,.15)" stroke="#FFE566" stroke-width="2"/>
+          <polygon points="4,16 32,16 44,4 16,4" fill="rgba(255,255,255,.1)" stroke="#FFE566" stroke-width="2"/>
+          <polygon points="32,16 44,4 44,32 32,44" fill="rgba(255,255,255,.08)" stroke="#FFE566" stroke-width="2"/>
+        </svg>
+        <h4>Cube</h4>
+        <div class="eq">6 faces ✅</div>
+      </div>
+    </div>
+    <div class="self-check">
+      <div class="check-badge check-green">🟢 Named it right = GREEN</div>
+      <div class="check-badge check-orange">🟠 Still learning = ORANGE</div>
+    </div>
+    <div class="star-msg">🔷 You can name shapes by counting sides — that's GEOMETRY! You're a shape expert now! ⭐</div>
+  </div>
+
+</div>
+<nav class="nav">
+  <button class="nav-btn" onclick="go(-1)">◀</button>
+  <div class="dot-row" id="dots"></div>
+  <div class="slide-counter" id="counter">1 / 8</div>
+  <button class="nav-btn" onclick="go(1)">▶</button>
+</nav>
+<script>
+const slides=document.querySelectorAll('.slide'),dotsEl=document.getElementById('dots'),counterEl=document.getElementById('counter');
+let cur=0;
+slides.forEach((_,i)=>{const d=document.createElement('div');d.className='dot'+(i===0?' on':'');d.onclick=()=>goTo(i);dotsEl.appendChild(d);});
+function goTo(n){slides[cur].classList.remove('active');dotsEl.children[cur].classList.remove('on');cur=Math.max(0,Math.min(n,slides.length-1));slides[cur].classList.add('active');dotsEl.children[cur].classList.add('on');counterEl.textContent=(cur+1)+' / '+slides.length;if(cur===slides.length-1)launchConfetti();}
+function go(dir){goTo(cur+dir);}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key===' '){e.preventDefault();go(1);}if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();go(-1);}if(e.key==='f'||e.key==='F')toggleFS();});
+function revealAnswer(){document.getElementById('answerReveal').classList.add('visible');document.querySelector('.reveal-btn').style.display='none';}
+function toggleFS(){if(!document.fullscreenElement)document.documentElement.requestFullscreen();else document.exitFullscreen();}
+function launchConfetti(){const cols=['#FFE566','#059669','#3B82F6','#DC2626','#F97316','#FFFFFF'];for(let i=0;i<60;i++){const p=document.createElement('div');p.className='confetti-piece';p.style.cssText=`left:${Math.random()*100}vw;top:-20px;background:${cols[Math.floor(Math.random()*cols.length)]};width:${8+Math.random()*10}px;height:${8+Math.random()*10}px;border-radius:${Math.random()>.5?'50%':'2px'};animation-duration:${2+Math.random()*3}s;animation-delay:${Math.random()*1.5}s;`;document.body.appendChild(p);setTimeout(()=>p.remove(),6000);}}
+</script>
+</body>
+</html>

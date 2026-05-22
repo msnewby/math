@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comparing Numbers >, =, < — Ms. Newby Teaches Lesson 3</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Nunito',sans-serif; background:#111; overflow:hidden; height:100vh; width:100vw; }
+.deck { width:100vw; height:100vh; position:relative; }
+.slide { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:2rem; opacity:0; pointer-events:none; transition:opacity .45s ease; overflow:hidden; }
+.slide.active { opacity:1; pointer-events:all; }
+.nav { position:fixed; bottom:1.5rem; left:50%; transform:translateX(-50%); display:flex; align-items:center; gap:1rem; background:rgba(0,0,0,.55); backdrop-filter:blur(8px); border-radius:999px; padding:.6rem 1.4rem; z-index:100; }
+.nav-btn { background:rgba(255,255,255,.15); border:1.5px solid rgba(255,255,255,.3); color:white; border-radius:50%; width:40px; height:40px; font-size:1.2rem; cursor:pointer; transition:background .2s; display:flex; align-items:center; justify-content:center; }
+.nav-btn:hover { background:rgba(255,255,255,.3); }
+.slide-counter { color:rgba(255,255,255,.85); font-weight:700; font-size:.9rem; min-width:60px; text-align:center; }
+.dot-row { display:flex; gap:.4rem; }
+.dot { width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,.3); cursor:pointer; transition:background .2s,transform .2s; }
+.dot.on { background:white; transform:scale(1.3); }
+.fs-hint { position:fixed; top:1rem; right:1.2rem; background:rgba(0,0,0,.5); color:rgba(255,255,255,.75); font-size:.78rem; font-weight:700; padding:.35rem .8rem; border-radius:8px; z-index:100; cursor:pointer; }
+
+/* SLIDE 1 — TITLE */
+.s1 { background:linear-gradient(145deg,#134E4A,#0D9488,#0891B2); }
+.s1 .bounce { font-size:clamp(4rem,10vw,7rem); animation:bounce 2s infinite; }
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+.s1 h1 { font-family:'Fredoka One',cursive; font-size:clamp(2.5rem,6vw,4.5rem); color:#FFE566; text-align:center; line-height:1.1; text-shadow:3px 3px 0 rgba(0,0,0,.25); margin-bottom:.6rem; }
+.s1 h2 { font-size:clamp(1rem,2.5vw,1.6rem); color:rgba(255,255,255,.9); font-weight:700; margin-bottom:2rem; text-align:center; }
+.badge-row { display:flex; flex-wrap:wrap; justify-content:center; gap:.6rem; }
+.badge { background:rgba(255,255,255,.18); border:1.5px solid rgba(255,255,255,.35); color:white; font-weight:800; font-size:.85rem; padding:.35rem 1.1rem; border-radius:999px; }
+
+/* SLIDE 2 — HOOK */
+.s2 { background:linear-gradient(145deg,#7C2D12,#C2410C,#EA580C); }
+.big-q { font-family:'Fredoka One',cursive; font-size:clamp(1.8rem,4.5vw,3rem); color:white; text-align:center; text-shadow:2px 2px 0 rgba(0,0,0,.2); margin-bottom:1.5rem; max-width:800px; }
+.callout { background:white; border-radius:16px; padding:1rem 2rem; font-size:clamp(.9rem,2.2vw,1.25rem); font-weight:800; color:#7C2D12; text-align:center; box-shadow:0 4px 16px rgba(0,0,0,.15); max-width:680px; }
+
+/* ALLIGATOR */
+.gator-row { display:flex; gap:2rem; justify-content:center; flex-wrap:wrap; margin-bottom:1.5rem; }
+.gator-card { background:rgba(255,255,255,.15); border:2px solid rgba(255,255,255,.3); border-radius:18px; padding:1.2rem 1.8rem; text-align:center; }
+.gator-sym { font-family:'Fredoka One',cursive; font-size:clamp(3rem,8vw,6rem); color:#FFE566; line-height:1; }
+.gator-label { color:rgba(255,255,255,.9); font-weight:800; font-size:clamp(.85rem,2vw,1.1rem); margin-top:.4rem; }
+.gator-hint { color:rgba(255,255,255,.7); font-size:clamp(.75rem,1.8vw,.9rem); font-weight:700; }
+
+/* SLIDE 3 — VOCAB */
+.s3 { background:linear-gradient(145deg,#1E1B4B,#4338CA,#6D28D9); }
+.slide-title { font-family:'Fredoka One',cursive; font-size:clamp(2rem,5vw,3.2rem); color:#FFE566; margin-bottom:1.2rem; text-align:center; text-shadow:2px 2px 0 rgba(0,0,0,.2); }
+.vocab-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:.9rem; max-width:900px; width:100%; }
+.vocab-card { background:rgba(255,255,255,.15); border:2px solid rgba(255,255,255,.3); border-radius:18px; padding:1rem 1.2rem; text-align:center; }
+.vocab-card .vw { font-family:'Fredoka One',cursive; font-size:clamp(1.2rem,3vw,1.8rem); color:#FFE566; margin-bottom:.3rem; }
+.vocab-card .vd { color:rgba(255,255,255,.9); font-weight:700; font-size:clamp(.8rem,1.8vw,1rem); }
+.trick-box { margin-top:1rem; background:rgba(255,255,255,.18); border:2px solid rgba(255,255,255,.35); border-radius:14px; padding:.9rem 1.8rem; font-weight:800; color:white; font-size:clamp(.9rem,2vw,1.15rem); text-align:center; max-width:720px; }
+
+/* SLIDE 4 — I DO */
+.s4 { background:linear-gradient(145deg,#064E3B,#065F46,#059669); }
+.lesson-layout { display:flex; gap:2rem; align-items:center; justify-content:center; flex-wrap:wrap; max-width:920px; }
+.steps-col { flex:1; min-width:260px; }
+.step-item { display:flex; align-items:flex-start; gap:.8rem; padding:.7rem 0; border-bottom:1px solid rgba(255,255,255,.15); }
+.step-item:last-child { border-bottom:none; }
+.step-num-circle { width:40px; height:40px; border-radius:50%; background:#FFE566; color:#065F46; font-weight:900; font-size:1.1rem; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.step-text h4 { color:#FFE566; font-size:clamp(.9rem,2.2vw,1.1rem); font-weight:800; margin-bottom:.2rem; }
+.step-text p { color:rgba(255,255,255,.88); font-size:clamp(.8rem,1.9vw,.98rem); line-height:1.4; }
+
+/* COMPARISON DISPLAY */
+.compare-display { display:flex; align-items:center; gap:1rem; justify-content:center; }
+.num-box { background:rgba(255,255,255,.15); border:3px solid rgba(255,255,255,.4); border-radius:16px; padding:.8rem 1.4rem; font-family:'Fredoka One',cursive; font-size:clamp(2rem,5vw,3.5rem); color:white; min-width:100px; text-align:center; }
+.num-box.blue { background:rgba(37,99,235,.4); border-color:#60A5FA; }
+.num-box.orange { background:rgba(194,65,12,.4); border-color:#FB923C; }
+.sym-box { background:#FFE566; border-radius:14px; padding:.6rem 1rem; font-family:'Fredoka One',cursive; font-size:clamp(2rem,5vw,3.5rem); color:#065F46; min-width:80px; text-align:center; box-shadow:0 4px 16px rgba(0,0,0,.2); }
+.sym-blank { background:rgba(255,255,255,.15); border:3px dashed rgba(255,255,255,.4); border-radius:14px; padding:.6rem 1rem; font-family:'Fredoka One',cursive; font-size:clamp(2rem,5vw,3.5rem); color:transparent; min-width:80px; text-align:center; }
+.place-breakdown { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; margin-top:.8rem; }
+.place-chip { background:rgba(255,255,255,.15); border:1.5px solid rgba(255,255,255,.3); border-radius:10px; padding:.4rem .9rem; font-weight:800; font-size:clamp(.8rem,2vw,1rem); color:white; text-align:center; }
+.place-chip.highlight { background:#FFE566; color:#065F46; border-color:#FFE566; }
+
+/* SLIDE 5 — MANIP */
+.s5 { background:linear-gradient(145deg,#3B0764,#7C3AED,#9333EA); }
+.manip-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:.9rem; max-width:860px; width:100%; }
+.manip-card { background:rgba(255,255,255,.15); border:2px solid rgba(255,255,255,.3); border-radius:18px; padding:1rem 1.1rem; text-align:center; }
+.manip-card .mi { font-size:2.2rem; margin-bottom:.4rem; }
+.manip-card h4 { font-family:'Fredoka One',cursive; font-size:clamp(1rem,2.5vw,1.35rem); color:#FFE566; margin-bottom:.25rem; }
+.manip-card p { color:rgba(255,255,255,.85); font-size:clamp(.75rem,1.8vw,.9rem); font-weight:700; }
+
+/* SLIDE 6 — WE DO */
+.s6 { background:linear-gradient(145deg,#1E3A8A,#1D4ED8,#2563EB); }
+.instruction { color:rgba(255,255,255,.9); font-weight:700; font-size:clamp(.9rem,2.2vw,1.2rem); text-align:center; margin-bottom:1.2rem; }
+.we-do-layout { display:flex; gap:2rem; align-items:center; justify-content:center; flex-wrap:wrap; }
+.answer-reveal { background:rgba(255,255,255,.15); border:2px solid rgba(255,255,255,.3); border-radius:16px; padding:1.2rem 1.5rem; min-width:240px; text-align:center; }
+.answer-reveal h3 { font-weight:800; color:rgba(255,255,255,.7); font-size:.85rem; text-transform:uppercase; letter-spacing:.06em; margin-bottom:.7rem; }
+.reveal-btn { margin-top:.9rem; background:#FFE566; color:#1D4ED8; border:none; border-radius:999px; padding:.6rem 1.5rem; font-family:'Nunito',sans-serif; font-weight:900; font-size:1rem; cursor:pointer; transition:transform .15s; box-shadow:0 4px 12px rgba(0,0,0,.2); }
+.reveal-btn:hover { transform:scale(1.05); }
+.answer-shown { display:none; }
+.answer-shown.visible { display:block; font-family:'Fredoka One',cursive; font-size:clamp(1.5rem,3.5vw,2.2rem); color:#FFE566; margin-top:.6rem; animation:popIn .35s ease; }
+@keyframes popIn{0%{transform:scale(.6);opacity:0}80%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
+
+/* SLIDE 7 — YOU DO */
+.s7 { background:linear-gradient(145deg,#78350F,#B45309,#D97706); }
+.steps-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:.9rem; max-width:800px; width:100%; margin-bottom:1.4rem; }
+.step-card { background:rgba(255,255,255,.15); border:2px solid rgba(255,255,255,.3); border-radius:18px; padding:1.2rem 1rem; text-align:center; }
+.step-card .step-big { font-size:2.5rem; margin-bottom:.4rem; }
+.step-card h4 { font-family:'Fredoka One',cursive; font-size:clamp(1rem,2.5vw,1.35rem); color:#FFE566; margin-bottom:.25rem; }
+.step-card p { color:rgba(255,255,255,.85); font-size:clamp(.78rem,1.9vw,.95rem); font-weight:700; }
+.go-banner { background:#FFE566; border-radius:999px; padding:.8rem 2.5rem; font-family:'Fredoka One',cursive; font-size:clamp(1.2rem,3.5vw,2rem); color:#78350F; box-shadow:0 6px 20px rgba(0,0,0,.2); animation:pulse 1.8s infinite; }
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+
+/* SLIDE 8 — CELEBRATE */
+.s8 { background:linear-gradient(145deg,#1a1a6e,#0D9488,#059669); }
+.review-table { background:rgba(255,255,255,.15); border:2px solid rgba(255,255,255,.3); border-radius:18px; overflow:hidden; width:100%; max-width:580px; margin-bottom:1.2rem; }
+.review-table table { width:100%; border-collapse:collapse; }
+.review-table th { background:rgba(255,255,255,.2); color:#FFE566; font-family:'Fredoka One',cursive; font-size:clamp(.9rem,2.5vw,1.3rem); padding:.7rem 1rem; text-align:center; }
+.review-table td { color:white; font-weight:800; font-size:clamp(.9rem,2.5vw,1.3rem); padding:.6rem 1rem; text-align:center; border-top:1px solid rgba(255,255,255,.15); }
+.review-table td.sym { color:#FFE566; font-family:'Fredoka One',cursive; font-size:clamp(1.2rem,3vw,1.8rem); }
+.star-msg { font-family:'Fredoka One',cursive; font-size:clamp(1rem,2.5vw,1.4rem); color:white; text-align:center; padding:.8rem 1.5rem; background:rgba(255,255,255,.12); border-radius:16px; border:2px solid rgba(255,255,255,.3); max-width:640px; }
+.self-check { display:flex; gap:.8rem; flex-wrap:wrap; justify-content:center; margin-bottom:1rem; }
+.check-badge { border-radius:999px; padding:.5rem 1.4rem; font-weight:800; font-size:.9rem; }
+.check-green { background:#22C55E; color:white; }
+.check-orange { background:#F97316; color:white; }
+
+.confetti-piece { position:absolute; width:12px; height:12px; border-radius:2px; animation:fall linear forwards; pointer-events:none; }
+@keyframes fall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
+</style>
+</head>
+<body>
+<div class="fs-hint" onclick="toggleFS()">⛶ Fullscreen (F)</div>
+<div class="deck" id="deck">
+
+  <!-- SLIDE 1 — TITLE -->
+  <div class="slide s1 active">
+    <div class="bounce">🐊</div>
+    <h1>Comparing Numbers<br>with  &gt;,  =,  &lt;</h1>
+    <h2>Which number is bigger? Which is smaller? Are they the same?</h2>
+    <div class="badge-row">
+      <div class="badge">🔢 2nd Grade Skill</div>
+      <div class="badge">👥 Small Group</div>
+      <div class="badge">⏱ 30 Minutes</div>
+      <div class="badge">🔢 Lesson 3 of 100</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 2 — HOOK / ALLIGATOR -->
+  <div class="slide s2">
+    <div class="big-q">🐊 Meet the HUNGRY ALLIGATOR!<br>He ALWAYS eats the BIGGER number!</div>
+    <div class="gator-row">
+      <div class="gator-card">
+        <div class="gator-sym">&gt;</div>
+        <div class="gator-label">GREATER THAN</div>
+        <div class="gator-hint">Mouth open → bigger number<br>5 &gt; 3 → "5 is greater than 3"</div>
+      </div>
+      <div class="gator-card">
+        <div class="gator-sym">=</div>
+        <div class="gator-label">EQUAL TO</div>
+        <div class="gator-hint">Both sides are the SAME<br>4 = 4 → "4 equals 4"</div>
+      </div>
+      <div class="gator-card">
+        <div class="gator-sym">&lt;</div>
+        <div class="gator-label">LESS THAN</div>
+        <div class="gator-hint">Mouth open ← bigger number<br>3 &lt; 5 → "3 is less than 5"</div>
+      </div>
+    </div>
+    <div class="callout">🧠 Memory trick: The open mouth ALWAYS faces the BIGGER number — the alligator is hungry for the most food!</div>
+  </div>
+
+  <!-- SLIDE 3 — VOCAB -->
+  <div class="slide s3">
+    <div class="slide-title">📖 Words We Need to Know</div>
+    <div class="vocab-grid">
+      <div class="vocab-card"><div class="vw">Compare</div><div class="vd">Look at two numbers to decide which is bigger, smaller, or equal</div></div>
+      <div class="vocab-card"><div class="vw">Greater Than &gt;</div><div class="vd">The first number is BIGGER<br>327 &gt; 198</div></div>
+      <div class="vocab-card"><div class="vw">Less Than &lt;</div><div class="vd">The first number is SMALLER<br>474 &lt; 557</div></div>
+      <div class="vocab-card"><div class="vw">Equal To =</div><div class="vd">Both numbers are the SAME<br>305 = 305</div></div>
+      <div class="vocab-card"><div class="vw">Place Value</div><div class="vd">Hundreds, Tens, Ones — always compare hundreds FIRST!</div></div>
+    </div>
+    <div class="trick-box">🏆 Always start with the HUNDREDS place — if they're different, you already have your answer!</div>
+  </div>
+
+  <!-- SLIDE 4 — I DO (327 vs 198 — exact assessment problem) -->
+  <div class="slide s4">
+    <div class="slide-title" style="font-family:'Fredoka One',cursive;font-size:clamp(1.8rem,4.5vw,3rem);color:#FFE566;text-align:center;margin-bottom:1rem;text-shadow:2px 2px 0 rgba(0,0,0,.2);">👀 Watch Me — 327 vs 198</div>
+    <div class="lesson-layout">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:1rem;">
+        <div class="compare-display">
+          <div class="num-box blue">327</div>
+          <div class="sym-box">&gt;</div>
+          <div class="num-box orange">198</div>
+        </div>
+        <div class="place-breakdown">
+          <div class="place-chip highlight">Hundreds: 3 vs 1 ← STOP HERE!</div>
+          <div class="place-chip">Tens: 2 vs 9</div>
+          <div class="place-chip">Ones: 7 vs 8</div>
+        </div>
+        <div style="background:#FFE566;border-radius:14px;padding:.7rem 1.8rem;font-family:'Fredoka One',cursive;font-size:clamp(1.2rem,3vw,1.8rem);color:#065F46;text-align:center;">
+          327 &gt; 198  ✅  "327 is greater than 198"
+        </div>
+      </div>
+      <div class="steps-col">
+        <div class="step-item">
+          <div class="step-num-circle">1</div>
+          <div class="step-text"><h4>Look at the HUNDREDS first</h4><p>327 has <strong style="color:#FFE566">3</strong> hundreds. 198 has <strong style="color:#FFE566">1</strong> hundred. 3 &gt; 1 — done!</p></div>
+        </div>
+        <div class="step-item">
+          <div class="step-num-circle">2</div>
+          <div class="step-text"><h4>If hundreds are equal — check TENS</h4><p>Only move to tens if the hundreds digits are the same number.</p></div>
+        </div>
+        <div class="step-item">
+          <div class="step-num-circle">3</div>
+          <div class="step-text"><h4>If tens are equal — check ONES</h4><p>Only move to ones if hundreds AND tens are both equal.</p></div>
+        </div>
+        <div class="step-item">
+          <div class="step-num-circle">🐊</div>
+          <div class="step-text"><h4>Write the symbol</h4><p>Alligator mouth faces <strong style="color:#FFE566">327</strong> — it's the bigger number!<br>327 <strong style="color:#FFE566">&gt;</strong> 198</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 5 — MANIPULATIVES -->
+  <div class="slide s5">
+    <div class="slide-title" style="font-family:'Fredoka One',cursive;font-size:clamp(2rem,5vw,3.2rem);color:#FFE566;margin-bottom:1.2rem;text-align:center;text-shadow:2px 2px 0 rgba(0,0,0,.2);">🖐️ Let's Use Our Hands!</div>
+    <div class="manip-grid">
+      <div class="manip-card"><div class="mi">🧱</div><h4>Base Ten Blocks</h4><p>Build BOTH numbers with hundreds flats, tens rods, and ones cubes. Compare the hundreds first!</p></div>
+      <div class="manip-card"><div class="mi">🐊</div><h4>Alligator Arms</h4><p>Make a &gt; or &lt; shape with your arms! Always open toward the bigger number!</p></div>
+      <div class="manip-card"><div class="mi">🃏</div><h4>Number Cards</h4><p>Flip two 3-digit number cards. Race to write the correct symbol on your whiteboard!</p></div>
+      <div class="manip-card"><div class="mi">📊</div><h4>Place Value Chart</h4><p>Write each digit in H-T-O columns. Compare column by column starting with hundreds!</p></div>
+    </div>
+    <div class="trick-box" style="margin-top:1rem;max-width:700px;">🙌 Try it — make alligator arms for:  500  ___  499.  Which way does your mouth open?</div>
+  </div>
+
+  <!-- SLIDE 6 — WE DO (474 vs 557) -->
+  <div class="slide s6">
+    <div class="slide-title" style="font-family:'Fredoka One',cursive;font-size:clamp(1.8rem,4.5vw,3rem);color:#FFE566;margin-bottom:.7rem;text-align:center;text-shadow:2px 2px 0 rgba(0,0,0,.2);">🤝 We Do — Your Turn!</div>
+    <div class="instruction">Write the symbol on your whiteboard. Use your alligator arms to help!</div>
+    <div class="we-do-layout">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:1rem;">
+        <div style="background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.3);border-radius:12px;padding:.5rem 1.2rem;color:rgba(255,255,255,.8);font-weight:800;font-size:.9rem;">Compare these two numbers:</div>
+        <div class="compare-display">
+          <div class="num-box blue">474</div>
+          <div class="sym-blank">?</div>
+          <div class="num-box orange">557</div>
+        </div>
+        <div style="color:rgba(255,255,255,.75);font-weight:700;font-size:.9rem;">Hint: Start with the hundreds place!</div>
+      </div>
+      <div class="answer-reveal">
+        <h3>What's the symbol?</h3>
+        <div style="font-family:'Fredoka One',cursive;font-size:1.1rem;color:rgba(255,255,255,.7);">474  ___  557</div>
+        <button class="reveal-btn" onclick="revealAnswer()">🐊 Show Answer</button>
+        <div class="answer-shown" id="answerReveal">
+          474 &lt; 557  ✅<br>
+          <span style="font-size:.9rem;font-weight:700;opacity:.8;">4 hundreds &lt; 5 hundreds → LESS THAN!</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 7 — YOU DO -->
+  <div class="slide s7">
+    <div class="slide-title" style="font-family:'Fredoka One',cursive;font-size:clamp(2rem,5vw,3.2rem);color:#FFE566;margin-bottom:1.1rem;text-align:center;text-shadow:2px 2px 0 rgba(0,0,0,.2);">⭐ You Do — Practice Time!</div>
+    <div class="steps-grid">
+      <div class="step-card"><div class="step-big">1️⃣</div><h4>Look at HUNDREDS</h4><p>Compare the first digit of each number</p></div>
+      <div class="step-card"><div class="step-big">2️⃣</div><h4>Different? Done!</h4><p>Bigger hundreds = bigger number. Write the symbol!</p></div>
+      <div class="step-card"><div class="step-big">3️⃣</div><h4>Same hundreds?</h4><p>Move to the TENS place and compare</p></div>
+      <div class="step-card"><div class="step-big">4️⃣</div><h4>Write the symbol</h4><p>🐊 Open mouth faces the BIGGER number!</p></div>
+    </div>
+    <div class="go-banner">📄 Grab your practice sheet — 20 problems! Let's GO! 🚀</div>
+  </div>
+
+  <!-- SLIDE 8 — CELEBRATE -->
+  <div class="slide s8">
+    <div class="slide-title" style="font-family:'Fredoka One',cursive;font-size:clamp(2rem,5.5vw,3.5rem);color:#FFE566;margin-bottom:.5rem;text-align:center;text-shadow:3px 3px 0 rgba(0,0,0,.2);">🏆 Let's Check Our Work!</div>
+    <div style="color:rgba(255,255,255,.88);font-weight:700;font-size:1rem;text-align:center;margin-bottom:1rem;">These were the assessment problems — did you get them?</div>
+    <div class="review-table">
+      <table>
+        <tr><th>Box 1</th><th>Symbol</th><th>Box 2</th><th>Why?</th></tr>
+        <tr><td>327</td><td class="sym">&gt;</td><td>198</td><td style="font-size:.85rem;">3 hundreds &gt; 1 hundred</td></tr>
+        <tr><td>810</td><td class="sym">&gt;</td><td>637</td><td style="font-size:.85rem;">8 hundreds &gt; 6 hundreds</td></tr>
+        <tr><td>474</td><td class="sym">&lt;</td><td>557</td><td style="font-size:.85rem;">4 hundreds &lt; 5 hundreds</td></tr>
+      </table>
+    </div>
+    <div class="self-check">
+      <div class="check-badge check-green">🟢 Got it right = circle GREEN</div>
+      <div class="check-badge check-orange">🟠 Missed it = circle ORANGE</div>
+    </div>
+    <div class="star-msg">🐊 The alligator ALWAYS eats the bigger number — now YOU know that too! ⭐</div>
+  </div>
+
+</div>
+<nav class="nav">
+  <button class="nav-btn" onclick="go(-1)">◀</button>
+  <div class="dot-row" id="dots"></div>
+  <div class="slide-counter" id="counter">1 / 8</div>
+  <button class="nav-btn" onclick="go(1)">▶</button>
+</nav>
+<script>
+const slides=document.querySelectorAll('.slide');
+const dotsEl=document.getElementById('dots');
+const counterEl=document.getElementById('counter');
+let cur=0;
+slides.forEach((_,i)=>{
+  const d=document.createElement('div');
+  d.className='dot'+(i===0?' on':'');
+  d.onclick=()=>goTo(i);
+  dotsEl.appendChild(d);
+});
+function goTo(n){
+  slides[cur].classList.remove('active');dotsEl.children[cur].classList.remove('on');
+  cur=Math.max(0,Math.min(n,slides.length-1));
+  slides[cur].classList.add('active');dotsEl.children[cur].classList.add('on');
+  counterEl.textContent=(cur+1)+' / '+slides.length;
+  if(cur===slides.length-1)launchConfetti();
+}
+function go(dir){goTo(cur+dir);}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key===' '){e.preventDefault();go(1);}
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();go(-1);}
+  if(e.key==='f'||e.key==='F')toggleFS();
+});
+function revealAnswer(){
+  document.getElementById('answerReveal').classList.add('visible');
+  document.querySelector('.reveal-btn').style.display='none';
+}
+function toggleFS(){
+  if(!document.fullscreenElement)document.documentElement.requestFullscreen();
+  else document.exitFullscreen();
+}
+function launchConfetti(){
+  const cols=['#FFE566','#F97316','#0D9488','#22C55E','#3B82F6','#FFFFFF'];
+  for(let i=0;i<60;i++){
+    const p=document.createElement('div');
+    p.className='confetti-piece';
+    p.style.cssText=`left:${Math.random()*100}vw;top:-20px;background:${cols[Math.floor(Math.random()*cols.length)]};width:${8+Math.random()*10}px;height:${8+Math.random()*10}px;border-radius:${Math.random()>.5?'50%':'2px'};animation-duration:${2+Math.random()*3}s;animation-delay:${Math.random()*1.5}s;`;
+    document.body.appendChild(p);setTimeout(()=>p.remove(),6000);
+  }
+}
+</script>
+</body>
+</html>

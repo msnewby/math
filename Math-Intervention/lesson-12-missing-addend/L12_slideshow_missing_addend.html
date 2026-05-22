@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Missing Addend — Ms. Newby Teaches Lesson 12</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito',sans-serif;background:#111;overflow:hidden;height:100vh;width:100vw;}
+.deck{width:100vw;height:100vh;position:relative;}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;opacity:0;pointer-events:none;transition:opacity .45s ease;overflow:hidden;}
+.slide.active{opacity:1;pointer-events:all;}
+.nav{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:1rem;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);border-radius:999px;padding:.6rem 1.4rem;z-index:100;}
+.nav-btn{background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.3);color:white;border-radius:50%;width:40px;height:40px;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.nav-btn:hover{background:rgba(255,255,255,.3);}
+.slide-counter{color:rgba(255,255,255,.85);font-weight:700;font-size:.9rem;min-width:60px;text-align:center;}
+.dot-row{display:flex;gap:.4rem;}
+.dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer;transition:all .2s;}
+.dot.on{background:white;transform:scale(1.3);}
+.fs-hint{position:fixed;top:1rem;right:1.2rem;background:rgba(0,0,0,.5);color:rgba(255,255,255,.75);font-size:.78rem;font-weight:700;padding:.35rem .8rem;border-radius:8px;z-index:100;cursor:pointer;}
+
+.s1{background:linear-gradient(145deg,#4C1D95,#6D28D9,#7C3AED);}
+.s2{background:linear-gradient(145deg,#064E3B,#065F46,#059669);}
+.s3{background:linear-gradient(145deg,#1E1B4B,#3730A3,#4338CA);}
+.s4{background:linear-gradient(145deg,#14532D,#166534,#16A34A);}
+.s5{background:linear-gradient(145deg,#78350F,#92400E,#B45309);}
+.s6{background:linear-gradient(145deg,#0C4A6E,#0369A1,#0284C7);}
+.s7{background:linear-gradient(145deg,#7C2D12,#C2410C,#EA580C);}
+.s8{background:linear-gradient(145deg,#1a1a6e,#6D28D9,#7C3AED);}
+
+.bounce{font-size:clamp(4rem,10vw,7rem);animation:bounce 2s infinite;}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+h1.title{font-family:'Fredoka One',cursive;font-size:clamp(2.5rem,6vw,4.5rem);color:#FFE566;text-align:center;line-height:1.1;text-shadow:3px 3px 0 rgba(0,0,0,.25);margin-bottom:.6rem;}
+.subtitle{font-size:clamp(1rem,2.5vw,1.6rem);color:rgba(255,255,255,.9);font-weight:700;margin-bottom:2rem;text-align:center;}
+.badge-row{display:flex;flex-wrap:wrap;justify-content:center;gap:.6rem;}
+.badge{background:rgba(255,255,255,.18);border:1.5px solid rgba(255,255,255,.35);color:white;font-weight:800;font-size:.85rem;padding:.35rem 1.1rem;border-radius:999px;}
+.slide-title{font-family:'Fredoka One',cursive;font-size:clamp(2rem,5vw,3.2rem);color:#FFE566;margin-bottom:1.2rem;text-align:center;text-shadow:2px 2px 0 rgba(0,0,0,.2);}
+.callout{background:white;border-radius:16px;padding:1rem 2rem;font-size:clamp(.9rem,2.2vw,1.25rem);font-weight:800;text-align:center;box-shadow:0 4px 16px rgba(0,0,0,.15);max-width:700px;}
+.trick-box{margin-top:1rem;background:rgba(255,255,255,.18);border:2px solid rgba(255,255,255,.35);border-radius:14px;padding:.9rem 1.8rem;font-weight:800;color:white;font-size:clamp(.9rem,2vw,1.15rem);text-align:center;max-width:720px;}
+.vocab-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.9rem;max-width:900px;width:100%;}
+.vocab-card{background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);border-radius:18px;padding:1rem 1.2rem;text-align:center;}
+.vocab-card .vw{font-family:'Fredoka One',cursive;font-size:clamp(1.2rem,3vw,1.8rem);color:#FFE566;margin-bottom:.3rem;}
+.vocab-card .vd{color:rgba(255,255,255,.9);font-weight:700;font-size:clamp(.8rem,1.8vw,1rem);}
+.lesson-layout{display:flex;gap:2rem;align-items:center;justify-content:center;flex-wrap:wrap;max-width:920px;}
+.steps-col{flex:1;min-width:260px;}
+.step-item{display:flex;align-items:flex-start;gap:.8rem;padding:.7rem 0;border-bottom:1px solid rgba(255,255,255,.15);}
+.step-item:last-child{border-bottom:none;}
+.step-num-circle{width:40px;height:40px;border-radius:50%;background:#FFE566;font-weight:900;font-size:1.1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-text h4{color:#FFE566;font-size:clamp(.9rem,2.2vw,1.1rem);font-weight:800;margin-bottom:.2rem;}
+.step-text p{color:rgba(255,255,255,.88);font-size:clamp(.8rem,1.9vw,.98rem);line-height:1.4;}
+.manip-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.9rem;max-width:860px;width:100%;}
+.manip-card{background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);border-radius:18px;padding:1rem 1.1rem;text-align:center;}
+.manip-card .mi{font-size:2.2rem;margin-bottom:.4rem;}
+.manip-card h4{font-family:'Fredoka One',cursive;font-size:clamp(1rem,2.5vw,1.35rem);color:#FFE566;margin-bottom:.25rem;}
+.manip-card p{color:rgba(255,255,255,.85);font-size:clamp(.75rem,1.8vw,.9rem);font-weight:700;}
+.we-do-layout{display:flex;gap:2rem;align-items:center;justify-content:center;flex-wrap:wrap;}
+.answer-reveal{background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);border-radius:16px;padding:1.2rem 1.5rem;min-width:240px;text-align:center;}
+.answer-reveal h3{font-weight:800;color:rgba(255,255,255,.7);font-size:.85rem;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.7rem;}
+.reveal-btn{margin-top:.9rem;background:#FFE566;border:none;border-radius:999px;padding:.6rem 1.5rem;font-family:'Nunito',sans-serif;font-weight:900;font-size:1rem;cursor:pointer;transition:transform .15s;box-shadow:0 4px 12px rgba(0,0,0,.2);}
+.reveal-btn:hover{transform:scale(1.05);}
+.answer-shown{display:none;}
+.answer-shown.visible{display:block;font-family:'Fredoka One',cursive;font-size:clamp(1.5rem,3.5vw,2.2rem);color:#FFE566;margin-top:.6rem;animation:popIn .35s ease;}
+@keyframes popIn{0%{transform:scale(.6);opacity:0}80%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
+.steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.9rem;max-width:800px;width:100%;margin-bottom:1.4rem;}
+.step-card{background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);border-radius:18px;padding:1.2rem 1rem;text-align:center;}
+.step-card .step-big{font-size:2.5rem;margin-bottom:.4rem;}
+.step-card h4{font-family:'Fredoka One',cursive;font-size:clamp(1rem,2.5vw,1.35rem);color:#FFE566;margin-bottom:.25rem;}
+.step-card p{color:rgba(255,255,255,.85);font-size:clamp(.78rem,1.9vw,.95rem);font-weight:700;}
+.go-banner{background:#FFE566;border-radius:999px;padding:.8rem 2.5rem;font-family:'Fredoka One',cursive;font-size:clamp(1.2rem,3.5vw,2rem);box-shadow:0 6px 20px rgba(0,0,0,.2);animation:pulse 1.8s infinite;}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+.review-cards{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;margin-bottom:1.1rem;max-width:750px;}
+.review-card{background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);border-radius:18px;padding:1rem 1.5rem;text-align:center;flex:1;min-width:200px;}
+.review-card h4{font-weight:800;color:rgba(255,255,255,.7);font-size:.82rem;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.5rem;}
+.review-card .eq{font-family:'Fredoka One',cursive;font-size:clamp(1.2rem,2.8vw,1.8rem);color:#FFE566;}
+.self-check{display:flex;gap:.8rem;flex-wrap:wrap;justify-content:center;margin-bottom:1rem;}
+.check-badge{border-radius:999px;padding:.5rem 1.4rem;font-weight:800;font-size:.9rem;}
+.check-green{background:#22C55E;color:white;}
+.check-orange{background:#F97316;color:white;}
+.star-msg{font-family:'Fredoka One',cursive;font-size:clamp(1rem,2.5vw,1.4rem);color:white;text-align:center;padding:.8rem 1.5rem;background:rgba(255,255,255,.12);border-radius:16px;border:2px solid rgba(255,255,255,.3);max-width:640px;}
+.confetti-piece{position:absolute;width:12px;height:12px;border-radius:2px;animation:fall linear forwards;pointer-events:none;}
+@keyframes fall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
+
+/* Missing box equation */
+.eq-display{display:flex;align-items:center;gap:.8rem;justify-content:center;flex-wrap:wrap;}
+.miss-box{width:clamp(52px,8vw,72px);height:clamp(52px,8vw,72px);border:4px solid #FFE566;border-radius:12px;background:rgba(255,230,102,.15);display:flex;align-items:center;justify-content:center;font-family:'Fredoka One',cursive;font-size:clamp(1.5rem,4vw,2.5rem);color:rgba(255,255,255,.3);}
+.miss-box.filled{background:rgba(255,230,102,.3);color:#FFE566;}
+.eq-num{font-family:'Fredoka One',cursive;font-size:clamp(1.5rem,4vw,2.5rem);color:white;}
+.eq-op{font-family:'Fredoka One',cursive;font-size:clamp(1.5rem,4vw,2.5rem);color:rgba(255,255,255,.6);}
+.eq-equals{font-family:'Fredoka One',cursive;font-size:clamp(1.5rem,4vw,2.5rem);color:rgba(255,255,255,.6);}
+.eq-total{font-family:'Fredoka One',cursive;font-size:clamp(1.5rem,4vw,2.5rem);color:#FFE566;}
+</style>
+</head>
+<body>
+<div class="fs-hint" onclick="toggleFS()">⛶ Fullscreen (F)</div>
+<div class="deck" id="deck">
+
+  <!-- S1 TITLE -->
+  <div class="slide s1 active">
+    <div class="bounce">🫐</div>
+    <h1 class="title">Missing Addend<br>___ + 5 = 14</h1>
+    <div class="subtitle">Find the unknown number — subtract to find what's missing!</div>
+    <div class="badge-row">
+      <div class="badge">❓ 2nd Grade Skill</div>
+      <div class="badge">👥 Small Group</div>
+      <div class="badge">⏱ 30 Minutes</div>
+      <div class="badge">🔢 Lesson 12 of 100</div>
+    </div>
+  </div>
+
+  <!-- S2 HOOK — exact test problem -->
+  <div class="slide s2">
+    <div style="font-family:'Fredoka One',cursive;font-size:clamp(1.5rem,3.8vw,2.5rem);color:white;text-align:center;margin-bottom:1.2rem;max-width:800px;line-height:1.4;text-shadow:2px 2px 0 rgba(0,0,0,.2);">
+      🫐 Theo is picking berries. He added <span style="color:#FFE566">5 more</span> to his basket. Now he has <span style="color:#FFE566">14</span>.<br>How many did he have <span style="background:#FFE566;color:#064E3B;padding:0 .3rem;border-radius:5px;">before</span>?
+    </div>
+    <div class="eq-display" style="margin-bottom:1.4rem;">
+      <div class="miss-box">?</div>
+      <div class="eq-op">+</div>
+      <div class="eq-num">5</div>
+      <div class="eq-equals">=</div>
+      <div class="eq-total">14</div>
+    </div>
+    <div style="display:flex;gap:1.2rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.2rem;">
+      <div style="background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);border-radius:14px;padding:.8rem 1.4rem;text-align:center;">
+        <div style="font-size:1.8rem;">🫐🫐🫐🫐🫐🫐🫐🫐🫐</div>
+        <div style="font-family:'Fredoka One',cursive;font-size:1.3rem;color:#FFE566;">? berries BEFORE</div>
+      </div>
+      <div style="font-family:'Fredoka One',cursive;font-size:2rem;color:rgba(255,255,255,.4);align-self:center;">+</div>
+      <div style="background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);border-radius:14px;padding:.8rem 1.4rem;text-align:center;">
+        <div style="font-size:1.8rem;">🫐🫐🫐🫐🫐</div>
+        <div style="font-family:'Fredoka One',cursive;font-size:1.3rem;color:#FFE566;">5 added</div>
+      </div>
+      <div style="font-family:'Fredoka One',cursive;font-size:2rem;color:rgba(255,255,255,.4);align-self:center;">=</div>
+      <div style="background:#FFE566;border-radius:14px;padding:.8rem 1.4rem;text-align:center;box-shadow:0 4px 16px rgba(0,0,0,.2);">
+        <div style="font-size:1.8rem;">🫐🫐🫐🫐🫐🫐🫐🫐🫐🫐🫐🫐🫐🫐</div>
+        <div style="font-family:'Fredoka One',cursive;font-size:1.3rem;color:#064E3B;">14 total now</div>
+      </div>
+    </div>
+    <div class="callout" style="color:#064E3B;">💡 We know the TOTAL (14) and one addend (5) — we need to FIND the missing one!</div>
+  </div>
+
+  <!-- S3 VOCAB -->
+  <div class="slide s3">
+    <div class="slide-title">📖 Words We Need to Know</div>
+    <div class="vocab-grid">
+      <div class="vocab-card"><div class="vw">Missing Addend</div><div class="vd">The UNKNOWN number in the equation — shown as ___ or ?</div></div>
+      <div class="vocab-card"><div class="vw">Unknown</div><div class="vd">The number we don't know yet — the one we're solving for</div></div>
+      <div class="vocab-card"><div class="vw">Fact Family</div><div class="vd">Related facts: 9+5=14, 5+9=14, 14-5=9, 14-9=5</div></div>
+      <div class="vocab-card"><div class="vw">Total</div><div class="vd">The sum — the biggest number in the equation</div></div>
+      <div class="vocab-card"><div class="vw">Subtract to Find</div><div class="vd">Total − Known addend = Missing addend</div></div>
+    </div>
+    <div class="trick-box">🔑 KEY FORMULA: Total − Known = Missing  |  Then CHECK: Missing + Known = Total ✅</div>
+  </div>
+
+  <!-- S4 I DO -->
+  <div class="slide s4">
+    <div class="slide-title" style="font-size:clamp(1.8rem,4.5vw,3rem);">👀 Watch Me — Find the Missing Number!</div>
+    <div class="lesson-layout">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:1rem;">
+        <!-- Problem -->
+        <div style="background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.3);border-radius:16px;padding:1rem 1.8rem;text-align:center;">
+          <div style="font-family:'Fredoka One',cursive;font-size:clamp(1.1rem,2.8vw,1.6rem);color:white;margin-bottom:.6rem;">___ + 5 = 14</div>
+          <div class="eq-display">
+            <div class="miss-box">?</div>
+            <div class="eq-op">+</div>
+            <div class="eq-num">5</div>
+            <div class="eq-equals">=</div>
+            <div class="eq-total">14</div>
+          </div>
+        </div>
+        <!-- Number line -->
+        <div style="background:rgba(255,255,255,.1);border-radius:12px;padding:.8rem 1.2rem;width:100%;max-width:340px;">
+          <svg width="100%" height="48" viewBox="0 0 300 48">
+            <line x1="10" y1="24" x2="290" y2="24" stroke="white" stroke-width="2"/>
+            <!-- Marks 0-15 -->
+            <line x1="10" y1="20" x2="10" y2="28" stroke="white" stroke-width="1.5"/><text x="10" y="40" text-anchor="middle" font-size="9" fill="white" font-family="Nunito">0</text>
+            <line x1="30" y1="20" x2="30" y2="26" stroke="rgba(255,255,255,.4)" stroke-width="1"/>
+            <line x1="50" y1="20" x2="50" y2="26" stroke="rgba(255,255,255,.4)" stroke-width="1"/>
+            <line x1="70" y1="20" x2="70" y2="26" stroke="rgba(255,255,255,.4)" stroke-width="1"/>
+            <line x1="90" y1="20" x2="90" y2="26" stroke="rgba(255,255,255,.4)" stroke-width="1"/>
+            <line x1="110" y1="20" x2="110" y2="28" stroke="white" stroke-width="1.5"/><text x="110" y="40" text-anchor="middle" font-size="9" fill="white" font-family="Nunito">5</text>
+            <line x1="130" y1="20" x2="130" y2="26" stroke="rgba(255,255,255,.4)" stroke-width="1"/>
+            <line x1="150" y1="20" x2="150" y2="26" stroke="rgba(255,255,255,.4)" stroke-width="1"/>
+            <line x1="170" y1="20" x2="170" y2="26" stroke="rgba(255,255,255,.4)" stroke-width="1"/>
+            <line x1="190" y1="20" x2="190" y2="26" stroke="rgba(255,255,255,.4)" stroke-width="1"/>
+            <line x1="210" y1="20" x2="210" y2="28" stroke="#22C55E" stroke-width="2.5"/><text x="210" y="40" text-anchor="middle" font-size="9" fill="#22C55E" font-weight="bold" font-family="Nunito">9</text>
+            <line x1="250" y1="20" x2="250" y2="28" stroke="#FFE566" stroke-width="2.5"/><text x="250" y="40" text-anchor="middle" font-size="9" fill="#FFE566" font-weight="bold" font-family="Nunito">14</text>
+            <!-- Arrow from 5 to 9 -->
+            <path d="M 110 16 Q 160 4 210 16" fill="none" stroke="#22C55E" stroke-width="2" marker-end="url(#arr)"/>
+            <text x="160" y="10" text-anchor="middle" font-size="8" fill="#22C55E" font-weight="bold" font-family="Nunito">? steps</text>
+            <!-- Arrow from 0 to 9 -->
+            <circle cx="210" cy="24" r="5" fill="#22C55E"/>
+            <!-- Arrow from 0 to 14 -->
+            <circle cx="250" cy="24" r="5" fill="#FFE566"/>
+          </svg>
+        </div>
+        <div style="background:#FFE566;border-radius:14px;padding:.7rem 1.8rem;font-family:'Fredoka One',cursive;font-size:clamp(1.3rem,3.5vw,2rem);color:#14532D;text-align:center;">
+          14 − 5 = 9 ✅  →  9 + 5 = 14 ✅
+        </div>
+      </div>
+      <div class="steps-col">
+        <div class="step-item">
+          <div class="step-num-circle" style="color:#166534">1</div>
+          <div class="step-text"><h4>Find the TOTAL</h4><p>The total is always the biggest number: <strong style="color:#FFE566">14</strong></p></div>
+        </div>
+        <div class="step-item">
+          <div class="step-num-circle" style="color:#166534">2</div>
+          <div class="step-text"><h4>Find the KNOWN addend</h4><p>We know <strong style="color:#FFE566">5</strong> was added. That's our known addend.</p></div>
+        </div>
+        <div class="step-item">
+          <div class="step-num-circle" style="color:#166534">3</div>
+          <div class="step-text"><h4>SUBTRACT to find missing</h4><p><strong style="color:#FFE566">14 − 5 = 9</strong>. The missing addend is 9!</p></div>
+        </div>
+        <div class="step-item">
+          <div class="step-num-circle" style="color:#166534">✅</div>
+          <div class="step-text"><h4>CHECK your answer</h4><p><strong style="color:#FFE566">9 + 5 = 14</strong> ✅ — it balances! Great work!</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S5 FACT FAMILIES -->
+  <div class="slide s5">
+    <div class="slide-title">🏡 Fact Families Help!</div>
+    <div style="background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.3);border-radius:18px;padding:1.5rem;max-width:700px;width:100%;margin-bottom:1.2rem;">
+      <div style="font-family:'Fredoka One',cursive;font-size:clamp(1.2rem,3vw,1.8rem);color:#FFE566;text-align:center;margin-bottom:1rem;">The 9, 5, 14 Fact Family</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.8rem;">
+        <div style="background:rgba(255,255,255,.12);border-radius:12px;padding:.8rem;text-align:center;font-family:'Fredoka One',cursive;font-size:clamp(1.1rem,2.8vw,1.6rem);color:white;">9 + 5 = 14</div>
+        <div style="background:rgba(255,255,255,.12);border-radius:12px;padding:.8rem;text-align:center;font-family:'Fredoka One',cursive;font-size:clamp(1.1rem,2.8vw,1.6rem);color:white;">5 + 9 = 14</div>
+        <div style="background:rgba(255,230,102,.2);border:2px solid #FFE566;border-radius:12px;padding:.8rem;text-align:center;font-family:'Fredoka One',cursive;font-size:clamp(1.1rem,2.8vw,1.6rem);color:#FFE566;">14 − 5 = 9 ⭐</div>
+        <div style="background:rgba(255,255,255,.12);border-radius:12px;padding:.8rem;text-align:center;font-family:'Fredoka One',cursive;font-size:clamp(1.1rem,2.8vw,1.6rem);color:white;">14 − 9 = 5</div>
+      </div>
+    </div>
+    <div class="trick-box" style="max-width:680px;">🏡 All 4 facts use the same 3 numbers! When you know the TOTAL and one addend → SUBTRACT to find the other!</div>
+  </div>
+
+  <!-- S6 MANIPULATIVES -->
+  <div class="slide s6">
+    <div class="slide-title">🖐️ Let's Use Our Hands!</div>
+    <div class="manip-grid">
+      <div class="manip-card"><div class="mi">🔵</div><h4>Counters</h4><p>Put out 14 counters total. Move 5 to one side — count what's left = the missing addend!</p></div>
+      <div class="manip-card"><div class="mi">📏</div><h4>Number Line</h4><p>Start at 5. Count up until you reach 14. How many jumps? That's the missing number!</p></div>
+      <div class="manip-card"><div class="mi">🖐️</div><h4>Think Addition</h4><p>"5 + ___ = 14. I count on from 5: 6, 7, 8... 14. That's 9 counts!"</p></div>
+      <div class="manip-card"><div class="mi">🏡</div><h4>Fact Family</h4><p>Write the fact family for 9, 5, and 14. The subtraction facts show the missing addend!</p></div>
+    </div>
+    <div class="trick-box" style="margin-top:.8rem;max-width:700px;">✅ ALWAYS check: Put your answer back in: 9 + 5 = 14? YES! → Correct!</div>
+  </div>
+
+  <!-- S7 WE DO -->
+  <div class="slide s7">
+    <div class="slide-title" style="font-size:clamp(1.8rem,4.5vw,3rem);">🤝 We Do — Find the Missing Number!</div>
+    <div style="color:rgba(255,255,255,.9);font-weight:700;font-size:clamp(.9rem,2.2vw,1.2rem);text-align:center;margin-bottom:1.2rem;">Write the missing number AND check on your whiteboard!</div>
+    <div class="we-do-layout">
+      <div style="background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.3);border-radius:18px;padding:1.2rem 1.8rem;text-align:center;">
+        <div style="font-family:'Fredoka One',cursive;font-size:clamp(1.1rem,2.8vw,1.6rem);color:white;margin-bottom:.8rem;">Mia had some stickers.<br>She got 4 more. Now she has 11.</div>
+        <div class="eq-display">
+          <div class="miss-box">?</div>
+          <div class="eq-op">+</div>
+          <div class="eq-num">4</div>
+          <div class="eq-equals">=</div>
+          <div class="eq-total">11</div>
+        </div>
+        <div style="font-family:'Fredoka One',cursive;font-size:.9rem;color:rgba(255,255,255,.6);margin-top:.5rem;">Hint: 11 − 4 = ___</div>
+      </div>
+      <div class="answer-reveal">
+        <h3>What's the missing number?</h3>
+        <div style="color:rgba(255,255,255,.8);font-weight:700;">___ + 4 = 11</div>
+        <button class="reveal-btn" style="color:#7C2D12;" onclick="revealAnswer()">🫐 Show Answer</button>
+        <div class="answer-shown" id="answerReveal">7 stickers! ✅<br><span style="font-size:.85rem;font-weight:700;opacity:.8;">11−4=7  →  Check: 7+4=11 ✅</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S8 CELEBRATE -->
+  <div class="slide s8">
+    <div class="slide-title" style="font-size:clamp(2rem,5.5vw,3.5rem);">🏆 Let's Check Our Work!</div>
+    <div style="color:rgba(255,255,255,.88);font-weight:700;font-size:1rem;text-align:center;margin-bottom:1rem;">The test problem and what we practiced!</div>
+    <div class="review-cards">
+      <div class="review-card">
+        <h4>Test problem 🫐</h4>
+        <div style="font-size:.9rem;color:rgba(255,255,255,.8);margin:.3rem 0;">___ + 5 = 14</div>
+        <div class="eq">14−5=9 ✅</div>
+        <div style="color:rgba(255,255,255,.7);font-size:.82rem;margin-top:.3rem;font-weight:700;">Check: 9+5=14 ✅</div>
+      </div>
+      <div class="review-card">
+        <h4>We practiced 🎫</h4>
+        <div style="font-size:.9rem;color:rgba(255,255,255,.8);margin:.3rem 0;">___ + 4 = 11</div>
+        <div class="eq">11−4=7 ✅</div>
+        <div style="color:rgba(255,255,255,.7);font-size:.82rem;margin-top:.3rem;font-weight:700;">Check: 7+4=11 ✅</div>
+      </div>
+      <div class="review-card">
+        <h4>The formula!</h4>
+        <div style="font-size:1.5rem;margin:.4rem 0;">🔑</div>
+        <div style="color:rgba(255,255,255,.85);font-size:.85rem;font-weight:700;">TOTAL − KNOWN<br>= MISSING addend<br>Always CHECK it!</div>
+      </div>
+    </div>
+    <div class="self-check">
+      <div class="check-badge check-green">🟢 Got it right = GREEN</div>
+      <div class="check-badge check-orange">🟠 Need more practice = ORANGE</div>
+    </div>
+    <div class="star-msg">❓ Finding the missing number is the beginning of ALGEBRA — you're thinking like a mathematician! ⭐</div>
+  </div>
+
+</div>
+<nav class="nav">
+  <button class="nav-btn" onclick="go(-1)">◀</button>
+  <div class="dot-row" id="dots"></div>
+  <div class="slide-counter" id="counter">1 / 8</div>
+  <button class="nav-btn" onclick="go(1)">▶</button>
+</nav>
+<script>
+const slides=document.querySelectorAll('.slide'),dotsEl=document.getElementById('dots'),counterEl=document.getElementById('counter');
+let cur=0;
+slides.forEach((_,i)=>{const d=document.createElement('div');d.className='dot'+(i===0?' on':'');d.onclick=()=>goTo(i);dotsEl.appendChild(d);});
+function goTo(n){slides[cur].classList.remove('active');dotsEl.children[cur].classList.remove('on');cur=Math.max(0,Math.min(n,slides.length-1));slides[cur].classList.add('active');dotsEl.children[cur].classList.add('on');counterEl.textContent=(cur+1)+' / '+slides.length;if(cur===slides.length-1)launchConfetti();}
+function go(dir){goTo(cur+dir);}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key===' '){e.preventDefault();go(1);}if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();go(-1);}if(e.key==='f'||e.key==='F')toggleFS();});
+function revealAnswer(){document.getElementById('answerReveal').classList.add('visible');document.querySelector('.reveal-btn').style.display='none';}
+function toggleFS(){if(!document.fullscreenElement)document.documentElement.requestFullscreen();else document.exitFullscreen();}
+function launchConfetti(){const cols=['#FFE566','#7C3AED','#16A34A','#DC2626','#F97316','#FFFFFF'];for(let i=0;i<60;i++){const p=document.createElement('div');p.className='confetti-piece';p.style.cssText=`left:${Math.random()*100}vw;top:-20px;background:${cols[Math.floor(Math.random()*cols.length)]};width:${8+Math.random()*10}px;height:${8+Math.random()*10}px;border-radius:${Math.random()>.5?'50%':'2px'};animation-duration:${2+Math.random()*3}s;animation-delay:${Math.random()*1.5}s;`;document.body.appendChild(p);setTimeout(()=>p.remove(),6000);}}
+</script>
+</body>
+</html>

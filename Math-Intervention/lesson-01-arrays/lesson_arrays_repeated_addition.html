@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arrays & Repeated Addition — Intervention Lesson</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap');
+
+  :root {
+    --blue:    #3B82F6;
+    --blue-dk: #1D4ED8;
+    --orange:  #F97316;
+    --green:   #22C55E;
+    --green-dk:#15803D;
+    --purple:  #A855F7;
+    --yellow:  #EAB308;
+    --red:     #EF4444;
+    --bg:      #F0F7FF;
+    --card:    #FFFFFF;
+    --text:    #1E293B;
+    --muted:   #64748B;
+    --radius:  16px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(135deg, #1D4ED8 0%, #7C3AED 60%, #EC4899 100%);
+    color: white;
+    padding: 3rem 2rem 2.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 20% 50%, rgba(255,255,255,.12) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(255,255,255,.08) 0%, transparent 50%);
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(255,255,255,.2);
+    border: 1px solid rgba(255,255,255,.35);
+    border-radius: 999px;
+    padding: .35rem 1.2rem;
+    font-size: .82rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .hero h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    line-height: 1.15;
+    margin-bottom: .6rem;
+    position: relative;
+  }
+  .hero p {
+    font-size: 1.05rem;
+    opacity: .88;
+    max-width: 620px;
+    margin: 0 auto 1.8rem;
+    position: relative;
+  }
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: .7rem;
+    position: relative;
+  }
+  .meta-chip {
+    background: rgba(255,255,255,.18);
+    border: 1px solid rgba(255,255,255,.3);
+    border-radius: 999px;
+    padding: .3rem 1rem;
+    font-size: .82rem;
+    font-weight: 700;
+  }
+  .meta-chip span { opacity: .75; font-weight: 400; margin-right: .3rem; }
+
+  /* ── NAV ── */
+  .toc-bar {
+    background: white;
+    border-bottom: 2px solid #E2E8F0;
+    padding: 0 2rem;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,.07);
+  }
+  .toc-bar a {
+    display: block;
+    padding: 1rem 1.2rem;
+    font-weight: 700;
+    font-size: .85rem;
+    color: var(--muted);
+    text-decoration: none;
+    border-bottom: 3px solid transparent;
+    white-space: nowrap;
+    transition: all .2s;
+  }
+  .toc-bar a:hover, .toc-bar a.active {
+    color: var(--blue);
+    border-bottom-color: var(--blue);
+  }
+
+  /* ── MAIN LAYOUT ── */
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  /* ── SECTION HEADERS ── */
+  .section {
+    margin-bottom: 2.5rem;
+    scroll-margin-top: 70px;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+    margin-bottom: 1.2rem;
+  }
+  .section-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+  }
+  .section-header h2 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.5rem;
+    color: var(--text);
+  }
+  .section-header .time-badge {
+    margin-left: auto;
+    background: var(--yellow);
+    color: #713F12;
+    font-size: .78rem;
+    font-weight: 800;
+    padding: .25rem .8rem;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,.07), 0 4px 16px rgba(0,0,0,.05);
+    margin-bottom: 1rem;
+  }
+  .card-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  @media (max-width: 640px) { .card-grid { grid-template-columns: 1fr; } }
+
+  /* ── OBJECTIVE BOX ── */
+  .objective-box {
+    background: linear-gradient(135deg, #EFF6FF, #F5F3FF);
+    border: 2px solid #BFDBFE;
+    border-radius: var(--radius);
+    padding: 1.4rem 1.6rem;
+    margin-bottom: 1.5rem;
+  }
+  .objective-box h3 {
+    color: var(--blue-dk);
+    font-size: .82rem;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    font-weight: 800;
+    margin-bottom: .5rem;
+  }
+  .objective-box p { font-size: 1.05rem; font-weight: 600; color: #1E3A8A; }
+
+  /* ── STEP TIMELINE ── */
+  .steps { position: relative; }
+  .step {
+    display: flex;
+    gap: 1.2rem;
+    padding-bottom: 1.5rem;
+    position: relative;
+  }
+  .step:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: 20px; top: 44px;
+    width: 2px; bottom: 0;
+    background: #E2E8F0;
+  }
+  .step-num {
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 1rem;
+    flex-shrink: 0;
+    color: white;
+  }
+  .step-body { flex: 1; }
+  .step-body h4 {
+    font-size: 1rem;
+    font-weight: 800;
+    margin-bottom: .35rem;
+    margin-top: .5rem;
+  }
+  .step-body p, .step-body li { font-size: .93rem; color: #334155; }
+  .step-body ul { padding-left: 1.2rem; }
+  .step-body ul li { margin-bottom: .25rem; }
+
+  /* ── SCRIPT BOX ── */
+  .script-box {
+    background: #FFF7ED;
+    border-left: 4px solid var(--orange);
+    border-radius: 0 8px 8px 0;
+    padding: .9rem 1.1rem;
+    margin: .7rem 0;
+    font-size: .9rem;
+    font-style: italic;
+    color: #7C2D12;
+  }
+  .script-box strong { font-style: normal; color: #9A3412; }
+
+  /* ── ARRAY VISUAL ── */
+  .array-demo {
+    background: white;
+    border: 2px dashed #CBD5E1;
+    border-radius: 12px;
+    padding: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  .array-grid {
+    display: grid;
+    gap: 8px;
+  }
+  .arr-sq {
+    width: 34px; height: 34px;
+    background: var(--blue);
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(59,130,246,.4);
+  }
+  .arr-circ {
+    width: 32px; height: 32px;
+    background: var(--orange);
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(249,115,22,.4);
+  }
+  .equation {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.6rem;
+    color: var(--blue-dk);
+    letter-spacing: .05em;
+  }
+  .blank { border-bottom: 3px solid var(--blue); display: inline-block; min-width: 36px; text-align: center; }
+  .answer { color: var(--green-dk); background: #DCFCE7; padding: 0 6px; border-radius: 4px; }
+
+  /* ── VOCAB CARDS ── */
+  .vocab-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: .8rem;
+  }
+  .vocab-card {
+    background: linear-gradient(135deg, #F0FDF4, #F7FEE7);
+    border: 2px solid #BBF7D0;
+    border-radius: 12px;
+    padding: 1rem;
+    text-align: center;
+  }
+  .vocab-card .word {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.1rem;
+    color: var(--green-dk);
+    margin-bottom: .3rem;
+  }
+  .vocab-card .def { font-size: .82rem; color: #166534; }
+
+  /* ── MATERIALS LIST ── */
+  .materials-list {
+    display: flex; flex-wrap: wrap; gap: .6rem;
+  }
+  .material-tag {
+    background: #F1F5F9;
+    border: 1.5px solid #CBD5E1;
+    border-radius: 999px;
+    padding: .35rem .9rem;
+    font-size: .85rem;
+    font-weight: 600;
+    color: #334155;
+    display: flex; align-items: center; gap: .4rem;
+  }
+
+  /* ── DIFFERENTIATION ── */
+  .diff-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: .8rem;
+  }
+  @media (max-width: 680px) { .diff-grid { grid-template-columns: 1fr; } }
+  .diff-card {
+    border-radius: 12px;
+    padding: 1rem;
+    border: 2px solid transparent;
+  }
+  .diff-card h4 { font-size: .88rem; font-weight: 800; margin-bottom: .5rem; }
+  .diff-card ul { padding-left: 1.1rem; font-size: .82rem; }
+  .diff-card li { margin-bottom: .3rem; }
+  .diff-support  { background: #FFF7ED; border-color: #FED7AA; }
+  .diff-support h4  { color: #C2410C; }
+  .diff-grade    { background: #EFF6FF; border-color: #BFDBFE; }
+  .diff-grade h4    { color: #1D4ED8; }
+  .diff-extend   { background: #F5F3FF; border-color: #DDD6FE; }
+  .diff-extend h4   { color: #6D28D9; }
+
+  /* ── RESOURCE LINKS ── */
+  .resource-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .9rem;
+  }
+  @media (max-width: 560px) { .resource-grid { grid-template-columns: 1fr; } }
+  .resource-card {
+    display: flex;
+    align-items: flex-start;
+    gap: .8rem;
+    padding: 1rem;
+    border-radius: 12px;
+    text-decoration: none;
+    color: inherit;
+    border: 2px solid transparent;
+    transition: all .2s;
+  }
+  .resource-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,.1); }
+  .resource-card .rc-icon {
+    width: 42px; height: 42px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem; flex-shrink: 0;
+  }
+  .resource-card .rc-body h4 { font-weight: 800; font-size: .9rem; margin-bottom: .15rem; }
+  .resource-card .rc-body p  { font-size: .78rem; color: var(--muted); }
+  .rc-blue   { background: #EFF6FF; border-color: #BFDBFE; }
+  .rc-blue .rc-icon   { background: var(--blue); color: white; }
+  .rc-orange { background: #FFF7ED; border-color: #FED7AA; }
+  .rc-orange .rc-icon { background: var(--orange); color: white; }
+  .rc-green  { background: #F0FDF4; border-color: #BBF7D0; }
+  .rc-green .rc-icon  { background: var(--green); color: white; }
+  .rc-purple { background: #F5F3FF; border-color: #DDD6FE; }
+  .rc-purple .rc-icon { background: var(--purple); color: white; }
+
+  /* ── PRACTICE SECTION ── */
+  .practice-box {
+    background: linear-gradient(135deg, #F0FDF4, #EFF6FF);
+    border: 2px solid #A7F3D0;
+    border-radius: var(--radius);
+    padding: 1.6rem;
+  }
+  .practice-box h3 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.3rem;
+    color: var(--green-dk);
+    margin-bottom: .8rem;
+    display: flex; align-items: center; gap: .5rem;
+  }
+
+  /* ── TIMER BAR ── */
+  .timer-row {
+    display: flex; gap: .6rem; margin-bottom: 1.2rem;
+    flex-wrap: wrap;
+  }
+  .timer-chip {
+    display: flex; align-items: center; gap: .4rem;
+    padding: .4rem .9rem;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: .82rem;
+  }
+  .tc-blue   { background: #DBEAFE; color: #1D4ED8; }
+  .tc-orange { background: #FFEDD5; color: #9A3412; }
+  .tc-green  { background: #DCFCE7; color: #166534; }
+
+  /* ── QUICK REFERENCE CARD ── */
+  .qr-card {
+    background: white;
+    border: 3px solid var(--blue);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .qr-card-header {
+    background: var(--blue);
+    color: white;
+    padding: .7rem 1.2rem;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.1rem;
+    display: flex; align-items: center; gap: .5rem;
+  }
+  .qr-card-body { padding: 1rem 1.2rem; }
+  .qr-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: .5rem 0;
+    border-bottom: 1px solid #F1F5F9;
+    font-size: .9rem;
+  }
+  .qr-row:last-child { border-bottom: none; }
+  .qr-row .label { color: var(--muted); font-weight: 600; }
+  .qr-row .val   { font-weight: 800; color: var(--text); }
+
+  /* ── ASSESSMENT NOTES ── */
+  .assess-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+  }
+  @media (max-width: 560px) { .assess-grid { grid-template-columns: 1fr; } }
+  .assess-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1rem;
+    border-left: 4px solid;
+  }
+  .assess-card h4 { font-size: .88rem; font-weight: 800; margin-bottom: .4rem; }
+  .assess-card ul { padding-left: 1rem; font-size: .82rem; }
+  .assess-card li { margin-bottom: .25rem; }
+  .look-for  { border-color: var(--green); }
+  .look-for h4 { color: var(--green-dk); }
+  .watch-for { border-color: var(--orange); }
+  .watch-for h4 { color: #C2410C; }
+
+  /* ── PRINT BUTTON ── */
+  .print-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    background: var(--blue);
+    color: white;
+    border: none;
+    padding: .7rem 1.4rem;
+    border-radius: 999px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: .9rem;
+    cursor: pointer;
+    transition: background .2s, transform .1s;
+    text-decoration: none;
+  }
+  .print-btn:hover { background: var(--blue-dk); transform: translateY(-1px); }
+  .print-btn.green { background: var(--green); }
+  .print-btn.green:hover { background: var(--green-dk); }
+
+  /* ── DIVIDER ── */
+  hr.fancy {
+    border: none;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #CBD5E1, transparent);
+    margin: 2rem 0;
+  }
+
+  @media print {
+    .toc-bar, .hero, .print-btn { display: none !important; }
+    .container { padding: 0; }
+    .section { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="hero-badge">📐 Acadiance Applied Math · Skill #1</div>
+  <h1>Arrays &amp; Repeated Addition</h1>
+  <p>A ready-to-use 10-minute intervention lesson + 20-minute practice block for 4th–6th grade special education students working at a 2nd grade math level.</p>
+  <div class="meta-row">
+    <div class="meta-chip"><span>Skill Level:</span> 2nd Grade</div>
+    <div class="meta-chip"><span>Students:</span> Grades 4–6 SpEd</div>
+    <div class="meta-chip"><span>Lesson Time:</span> 10 min</div>
+    <div class="meta-chip"><span>Practice Time:</span> 20 min</div>
+    <div class="meta-chip"><span>Total:</span> 30 min block</div>
+  </div>
+</div>
+
+<!-- ── NAV ── -->
+<nav class="toc-bar">
+  <a href="#overview" class="active">📋 Overview</a>
+  <a href="#materials">🎒 Materials</a>
+  <a href="#lesson">⏱️ Lesson (10 min)</a>
+  <a href="#practice">✏️ Practice (20 min)</a>
+  <a href="#differentiation">🌟 Differentiation</a>
+  <a href="#assessment">📊 Assessment</a>
+  <a href="#resources">🔗 Resources</a>
+</nav>
+
+<div class="container">
+
+  <!-- ── OVERVIEW ── -->
+  <section class="section" id="overview">
+    <div class="section-header">
+      <div class="section-icon" style="background:#DBEAFE">📋</div>
+      <h2>Lesson Overview</h2>
+    </div>
+
+    <div class="objective-box">
+      <h3>🎯 Learning Objective</h3>
+      <p>Students will look at a visual array of objects arranged in equal rows and columns, identify the number of rows and columns, and write a repeated addition equation (e.g., 4 + 4 = 8) to find the total.</p>
+    </div>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="qr-card-header" style="background:#7C3AED; border-radius:10px 10px 0 0; margin:-1.5rem -1.5rem .8rem">📌 Skill Standard</div>
+        <p style="font-size:.88rem; color:#334155;">CCSS 2.OA.C.4 — Use addition to find the total number of objects arranged in rectangular arrays; write an equation to express the total as a sum of equal addends.</p>
+      </div>
+      <div class="card">
+        <div class="qr-card-header" style="background:#059669; border-radius:10px 10px 0 0; margin:-1.5rem -1.5rem .8rem">🔗 IEP Goal Connection</div>
+        <p style="font-size:.88rem; color:#334155;">Progress monitoring shows student needs support with: identifying arrays, counting rows/columns, and representing with repeated addition — foundational for multiplication readiness.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:1.2rem">
+      <h3 style="font-size:.95rem; font-weight:800; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; margin-bottom:.8rem;">Key Vocabulary</h3>
+      <div class="vocab-grid">
+        <div class="vocab-card"><div class="word">Array</div><div class="def">Objects in equal rows and columns</div></div>
+        <div class="vocab-card"><div class="word">Row</div><div class="def">Objects going across (left → right)</div></div>
+        <div class="vocab-card"><div class="word">Column</div><div class="def">Objects going up and down</div></div>
+        <div class="vocab-card"><div class="word">Equal Groups</div><div class="def">Same number in each row</div></div>
+        <div class="vocab-card"><div class="word">Repeated Addition</div><div class="def">Adding the same number again and again</div></div>
+        <div class="vocab-card"><div class="word">Total</div><div class="def">The whole amount / answer</div></div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="fancy">
+
+  <!-- ── MATERIALS ── -->
+  <section class="section" id="materials">
+    <div class="section-header">
+      <div class="section-icon" style="background:#FEF3C7">🎒</div>
+      <h2>Materials Needed</h2>
+    </div>
+    <div class="card">
+      <div class="materials-list">
+        <div class="material-tag">🖨️ Printed Practice PDFs (1 per student)</div>
+        <div class="material-tag">🖊️ Pencils</div>
+        <div class="material-tag">🔵 Counters or manipulatives</div>
+        <div class="material-tag">📋 Mini whiteboards or scratch paper</div>
+        <div class="material-tag">🖥️ Canva Slide Deck (projected)</div>
+        <div class="material-tag">🎵 Background music (optional — see Resources)</div>
+        <div class="material-tag">⭐ Sticker reward chart (optional)</div>
+        <div class="material-tag">🔑 Answer Key (teacher copy)</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="fancy">
+
+  <!-- ── LESSON ── -->
+  <section class="section" id="lesson">
+    <div class="section-header">
+      <div class="section-icon" style="background:#DBEAFE">⏱️</div>
+      <h2>The 10-Minute Lesson</h2>
+      <div class="time-badge">⏱ 10 Minutes</div>
+    </div>
+
+    <div class="timer-row">
+      <div class="timer-chip tc-blue">🔵 Hook: 1–2 min</div>
+      <div class="timer-chip tc-orange">🟠 Teach: 4–5 min</div>
+      <div class="timer-chip tc-green">🟢 We Do: 2–3 min</div>
+    </div>
+
+    <div class="steps">
+
+      <!-- STEP 1 -->
+      <div class="step">
+        <div class="step-num" style="background:var(--blue)">1</div>
+        <div class="step-body">
+          <h4>🎣 HOOK — "Egg Carton Moment" (1–2 min)</h4>
+          <p>Pull up Slide 1 on the Canva deck. Ask students to look at a picture of an egg carton (or grid of tiles, chocolate bar, etc.).</p>
+          <div class="script-box">
+            <strong>Say:</strong> "Has anyone ever seen an egg carton? How many eggs are in each row? How many rows? How do you know how many eggs total WITHOUT counting one by one? Today we're going to figure out a SHORTCUT!"
+          </div>
+          <p>Wait for 2–3 student responses. Celebrate all answers. Connect to: <em>"That shortcut is called repeated addition, and it uses something called an ARRAY."</em></p>
+        </div>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="step">
+        <div class="step-num" style="background:var(--orange)">2</div>
+        <div class="step-body">
+          <h4>📖 I DO — Model with an Array (2–3 min)</h4>
+          <p>Use Slide 2–3. Draw or show a 2×4 array (matching the assessment problem).</p>
+          <div class="array-demo">
+            <div style="font-weight:800; color:var(--muted); font-size:.85rem; align-self:flex-start;">SHOW THIS ARRAY → 2 rows, 4 columns</div>
+            <div class="array-grid" style="grid-template-columns: repeat(4, 34px);">
+              <div class="arr-sq"></div><div class="arr-sq"></div><div class="arr-sq"></div><div class="arr-sq"></div>
+              <div class="arr-sq"></div><div class="arr-sq"></div><div class="arr-sq"></div><div class="arr-sq"></div>
+            </div>
+            <div class="equation">
+              <span class="blank answer">4</span> + <span class="blank answer">4</span> = <span class="blank answer">8</span>
+            </div>
+          </div>
+          <div class="script-box" style="margin-top:.8rem">
+            <strong>Say:</strong> "Watch me. I see squares. I'm going to count the ROWS first — going across — 1 row, 2 rows. So I have 2 rows. Now I'll count how many are in ONE row — 1, 2, 3, 4. So I write: 4 + 4 = 8. I added 4 TWO times — once for each row. That's REPEATED ADDITION!"
+          </div>
+          <ul style="margin-top:.6rem; padding-left:1.2rem; font-size:.9rem;">
+            <li>Point to each row as you say the number</li>
+            <li>Use a pointer or laser on the projected slide</li>
+            <li>Say "ROWS go across like a race track ➡️" and "COLUMNS go up-down like a skyscraper 🏙️"</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="step">
+        <div class="step-num" style="background:var(--purple)">3</div>
+        <div class="step-body">
+          <h4>🤝 WE DO — Guided Practice (2–3 min)</h4>
+          <p>Show Slide 4: a new array (3×3 circles). Students write on mini whiteboards or scratch paper.</p>
+          <div class="array-demo">
+            <div style="font-weight:800; color:var(--muted); font-size:.85rem; align-self:flex-start;">SHOW THIS → 3 rows, 3 columns (circles)</div>
+            <div class="array-grid" style="grid-template-columns: repeat(3, 34px);">
+              <div class="arr-circ"></div><div class="arr-circ"></div><div class="arr-circ"></div>
+              <div class="arr-circ"></div><div class="arr-circ"></div><div class="arr-circ"></div>
+              <div class="arr-circ"></div><div class="arr-circ"></div><div class="arr-circ"></div>
+            </div>
+            <div class="equation">
+              <span class="blank">___</span> + <span class="blank">___</span> + <span class="blank">___</span> = <span class="blank">___</span>
+            </div>
+          </div>
+          <div class="script-box" style="margin-top:.8rem">
+            <strong>Say:</strong> "Your turn — work with me! How many rows? Hold up your fingers. How many in each row? Now write your equation. I'm going to walk around and peek at your boards!"
+          </div>
+          <p style="margin-top:.5rem; font-size:.88rem; color:var(--muted);">✅ Answer: 3 + 3 + 3 = 9</p>
+        </div>
+      </div>
+
+      <!-- STEP 4 -->
+      <div class="step">
+        <div class="step-num" style="background:var(--green)">4</div>
+        <div class="step-body">
+          <h4>🚀 TRANSITION TO PRACTICE (30 sec)</h4>
+          <div class="script-box">
+            <strong>Say:</strong> "You've got this! Now you're going to do 20 problems on your own — or with a buddy. Every time you see an array, ask yourself: HOW MANY ROWS? HOW MANY IN EACH ROW? Then add it up! Let's go!"
+          </div>
+          <p style="font-size:.88rem; color:var(--muted);">🎵 Optional: Start the background music playlist as students begin practice.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="fancy">
+
+  <!-- ── PRACTICE ── -->
+  <section class="section" id="practice">
+    <div class="section-header">
+      <div class="section-icon" style="background:#DCFCE7">✏️</div>
+      <h2>The 20-Minute Practice Block</h2>
+      <div class="time-badge">⏱ 20 Minutes</div>
+    </div>
+
+    <div class="practice-box">
+      <h3>📄 Practice Problem Sheet — 20 Problems</h3>
+      <p style="font-size:.9rem; margin-bottom:1rem;">The PDF includes 20 visual array problems. Each problem has an array drawing, space to write the number of rows and columns, and an equation blank to fill in.</p>
+
+      <div style="display:flex; flex-wrap:wrap; gap:.7rem; margin-bottom:1.2rem;">
+        <a href="arrays_practice_problems.pdf" class="print-btn" target="_blank">🖨️ Print Practice Problems (PDF)</a>
+        <a href="arrays_answer_key.pdf" class="print-btn green" target="_blank">🔑 Print Answer Key (PDF)</a>
+      </div>
+
+      <div class="card-grid" style="margin-top:.5rem">
+        <div class="card" style="border:2px solid #BFDBFE;">
+          <h4 style="color:var(--blue-dk); font-weight:800; margin-bottom:.5rem;">⏱ Timing Suggestions</h4>
+          <ul style="font-size:.88rem; padding-left:1.2rem;">
+            <li><strong>0–5 min:</strong> Problems 1–5 (easiest arrays)</li>
+            <li><strong>5–12 min:</strong> Problems 6–13 (medium difficulty)</li>
+            <li><strong>12–20 min:</strong> Problems 14–20 (larger arrays)</li>
+          </ul>
+        </div>
+        <div class="card" style="border:2px solid #BBF7D0;">
+          <h4 style="color:var(--green-dk); font-weight:800; margin-bottom:.5rem;">✅ Success Criteria</h4>
+          <ul style="font-size:.88rem; padding-left:1.2rem;">
+            <li>Student correctly identifies rows & columns</li>
+            <li>Student writes a correct addition equation</li>
+            <li>Mastery target: 80%+ correct (16/20)</li>
+            <li>Progress monitoring target: 3 sessions in a row at 80%+</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="fancy">
+
+  <!-- ── DIFFERENTIATION ── -->
+  <section class="section" id="differentiation">
+    <div class="section-header">
+      <div class="section-icon" style="background:#F5F3FF">🌟</div>
+      <h2>Differentiation Strategies</h2>
+    </div>
+    <div class="diff-grid">
+      <div class="diff-card diff-support">
+        <h4>🟠 Additional Support</h4>
+        <ul>
+          <li>Use physical counters to build arrays before writing</li>
+          <li>Pre-label rows with letters (A, B) on the worksheet</li>
+          <li>Provide a number line to add with</li>
+          <li>Allow counting one-by-one initially</li>
+          <li>Use graph paper to draw arrays</li>
+          <li>Reduce to 10 problems</li>
+        </ul>
+      </div>
+      <div class="diff-card diff-grade">
+        <h4>🔵 On-Level (IEP Target)</h4>
+        <ul>
+          <li>Visual array → equation as shown</li>
+          <li>Identify rows and columns independently</li>
+          <li>Complete all 20 problems in 20 minutes</li>
+          <li>Self-check with answer key at end</li>
+          <li>Partner check after problem 10</li>
+        </ul>
+      </div>
+      <div class="diff-card diff-extend">
+        <h4>🟣 Extension</h4>
+        <ul>
+          <li>Write BOTH the addition AND multiplication sentence</li>
+          <li>Draw their OWN array and write the equation</li>
+          <li>Create a word problem that matches the array</li>
+          <li>Try "turnaround" arrays (2×4 vs 4×2)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <hr class="fancy">
+
+  <!-- ── ASSESSMENT ── -->
+  <section class="section" id="assessment">
+    <div class="section-header">
+      <div class="section-icon" style="background:#FEF3C7">📊</div>
+      <h2>Observation &amp; Assessment Notes</h2>
+    </div>
+
+    <div class="card">
+      <h3 style="font-weight:800; margin-bottom:.8rem; font-size:.95rem;">📝 Quick Data Collection</h3>
+      <p style="font-size:.88rem; color:#334155; margin-bottom:.8rem;">Use tally marks during practice to track which problem types each student misses. Circle missed problems. At session end, note the total correct in your progress monitoring log.</p>
+      <div style="background:#F8FAFC; border:1.5px dashed #CBD5E1; border-radius:8px; padding:.9rem; font-size:.85rem;">
+        <strong>Data to Record:</strong> Student name | Date | # Correct out of 20 | Notes on error patterns
+      </div>
+    </div>
+
+    <div class="assess-grid" style="margin-top:1rem">
+      <div class="assess-card look-for">
+        <h4>✅ Look For (Mastery Signs)</h4>
+        <ul>
+          <li>Student correctly identifies rows AND columns without prompting</li>
+          <li>Writes the equation on the first try</li>
+          <li>Spontaneously uses skip-counting to add</li>
+          <li>Says "I have ___ groups of ___"</li>
+          <li>Finishes in under 20 minutes</li>
+        </ul>
+      </div>
+      <div class="assess-card watch-for">
+        <h4>⚠️ Watch For (Re-teach Signs)</h4>
+        <ul>
+          <li>Counts every single object one-by-one</li>
+          <li>Confuses rows and columns</li>
+          <li>Writes unequal addends in the equation</li>
+          <li>Counts columns instead of rows (wrong number of addends)</li>
+          <li>Cannot identify where a row starts/ends</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <hr class="fancy">
+
+  <!-- ── RESOURCES ── -->
+  <section class="section" id="resources">
+    <div class="section-header">
+      <div class="section-icon" style="background:#FEE2E2">🔗</div>
+      <h2>Resources &amp; Links</h2>
+    </div>
+
+    <div class="resource-grid">
+
+      <a href="https://www.canva.com" target="_blank" class="resource-card rc-blue">
+        <div class="rc-icon">🎨</div>
+        <div class="rc-body">
+          <h4>Canva Slide Deck</h4>
+          <p>Open the Canva presentation for this lesson (see lesson slide deck link below)</p>
+        </div>
+      </a>
+
+      <a href="https://youtu.be/V9FORnCF-vY" target="_blank" class="resource-card rc-orange">
+        <div class="rc-icon">▶️</div>
+        <div class="rc-body">
+          <h4>Arrays Song (YouTube)</h4>
+          <p>Fun 2-minute song about rows, columns, and arrays — great for the hook!</p>
+        </div>
+      </a>
+
+      <a href="https://www.youtube.com/watch?v=OO2xfqHEQe8" target="_blank" class="resource-card rc-green">
+        <div class="rc-icon">🎓</div>
+        <div class="rc-body">
+          <h4>Repeated Addition Video</h4>
+          <p>Short explainer video (2 min) on repeated addition — can play during lesson</p>
+        </div>
+      </a>
+
+      <a href="https://www.youtube.com/watch?v=mvCekMCBPNc" target="_blank" class="resource-card rc-purple">
+        <div class="rc-icon">🎵</div>
+        <div class="rc-body">
+          <h4>Lo-Fi Math Music</h4>
+          <p>Calm background music to play during the 20-min practice block</p>
+        </div>
+      </a>
+
+      <a href="arrays_practice_problems.pdf" target="_blank" class="resource-card rc-blue">
+        <div class="rc-icon">📄</div>
+        <div class="rc-body">
+          <h4>Practice Problems PDF</h4>
+          <p>20 visual array problems for student practice — print 1 per student</p>
+        </div>
+      </a>
+
+      <a href="arrays_answer_key.pdf" target="_blank" class="resource-card rc-green">
+        <div class="rc-icon">🔑</div>
+        <div class="rc-body">
+          <h4>Answer Key PDF</h4>
+          <p>Complete answer key with visual arrays and correct equations — teacher copy</p>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="card" style="margin-top:1.2rem; background:linear-gradient(135deg,#FFF7ED,#FEF3C7); border:2px solid #FED7AA;">
+      <h3 style="font-weight:800; color:#9A3412; margin-bottom:.5rem;">💡 Physical Manipulative Ideas (No Budget Needed)</h3>
+      <p style="font-size:.88rem; color:#7C2D12;">Use pennies, beans, small erasers, paper squares, or sticky notes as array objects. Students can build arrays on their desks before transferring to paper. Even egg cartons make great "pre-built array" manipulatives!</p>
+    </div>
+
+    <div style="text-align:center; margin-top:2rem; padding:1.5rem; background:white; border-radius:var(--radius); box-shadow:0 2px 12px rgba(0,0,0,.07);">
+      <div style="font-family:'Fredoka One',cursive; font-size:1.1rem; color:var(--text); margin-bottom:.8rem;">Print All Materials for This Lesson</div>
+      <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:.7rem;">
+        <a href="arrays_practice_problems.pdf" target="_blank" class="print-btn">🖨️ Practice Problems</a>
+        <a href="arrays_answer_key.pdf" target="_blank" class="print-btn green">🔑 Answer Key</a>
+      </div>
+    </div>
+
+  </section>
+
+</div><!-- /container -->
+
+<script>
+  // Active nav tracking
+  const sections = document.querySelectorAll('.section');
+  const navLinks = document.querySelectorAll('.toc-bar a');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(a => a.classList.remove('active'));
+        const link = document.querySelector(`.toc-bar a[href="#${entry.target.id}"]`);
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>

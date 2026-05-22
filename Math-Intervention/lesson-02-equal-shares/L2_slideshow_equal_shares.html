@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Equal Shares & Partitioning Shapes — Math Intervention Lesson 2</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Nunito', sans-serif; background: #111; overflow: hidden; height: 100vh; width: 100vw; }
+
+.deck { width: 100vw; height: 100vh; position: relative; }
+.slide { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; opacity: 0; pointer-events: none; transition: opacity .45s ease; overflow: hidden; }
+.slide.active { opacity: 1; pointer-events: all; }
+
+.nav { position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 1rem; background: rgba(0,0,0,.55); backdrop-filter: blur(8px); border-radius: 999px; padding: .6rem 1.4rem; z-index: 100; }
+.nav-btn { background: rgba(255,255,255,.15); border: 1.5px solid rgba(255,255,255,.3); color: white; border-radius: 50%; width: 40px; height: 40px; font-size: 1.2rem; cursor: pointer; transition: background .2s; display: flex; align-items: center; justify-content: center; }
+.nav-btn:hover { background: rgba(255,255,255,.3); }
+.slide-counter { color: rgba(255,255,255,.85); font-weight: 700; font-size: .9rem; min-width: 60px; text-align: center; }
+.dot-row { display: flex; gap: .4rem; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,.3); cursor: pointer; transition: background .2s, transform .2s; }
+.dot.on { background: white; transform: scale(1.3); }
+.fs-hint { position: fixed; top: 1rem; right: 1.2rem; background: rgba(0,0,0,.5); color: rgba(255,255,255,.75); font-size: .78rem; font-weight: 700; padding: .35rem .8rem; border-radius: 8px; z-index: 100; cursor: pointer; }
+
+/* ── SLIDE 1 — TITLE ── */
+.s1 { background: linear-gradient(145deg, #3B0764, #6D28D9, #7C3AED); }
+.s1 .bounce { font-size: clamp(4rem,10vw,8rem); animation: bounce 2s infinite; }
+@keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-14px)} }
+.s1 h1 { font-family:'Fredoka One',cursive; font-size:clamp(2.8rem,7vw,5rem); color:#FFE566; text-align:center; line-height:1.1; text-shadow:3px 3px 0 rgba(0,0,0,.25); margin-bottom:.6rem; }
+.s1 h2 { font-size:clamp(1rem,2.5vw,1.6rem); color:rgba(255,255,255,.9); font-weight:700; margin-bottom:2rem; text-align:center; }
+.badge-row { display:flex; flex-wrap:wrap; justify-content:center; gap:.6rem; }
+.badge { background:rgba(255,255,255,.18); border:1.5px solid rgba(255,255,255,.35); color:white; font-weight:800; font-size:.85rem; padding:.35rem 1.1rem; border-radius:999px; }
+
+/* ── SLIDE 2 — HOOK ── */
+.s2 { background: linear-gradient(145deg, #92400E, #D97706, #F59E0B); }
+.big-q { font-family:'Fredoka One',cursive; font-size:clamp(1.8rem,4.5vw,3rem); color:white; text-align:center; text-shadow:2px 2px 0 rgba(0,0,0,.2); margin-bottom:1.5rem; max-width:800px; }
+.pizza-row { display:flex; gap:2rem; justify-content:center; flex-wrap:wrap; margin-bottom:1.5rem; }
+.pizza-wrap { display:flex; flex-direction:column; align-items:center; gap:.7rem; }
+.pizza-label { font-family:'Fredoka One',cursive; font-size:clamp(1rem,2.5vw,1.5rem); color:white; }
+.callout { background:white; border-radius:16px; padding:1rem 2rem; font-size:clamp(.9rem,2.2vw,1.25rem); font-weight:800; color:#92400E; text-align:center; box-shadow:0 4px 16px rgba(0,0,0,.15); max-width:680px; }
+
+/* ── PIZZA SVG helper ── */
+.pizza-svg { filter: drop-shadow(0 4px 10px rgba(0,0,0,.3)); }
+
+/* ── SLIDE 3 — VOCAB ── */
+.s3 { background: linear-gradient(145deg, #1D4ED8, #4F46E5); }
+.slide-title { font-family:'Fredoka One',cursive; font-size:clamp(2rem,5vw,3.2rem); color:#FFE566; margin-bottom:1.3rem; text-align:center; text-shadow:2px 2px 0 rgba(0,0,0,.2); }
+.vocab-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:.9rem; max-width:900px; width:100%; }
+.vocab-card { background:rgba(255,255,255,.15); border:2px solid rgba(255,255,255,.3); border-radius:18px; padding:1rem 1.2rem; text-align:center; }
+.vocab-card .vw { font-family:'Fredoka One',cursive; font-size:clamp(1.2rem,3vw,1.8rem); color:#FFE566; margin-bottom:.3rem; }
+.vocab-card .vd { color:rgba(255,255,255,.9); font-weight:700; font-size:clamp(.8rem,1.8vw,1rem); }
+.trick-box { margin-top:1rem; background:rgba(255,255,255,.18); border:2px solid rgba(255,255,255,.35); border-radius:14px; padding:.9rem 1.8rem; font-weight:800; color:white; font-size:clamp(.9rem,2vw,1.15rem); text-align:center; max-width:700px; }
+
+/* ── SLIDE 4 — I DO ── */
+.s4 { background: linear-gradient(145deg, #065F46, #059669); }
+.lesson-layout { display:flex; gap:2rem; align-items:center; justify-content:center; flex-wrap:wrap; max-width:920px; }
+.steps-col { flex:1; min-width:260px; }
+.step-item { display:flex; align-items:flex-start; gap:.8rem; padding:.7rem 0; border-bottom:1px solid rgba(255,255,255,.15); }
+.step-item:last-child { border-bottom:none; }
+.step-num-circle { width:40px; height:40px; border-radius:50%; background:#FFE566; color:#065F46; font-weight:900; font-size:1.1rem; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.step-text h4 { color:#FFE566; font-size:clamp(.9rem,2.2vw,1.1rem); font-weight:800; margin-bottom:.2rem; }
+.step-text p { color:rgba(255,255,255,.88); font-size:clamp(.8rem,1.9vw,.98rem); line-height:1.4; }
+.shape-col { display:flex; flex-direction:column; align-items:center; gap:1rem; }
+.shape-label { background:rgba(255,255,255,.15); border:2px solid rgba(255,255,255,.3); border-radius:12px; padding:.5rem 1.2rem; color:rgba(255,255,255,.88); font-weight:700; font-size:.9rem; text-align:center; }
+.answer-box { background:#FFE566; border-radius:16px; padding:.9rem 2rem; font-family:'Fredoka One',cursive; font-size:clamp(1.5rem,3.5vw,2.4rem); color:#065F46; box-shadow:0 6px 20px rgba(0,0,0,.2); text-align:center; }
+
+/* ── SLIDE 5 — MANIPULATIVES ── */
+.s5 { background: linear-gradient(145deg, #7C2D12, #EA580C); }
+.manip-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:.9rem; max-width:860px; width:100%; }
+.manip-card { background:rgba(255,255,255,.15); border:2px solid rgba(255,255,255,.3); border-radius:18px; padding:1rem 1.1rem; text-align:center; }
+.manip-card .mi { font-size:2.2rem; margin-bottom:.4rem; }
+.manip-card h4 { font-family:'Fredoka One',cursive; font-size:clamp(1rem,2.5vw,1.35rem); color:#FFE566; margin-bottom:.25rem; }
+.manip-card p { color:rgba(255,255,255,.85); font-size:clamp(.75rem,1.8vw,.9rem); font-weight:700; }
+
+/* ── SLIDE 6 — WE DO ── */
+.s6 { background: linear-gradient(145deg, #1E1B4B, #4338CA); }
+.instruction { color:rgba(255,255,255,.9); font-weight:700; font-size:clamp(.9rem,2.2vw,1.2rem); text-align:center; margin-bottom:1.2rem; }
+.we-do-layout { display:flex; gap:2.5rem; align-items:center; justify-content:center; flex-wrap:wrap; }
+.answer-reveal { background:rgba(255,255,255,.15); border:2px solid rgba(255,255,255,.3); border-radius:16px; padding:1.2rem 1.5rem; min-width:240px; text-align:center; }
+.answer-reveal h3 { font-weight:800; color:rgba(255,255,255,.7); font-size:.85rem; text-transform:uppercase; letter-spacing:.06em; margin-bottom:.7rem; }
+.blank-line { font-family:'Fredoka One',cursive; font-size:clamp(1.3rem,3vw,2rem); color:white; }
+.blank { border-bottom:3px solid rgba(255,255,255,.6); display:inline-block; min-width:50px; }
+.reveal-btn { margin-top:.9rem; background:#FFE566; color:#4338CA; border:none; border-radius:999px; padding:.6rem 1.5rem; font-family:'Nunito',sans-serif; font-weight:900; font-size:1rem; cursor:pointer; transition:transform .15s; box-shadow:0 4px 12px rgba(0,0,0,.2); }
+.reveal-btn:hover { transform:scale(1.05); }
+.answer-shown { display:none; }
+.answer-shown.visible { display:block; font-family:'Fredoka One',cursive; font-size:clamp(1.5rem,3.5vw,2.2rem); color:#FFE566; margin-top:.6rem; animation:popIn .35s ease; }
+@keyframes popIn { 0%{transform:scale(.6);opacity:0} 80%{transform:scale(1.1)} 100%{transform:scale(1);opacity:1} }
+
+/* ── SLIDE 7 — YOU DO ── */
+.s7 { background: linear-gradient(145deg, #134E4A, #0D9488); }
+.steps-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:.9rem; max-width:800px; width:100%; margin-bottom:1.4rem; }
+.step-card { background:rgba(255,255,255,.15); border:2px solid rgba(255,255,255,.3); border-radius:18px; padding:1.2rem 1rem; text-align:center; }
+.step-card .step-big { font-size:2.5rem; margin-bottom:.4rem; }
+.step-card h4 { font-family:'Fredoka One',cursive; font-size:clamp(1rem,2.5vw,1.35rem); color:#FFE566; margin-bottom:.25rem; }
+.step-card p { color:rgba(255,255,255,.85); font-size:clamp(.78rem,1.9vw,.95rem); font-weight:700; }
+.go-banner { background:#FFE566; border-radius:999px; padding:.8rem 2.5rem; font-family:'Fredoka One',cursive; font-size:clamp(1.2rem,3.5vw,2rem); color:#134E4A; box-shadow:0 6px 20px rgba(0,0,0,.2); animation:pulse 1.8s infinite; }
+@keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.04)} }
+
+/* ── SLIDE 8 — CELEBRATE ── */
+.s8 { background: linear-gradient(145deg, #1a1a6e, #6D28D9, #DB2777); }
+.review-row { display:flex; gap:1.2rem; flex-wrap:wrap; justify-content:center; margin-bottom:1.1rem; max-width:750px; }
+.review-card { background:rgba(255,255,255,.15); border:2px solid rgba(255,255,255,.3); border-radius:18px; padding:1rem 1.5rem; text-align:center; flex:1; min-width:200px; }
+.review-card h4 { font-weight:800; color:rgba(255,255,255,.7); font-size:.82rem; text-transform:uppercase; letter-spacing:.07em; margin-bottom:.5rem; }
+.review-card .eq { font-family:'Fredoka One',cursive; font-size:clamp(1.2rem,2.8vw,1.8rem); color:#FFE566; }
+.self-check { display:flex; gap:.8rem; flex-wrap:wrap; justify-content:center; margin-bottom:1rem; }
+.check-badge { border-radius:999px; padding:.5rem 1.4rem; font-weight:800; font-size:.9rem; }
+.check-green { background:#22C55E; color:white; }
+.check-orange { background:#F97316; color:white; }
+.star-msg { font-family:'Fredoka One',cursive; font-size:clamp(1rem,2.5vw,1.4rem); color:white; text-align:center; padding:.8rem 1.5rem; background:rgba(255,255,255,.12); border-radius:16px; border:2px solid rgba(255,255,255,.3); max-width:640px; }
+
+.confetti-piece { position:absolute; width:12px; height:12px; border-radius:2px; animation:fall linear forwards; pointer-events:none; }
+@keyframes fall { 0%{transform:translateY(-20px) rotate(0deg);opacity:1} 100%{transform:translateY(110vh) rotate(720deg);opacity:0} }
+</style>
+</head>
+<body>
+<div class="fs-hint" onclick="toggleFS()">⛶ Fullscreen (F)</div>
+<div class="deck" id="deck">
+
+  <!-- ══ SLIDE 1 — TITLE ══ -->
+  <div class="slide s1 active">
+    <div class="bounce">🟪</div>
+    <h1>Equal Shares &amp;<br>Partitioning Shapes</h1>
+    <h2>How to split shapes into equal parts!</h2>
+    <div class="badge-row">
+      <div class="badge">✂️ 2nd Grade Skill</div>
+      <div class="badge">👥 Small Group</div>
+      <div class="badge">⏱ 30 Minutes</div>
+      <div class="badge">🔢 Lesson 2 of 100</div>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 2 — HOOK ══ -->
+  <div class="slide s2">
+    <div class="big-q">🍕 You and your friends want to share a pizza FAIRLY.<br>How do you cut it so everyone gets the SAME amount?</div>
+    <div class="pizza-row">
+      <!-- 2 shares -->
+      <div class="pizza-wrap">
+        <svg class="pizza-svg" width="110" height="110" viewBox="0 0 110 110">
+          <circle cx="55" cy="55" r="50" fill="#F59E0B" stroke="#92400E" stroke-width="3"/>
+          <line x1="55" y1="5" x2="55" y2="105" stroke="#92400E" stroke-width="3"/>
+          <text x="55" y="100" text-anchor="middle" font-size="11" font-weight="bold" fill="#92400E" font-family="Nunito">2 friends</text>
+        </svg>
+        <div class="pizza-label">2 Equal Shares</div>
+      </div>
+      <!-- 3 shares -->
+      <div class="pizza-wrap">
+        <svg class="pizza-svg" width="110" height="110" viewBox="0 0 110 110">
+          <circle cx="55" cy="55" r="50" fill="#F97316" stroke="#92400E" stroke-width="3"/>
+          <line x1="55" y1="5" x2="55" y2="105" stroke="#92400E" stroke-width="3"/>
+          <line x1="55" y1="55" x2="12" y2="82" stroke="#92400E" stroke-width="3"/>
+          <line x1="55" y1="55" x2="98" y2="82" stroke="#92400E" stroke-width="3"/>
+          <text x="55" y="100" text-anchor="middle" font-size="11" font-weight="bold" fill="#92400E" font-family="Nunito">3 friends</text>
+        </svg>
+        <div class="pizza-label">3 Equal Shares</div>
+      </div>
+      <!-- 4 shares -->
+      <div class="pizza-wrap">
+        <svg class="pizza-svg" width="110" height="110" viewBox="0 0 110 110">
+          <circle cx="55" cy="55" r="50" fill="#EF4444" stroke="#92400E" stroke-width="3"/>
+          <line x1="55" y1="5" x2="55" y2="105" stroke="#92400E" stroke-width="3"/>
+          <line x1="5" y1="55" x2="105" y2="55" stroke="#92400E" stroke-width="3"/>
+          <text x="55" y="100" text-anchor="middle" font-size="11" font-weight="bold" fill="#92400E" font-family="Nunito">4 friends</text>
+        </svg>
+        <div class="pizza-label">4 Equal Shares</div>
+      </div>
+    </div>
+    <div class="callout">💡 When we cut a shape into pieces that are ALL THE SAME SIZE — those are called <strong>EQUAL SHARES!</strong></div>
+  </div>
+
+  <!-- ══ SLIDE 3 — VOCAB ══ -->
+  <div class="slide s3">
+    <div class="slide-title">📖 Words We Need to Know</div>
+    <div class="vocab-grid">
+      <div class="vocab-card"><div class="vw">Whole</div><div class="vd">The entire shape — before you divide it</div></div>
+      <div class="vocab-card"><div class="vw">Share / Part</div><div class="vd">One equal piece of the shape</div></div>
+      <div class="vocab-card"><div class="vw">Equal</div><div class="vd">All pieces are the SAME size</div></div>
+      <div class="vocab-card"><div class="vw">Halves</div><div class="vd">2 equal shares<br>"Half and half!"</div></div>
+      <div class="vocab-card"><div class="vw">Thirds</div><div class="vd">3 equal shares</div></div>
+      <div class="vocab-card"><div class="vw">Fourths</div><div class="vd">4 equal shares<br>"Also called quarters!"</div></div>
+    </div>
+    <div class="trick-box">🧠 More shares = SMALLER pieces  |  Fewer shares = BIGGER pieces</div>
+  </div>
+
+  <!-- ══ SLIDE 4 — I DO (exact 3-part rectangle matching assessment) ══ -->
+  <div class="slide s4">
+    <div class="slide-title" style="font-family:'Fredoka One',cursive;font-size:clamp(1.8rem,4.5vw,3rem);color:#FFE566;text-align:center;margin-bottom:1.1rem;text-shadow:2px 2px 0 rgba(0,0,0,.2);">👀 Watch Me — I Do It First</div>
+    <div class="lesson-layout">
+      <div class="shape-col">
+        <div class="shape-label">This rectangle — just like the test!</div>
+        <!-- EXACT 3-part rectangle matching the assessment question -->
+        <svg width="300" height="120" viewBox="0 0 300 120" style="filter:drop-shadow(0 4px 14px rgba(0,0,0,.25))">
+          <rect x="10" y="20" width="280" height="80" fill="white" stroke="#065F46" stroke-width="4" rx="4"/>
+          <line x1="103" y1="20" x2="103" y2="100" stroke="#065F46" stroke-width="3"/>
+          <line x1="197" y1="20" x2="197" y2="100" stroke="#065F46" stroke-width="3"/>
+          <text x="57"  y="68" text-anchor="middle" font-size="22" font-family="Fredoka One,cursive" fill="#6D28D9">1</text>
+          <text x="150" y="68" text-anchor="middle" font-size="22" font-family="Fredoka One,cursive" fill="#6D28D9">2</text>
+          <text x="243" y="68" text-anchor="middle" font-size="22" font-family="Fredoka One,cursive" fill="#6D28D9">3</text>
+        </svg>
+        <div class="answer-box">3 equal shares ✅</div>
+      </div>
+      <div class="steps-col">
+        <div class="step-item">
+          <div class="step-num-circle">1</div>
+          <div class="step-text"><h4>Look at the WHOLE shape</h4><p>It's a rectangle. It's already been divided.</p></div>
+        </div>
+        <div class="step-item">
+          <div class="step-num-circle">2</div>
+          <div class="step-text"><h4>Count the dividing lines</h4><p>I see 2 lines drawn inside. Those cut it into pieces.</p></div>
+        </div>
+        <div class="step-item">
+          <div class="step-num-circle">3</div>
+          <div class="step-text"><h4>Count the SHARES (pieces)</h4><p>1… 2… 3. I count <strong style="color:#FFE566">3 equal shares!</strong></p></div>
+        </div>
+        <div class="step-item">
+          <div class="step-num-circle">💡</div>
+          <div class="step-text"><h4>Check — are they EQUAL?</h4><p>All 3 pieces look the same size → YES, they are equal shares!</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 5 — MANIPULATIVES ══ -->
+  <div class="slide s5">
+    <div class="slide-title" style="font-family:'Fredoka One',cursive;font-size:clamp(2rem,5vw,3.2rem);color:#FFE566;margin-bottom:1.2rem;text-align:center;text-shadow:2px 2px 0 rgba(0,0,0,.2);">🖐️ Let's Use Our Hands!</div>
+    <div class="manip-grid">
+      <div class="manip-card"><div class="mi">📄</div><h4>Paper Folding</h4><p>Fold a paper in half — 2 equal shares! Fold again — 4 shares!</p></div>
+      <div class="manip-card"><div class="mi">🍫</div><h4>Chocolate Bar</h4><p>A Hershey bar is already divided! Count the pieces — are they equal?</p></div>
+      <div class="manip-card"><div class="mi">🧱</div><h4>Playdough</h4><p>Flatten into a circle. Use a plastic knife to cut equal shares!</p></div>
+      <div class="manip-card"><div class="mi">🍞</div><h4>Graham Crackers</h4><p>Already scored into 2 or 4 equal shares — count them!</p></div>
+    </div>
+    <div class="trick-box" style="margin-top:1rem;max-width:700px;">🙌 Try it RIGHT NOW — fold your paper into 3 equal shares. How many parts do you have?</div>
+  </div>
+
+  <!-- ══ SLIDE 6 — WE DO ══ -->
+  <div class="slide s6">
+    <div class="slide-title" style="font-family:'Fredoka One',cursive;font-size:clamp(1.8rem,4.5vw,3rem);color:#FFE566;margin-bottom:.7rem;text-align:center;text-shadow:2px 2px 0 rgba(0,0,0,.2);">🤝 We Do — Your Turn!</div>
+    <div class="instruction">Write your answer on your whiteboard. How many equal shares?</div>
+    <div class="we-do-layout">
+      <!-- Circle divided into 4 -->
+      <div style="display:flex;flex-direction:column;align-items:center;gap:.8rem;">
+        <div style="background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.3);border-radius:12px;padding:.5rem 1.2rem;color:rgba(255,255,255,.8);font-weight:800;font-size:.9rem;">This circle — how many shares?</div>
+        <svg width="160" height="160" viewBox="0 0 160 160" style="filter:drop-shadow(0 4px 14px rgba(0,0,0,.25))">
+          <circle cx="80" cy="80" r="70" fill="white" stroke="#4338CA" stroke-width="4"/>
+          <line x1="80" y1="10" x2="80" y2="150" stroke="#4338CA" stroke-width="3"/>
+          <line x1="10" y1="80" x2="150" y2="80" stroke="#4338CA" stroke-width="3"/>
+        </svg>
+      </div>
+      <div class="answer-reveal">
+        <h3>Write Your Answer</h3>
+        <div class="blank-line">This circle has <span class="blank">&nbsp;&nbsp;&nbsp;</span> equal shares.</div>
+        <button class="reveal-btn" onclick="revealAnswer()">👀 Show Answer</button>
+        <div class="answer-shown" id="answerReveal">4 equal shares ✅<br><span style="font-size:.9rem;font-weight:700;opacity:.8;">Those are called FOURTHS!</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 7 — YOU DO ══ -->
+  <div class="slide s7">
+    <div class="slide-title" style="font-family:'Fredoka One',cursive;font-size:clamp(2rem,5vw,3.2rem);color:#FFE566;margin-bottom:1.1rem;text-align:center;text-shadow:2px 2px 0 rgba(0,0,0,.2);">⭐ You Do — Practice Time!</div>
+    <div class="steps-grid">
+      <div class="step-card"><div class="step-big">1️⃣</div><h4>Look at the shape</h4><p>Is it a rectangle or a circle?</p></div>
+      <div class="step-card"><div class="step-big">2️⃣</div><h4>Find the dividing lines</h4><p>Where has it been cut?</p></div>
+      <div class="step-card"><div class="step-big">3️⃣</div><h4>Count the pieces</h4><p>How many shares are there?</p></div>
+      <div class="step-card"><div class="step-big">4️⃣</div><h4>Are they EQUAL?</h4><p>Same size? Then write the number!</p></div>
+    </div>
+    <div class="go-banner">📄 Grab your practice sheet — 20 shapes! Let's GO! 🚀</div>
+  </div>
+
+  <!-- ══ SLIDE 8 — CELEBRATE ══ -->
+  <div class="slide s8">
+    <div class="slide-title" style="font-family:'Fredoka One',cursive;font-size:clamp(2rem,5.5vw,3.8rem);color:#FFE566;margin-bottom:.4rem;text-align:center;text-shadow:3px 3px 0 rgba(0,0,0,.2);">🏆 Let's Check Our Work!</div>
+    <div style="color:rgba(255,255,255,.88);font-weight:700;font-size:1rem;text-align:center;margin-bottom:1.2rem;">Review these answers — did you get them right?</div>
+    <div class="review-row">
+      <div class="review-card">
+        <svg width="120" height="50" viewBox="0 0 120 50" style="margin-bottom:.5rem">
+          <rect x="5" y="5" width="110" height="40" fill="white" stroke="#6D28D9" stroke-width="3" rx="3"/>
+          <line x1="42" y1="5" x2="42" y2="45" stroke="#6D28D9" stroke-width="2.5"/>
+          <line x1="78" y1="5" x2="78" y2="45" stroke="#6D28D9" stroke-width="2.5"/>
+        </svg>
+        <h4>Rectangle divided</h4>
+        <div class="eq">3 equal shares ✅</div>
+        <div style="font-size:.82rem;color:rgba(255,255,255,.7);font-weight:700;margin-top:.3rem;">called THIRDS</div>
+      </div>
+      <div class="review-card">
+        <svg width="80" height="80" viewBox="0 0 80 80" style="margin-bottom:.5rem">
+          <circle cx="40" cy="40" r="34" fill="white" stroke="#DB2777" stroke-width="3"/>
+          <line x1="40" y1="6" x2="40" y2="74" stroke="#DB2777" stroke-width="2.5"/>
+          <line x1="6" y1="40" x2="74" y2="40" stroke="#DB2777" stroke-width="2.5"/>
+        </svg>
+        <h4>Circle divided</h4>
+        <div class="eq">4 equal shares ✅</div>
+        <div style="font-size:.82rem;color:rgba(255,255,255,.7);font-weight:700;margin-top:.3rem;">called FOURTHS</div>
+      </div>
+      <div class="review-card">
+        <svg width="80" height="80" viewBox="0 0 80 80" style="margin-bottom:.5rem">
+          <circle cx="40" cy="40" r="34" fill="white" stroke="#059669" stroke-width="3"/>
+          <line x1="40" y1="6" x2="40" y2="74" stroke="#059669" stroke-width="2.5"/>
+        </svg>
+        <h4>Circle divided</h4>
+        <div class="eq">2 equal shares ✅</div>
+        <div style="font-size:.82rem;color:rgba(255,255,255,.7);font-weight:700;margin-top:.3rem;">called HALVES</div>
+      </div>
+    </div>
+    <div class="self-check">
+      <div class="check-badge check-green">🟢 Circle GREEN = Got it!</div>
+      <div class="check-badge check-orange">🟠 Circle ORANGE = Need more practice</div>
+    </div>
+    <div class="star-msg">✂️ Splitting shapes into EQUAL shares is the beginning of FRACTIONS! You're already doing it! ⭐</div>
+  </div>
+
+</div>
+
+<nav class="nav">
+  <button class="nav-btn" onclick="go(-1)">◀</button>
+  <div class="dot-row" id="dots"></div>
+  <div class="slide-counter" id="counter">1 / 8</div>
+  <button class="nav-btn" onclick="go(1)">▶</button>
+</nav>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const dotsEl = document.getElementById('dots');
+const counterEl = document.getElementById('counter');
+let cur = 0;
+slides.forEach((_,i) => {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i===0?' on':'');
+  d.onclick = () => goTo(i);
+  dotsEl.appendChild(d);
+});
+function goTo(n) {
+  slides[cur].classList.remove('active'); dotsEl.children[cur].classList.remove('on');
+  cur = Math.max(0,Math.min(n,slides.length-1));
+  slides[cur].classList.add('active'); dotsEl.children[cur].classList.add('on');
+  counterEl.textContent=(cur+1)+' / '+slides.length;
+  if(cur===slides.length-1) launchConfetti();
+}
+function go(dir){goTo(cur+dir);}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key===' '){e.preventDefault();go(1);}
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();go(-1);}
+  if(e.key==='f'||e.key==='F') toggleFS();
+});
+function revealAnswer(){
+  document.getElementById('answerReveal').classList.add('visible');
+  document.querySelector('.reveal-btn').style.display='none';
+}
+function toggleFS(){
+  if(!document.fullscreenElement) document.documentElement.requestFullscreen();
+  else document.exitFullscreen();
+}
+function launchConfetti(){
+  const cols=['#FFE566','#F97316','#7C3AED','#22C55E','#DB2777','#FFFFFF'];
+  for(let i=0;i<60;i++){
+    const p=document.createElement('div');
+    p.className='confetti-piece';
+    p.style.cssText=`left:${Math.random()*100}vw;top:-20px;background:${cols[Math.floor(Math.random()*cols.length)]};width:${8+Math.random()*10}px;height:${8+Math.random()*10}px;border-radius:${Math.random()>.5?'50%':'2px'};animation-duration:${2+Math.random()*3}s;animation-delay:${Math.random()*1.5}s;`;
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(),6000);
+  }
+}
+</script>
+</body>
+</html>
