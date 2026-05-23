@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3rd Grade L1 — Fill In the Digital Clock · Ms. Newby Teaches</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito',sans-serif;background:#111;overflow:hidden;height:100vh;width:100vw;}
+.deck{width:100vw;height:100vh;position:relative;}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;opacity:0;pointer-events:none;transition:opacity .45s ease;overflow:hidden;}
+.slide.active{opacity:1;pointer-events:all;}
+.nav{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:1rem;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);border-radius:999px;padding:.6rem 1.4rem;z-index:100;}
+.nav-btn{background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.3);color:white;border-radius:50%;width:40px;height:40px;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.nav-btn:hover{background:rgba(255,255,255,.3);}
+.slide-counter{color:rgba(255,255,255,.85);font-weight:700;font-size:.9rem;min-width:60px;text-align:center;}
+.dot-row{display:flex;gap:.4rem;}
+.dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer;transition:all .2s;}
+.dot.on{background:white;transform:scale(1.3);}
+.fs-hint{position:fixed;top:1rem;right:1.2rem;background:rgba(0,0,0,.5);color:rgba(255,255,255,.75);font-size:.78rem;font-weight:700;padding:.35rem .8rem;border-radius:8px;z-index:100;cursor:pointer;}
+/* grade badge */
+.grade-badge{position:fixed;top:1rem;left:1.2rem;background:rgba(15,118,110,.8);border:2px solid rgba(15,118,110,.9);color:white;font-family:'Fredoka One',cursive;font-size:.9rem;padding:.3rem .9rem;border-radius:999px;z-index:100;}
+
+.s1{background:linear-gradient(145deg,#0F4C75,#0F766E,#0D9488);}
+.s2{background:linear-gradient(145deg,#713F12,#A16207,#CA8A04);}
+.s3{background:linear-gradient(145deg,#1E1B4B,#3730A3,#4338CA);}
+.s4{background:linear-gradient(145deg,#14532D,#166534,#16A34A);}
+.s5{background:linear-gradient(145deg,#78350F,#92400E,#B45309);}
+.s6{background:linear-gradient(145deg,#0C4A6E,#0369A1,#0284C7);}
+.s7{background:linear-gradient(145deg,#4C1D95,#6D28D9,#7C3AED);}
+.s8{background:linear-gradient(145deg,#1a1a6e,#0F766E,#14B8A6);}
+
+.bounce{font-size:clamp(4rem,10vw,7rem);animation:bounce 2s infinite;}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+h1.title{font-family:'Fredoka One',cursive;font-size:clamp(2.5rem,6vw,4.5rem);color:#FFE566;text-align:center;line-height:1.1;text-shadow:3px 3px 0 rgba(0,0,0,.25);margin-bottom:.6rem;}
+.subtitle{font-size:clamp(1rem,2.5vw,1.6rem);color:rgba(255,255,255,.9);font-weight:700;margin-bottom:2rem;text-align:center;}
+.badge-row{display:flex;flex-wrap:wrap;justify-content:center;gap:.6rem;}
+.badge{background:rgba(255,255,255,.18);border:1.5px solid rgba(255,255,255,.35);color:white;font-weight:800;font-size:.85rem;padding:.35rem 1.1rem;border-radius:999px;}
+.slide-title{font-family:'Fredoka One',cursive;font-size:clamp(2rem,5vw,3.2rem);color:#FFE566;margin-bottom:1.2rem;text-align:center;text-shadow:2px 2px 0 rgba(0,0,0,.2);}
+.callout{background:white;border-radius:16px;padding:1rem 2rem;font-size:clamp(.9rem,2.2vw,1.25rem);font-weight:800;text-align:center;box-shadow:0 4px 16px rgba(0,0,0,.15);max-width:700px;}
+.trick-box{margin-top:1rem;background:rgba(255,255,255,.18);border:2px solid rgba(255,255,255,.35);border-radius:14px;padding:.9rem 1.8rem;font-weight:800;color:white;font-size:clamp(.9rem,2vw,1.15rem);text-align:center;max-width:720px;}
+.lesson-layout{display:flex;gap:2rem;align-items:center;justify-content:center;flex-wrap:wrap;max-width:920px;}
+.steps-col{flex:1;min-width:260px;}
+.step-item{display:flex;align-items:flex-start;gap:.8rem;padding:.7rem 0;border-bottom:1px solid rgba(255,255,255,.15);}
+.step-item:last-child{border-bottom:none;}
+.step-num-circle{width:40px;height:40px;border-radius:50%;background:#FFE566;font-weight:900;font-size:1.1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-text h4{color:#FFE566;font-size:clamp(.9rem,2.2vw,1.1rem);font-weight:800;margin-bottom:.2rem;}
+.step-text p{color:rgba(255,255,255,.88);font-size:clamp(.8rem,1.9vw,.98rem);line-height:1.4;}
+.we-do-layout{display:flex;gap:2rem;align-items:center;justify-content:center;flex-wrap:wrap;}
+.answer-reveal{background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);border-radius:16px;padding:1.2rem 1.5rem;min-width:240px;text-align:center;}
+.answer-reveal h3{font-weight:800;color:rgba(255,255,255,.7);font-size:.85rem;text-transform:uppercase;margin-bottom:.7rem;}
+.reveal-btn{margin-top:.9rem;background:#FFE566;border:none;border-radius:999px;padding:.6rem 1.5rem;font-family:'Nunito',sans-serif;font-weight:900;font-size:1rem;cursor:pointer;transition:transform .15s;}
+.reveal-btn:hover{transform:scale(1.05);}
+.answer-shown{display:none;}
+.answer-shown.visible{display:block;font-family:'Fredoka One',cursive;font-size:clamp(1.5rem,3.5vw,2.2rem);color:#FFE566;margin-top:.6rem;animation:popIn .35s ease;}
+@keyframes popIn{0%{transform:scale(.6);opacity:0}80%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
+.digital-box{background:#1E293B;border-radius:10px;padding:.6rem 1.4rem;font-family:'Courier New',monospace;font-size:clamp(2rem,5vw,3.5rem);font-weight:900;color:#00FF41;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,.4);letter-spacing:.1em;border:2px solid #374151;}
+.digital-blank{background:#1E293B;border-radius:10px;padding:.6rem 1.4rem;font-family:'Courier New',monospace;font-size:clamp(2rem,5vw,3.5rem);font-weight:900;color:#374151;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,.4);letter-spacing:.1em;border:2px dashed #4B5563;}
+.review-cards{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;margin-bottom:1.1rem;max-width:750px;}
+.review-card{background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);border-radius:18px;padding:1rem 1.5rem;text-align:center;flex:1;min-width:180px;}
+.review-card h4{font-weight:800;color:rgba(255,255,255,.7);font-size:.82rem;text-transform:uppercase;margin-bottom:.5rem;}
+.review-card .eq{font-family:'Fredoka One',cursive;font-size:clamp(1.2rem,2.8vw,1.8rem);color:#FFE566;}
+.self-check{display:flex;gap:.8rem;flex-wrap:wrap;justify-content:center;margin-bottom:1rem;}
+.check-badge{border-radius:999px;padding:.5rem 1.4rem;font-weight:800;font-size:.9rem;}
+.check-green{background:#22C55E;color:white;}
+.check-orange{background:#F97316;color:white;}
+.star-msg{font-family:'Fredoka One',cursive;font-size:clamp(1rem,2.5vw,1.4rem);color:white;text-align:center;padding:.8rem 1.5rem;background:rgba(255,255,255,.12);border-radius:16px;border:2px solid rgba(255,255,255,.3);max-width:640px;}
+.confetti-piece{position:absolute;width:12px;height:12px;border-radius:2px;animation:fall linear forwards;pointer-events:none;}
+@keyframes fall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
+</style>
+</head>
+<body>
+<div class="grade-badge">3rd Grade · Lesson 1</div>
+<div class="fs-hint" onclick="toggleFS()">⛶ Fullscreen (F)</div>
+<div class="deck" id="deck">
+
+  <!-- S1 TITLE -->
+  <div class="slide s1 active">
+    <div class="bounce">🕑</div>
+    <h1 class="title">Fill In the<br>Digital Clock!</h1>
+    <div class="subtitle">Read the analog clock hands → write the digital time</div>
+    <div class="badge-row">
+      <div class="badge">🎓 3rd Grade</div>
+      <div class="badge">🕑 Telling Time</div>
+      <div class="badge">👥 Small Group</div>
+      <div class="badge">📋 Lesson 1 of 20</div>
+    </div>
+  </div>
+
+  <!-- S2 HOOK — exact test clock: 9:15 -->
+  <div class="slide s2">
+    <div style="font-family:'Fredoka One',cursive;font-size:clamp(1.6rem,4vw,2.6rem);color:white;text-align:center;margin-bottom:1.4rem;text-shadow:2px 2px 0 rgba(0,0,0,.2);">
+      🕐 Look at this clock — what time does it show?
+    </div>
+    <div style="display:flex;gap:2.5rem;align-items:center;justify-content:center;flex-wrap:wrap;margin-bottom:1.4rem;">
+      <!-- Clock showing 9:15 -->
+      <svg width="clamp(160px,25vw,210px)" height="clamp(160px,25vw,210px)" viewBox="0 0 210 210" style="filter:drop-shadow(0 4px 14px rgba(0,0,0,.3))">
+        <circle cx="105" cy="105" r="100" fill="#E2E8F0" stroke="#1E293B" stroke-width="3"/>
+        <circle cx="105" cy="105" r="93" fill="white"/>
+        <text x="105" y="22" text-anchor="middle" font-size="14" font-weight="bold" fill="#1E293B" font-family="Nunito">12</text>
+        <text x="188" y="110" text-anchor="middle" font-size="14" font-weight="bold" fill="#1E293B" font-family="Nunito">3</text>
+        <text x="105" y="198" text-anchor="middle" font-size="14" font-weight="bold" fill="#1E293B" font-family="Nunito">6</text>
+        <text x="22" y="110" text-anchor="middle" font-size="14" font-weight="bold" fill="#1E293B" font-family="Nunito">9</text>
+        <text x="160" y="38" text-anchor="middle" font-size="12" font-weight="bold" fill="#1E293B" font-family="Nunito">2</text>
+        <text x="42" y="38" text-anchor="middle" font-size="12" font-weight="bold" fill="#1E293B" font-family="Nunito">10</text>
+        <text x="72" y="22" text-anchor="middle" font-size="12" font-weight="bold" fill="#1E293B" font-family="Nunito">11</text>
+        <text x="138" y="22" text-anchor="middle" font-size="12" font-weight="bold" fill="#1E293B" font-family="Nunito">1</text>
+        <!-- 9:15 — minute hand → 3 (right, 90° from 12 clockwise = pointing right) -->
+        <!-- minute 15 = 90° cw → pointing right: x=105+80=185, y=105 -->
+        <line x1="105" y1="105" x2="185" y2="105" stroke="#1D4ED8" stroke-width="6" stroke-linecap="round"/>
+        <!-- 9:15 — hour hand: 9*30+15*0.5=270+7.5=277.5° cw from 12 -->
+        <!-- 90-277.5=-187.5° from +x → cos=-0.991, sin=0.131 → pointing left and slightly up -->
+        <!-- x=105+55*(-0.991)=50.5, y=105-55*(0.131)=97.8 -->
+        <line x1="105" y1="105" x2="51" y2="98" stroke="#DC2626" stroke-width="8" stroke-linecap="round"/>
+        <circle cx="105" cy="105" r="6" fill="#1E293B"/>
+        <text x="180" y="95" font-size="9" fill="#1D4ED8" font-weight="bold" font-family="Nunito">MIN</text>
+        <text x="32" y="92" font-size="9" fill="#DC2626" font-weight="bold" font-family="Nunito">HR</text>
+      </svg>
+      <div style="font-family:'Fredoka One',cursive;font-size:2.5rem;color:rgba(255,255,255,.4);">→</div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:.6rem;">
+        <div class="digital-box">9:15</div>
+        <div style="font-size:.85rem;font-weight:700;color:rgba(255,255,255,.7);">Short red hand past 9 = hour<br>Long blue hand at 3 = 15 min</div>
+      </div>
+    </div>
+    <div class="callout" style="color:#713F12;">💡 Short red hand just past <strong>9</strong> → hour is 9. Long blue hand points to <strong>3</strong> → count by 5s: 5,10,<strong>15</strong> minutes = <strong>9:15</strong></div>
+  </div>
+
+  <!-- S3 QUICK REVIEW — 4 rules -->
+  <div class="slide s3">
+    <div class="slide-title">📖 The 4 Rules for Reading a Clock</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;max-width:760px;width:100%;">
+      <div style="background:rgba(255,255,255,.12);border:2px solid rgba(220,38,38,.5);border-radius:16px;padding:1.1rem;">
+        <div style="font-family:'Fredoka One',cursive;font-size:1.3rem;color:#FCA5A5;margin-bottom:.4rem;">🔴 Short Hand = HOUR</div>
+        <div style="font-weight:700;color:rgba(255,255,255,.85);font-size:.9rem;">Find it first. Which number has it just PASSED? That's your hour.</div>
+      </div>
+      <div style="background:rgba(255,255,255,.12);border:2px solid rgba(29,78,216,.5);border-radius:16px;padding:1.1rem;">
+        <div style="font-family:'Fredoka One',cursive;font-size:1.3rem;color:#93C5FD;margin-bottom:.4rem;">🔵 Long Hand = MINUTES</div>
+        <div style="font-weight:700;color:rgba(255,255,255,.85);font-size:.9rem;">Count by 5s around the clock to where the long hand points.</div>
+      </div>
+      <div style="background:rgba(255,255,255,.12);border:2px solid rgba(234,179,8,.5);border-radius:16px;padding:1.1rem;">
+        <div style="font-family:'Fredoka One',cursive;font-size:1.3rem;color:#FDE047;margin-bottom:.4rem;">🔢 Write Hour First</div>
+        <div style="font-weight:700;color:rgba(255,255,255,.85);font-size:.9rem;">Hour THEN colon THEN minutes: 9<strong>:</strong>15 — never swap them!</div>
+      </div>
+      <div style="background:rgba(255,255,255,.12);border:2px solid rgba(34,197,94,.5);border-radius:16px;padding:1.1rem;">
+        <div style="font-family:'Fredoka One',cursive;font-size:1.3rem;color:#86EFAC;margin-bottom:.4rem;">✍️ Always 2 Digits for Minutes</div>
+        <div style="font-weight:700;color:rgba(255,255,255,.85);font-size:.9rem;">Write 9:05 — NOT 9:5. Minutes always get 2 digits!</div>
+      </div>
+    </div>
+    <div class="trick-box">🧠 Skip count by 5s around the clock: 5·10·15·20·25·30·35·40·45·50·55·00</div>
+  </div>
+
+  <!-- S4 I DO — 9:15 step by step -->
+  <div class="slide s4">
+    <div class="slide-title" style="font-size:clamp(1.8rem,4.5vw,3rem);">👀 Watch Me — Step by Step!</div>
+    <div class="lesson-layout">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:1rem;">
+        <svg width="200" height="200" viewBox="0 0 210 210" style="filter:drop-shadow(0 4px 14px rgba(0,0,0,.3))">
+          <circle cx="105" cy="105" r="100" fill="#E2E8F0" stroke="#1E293B" stroke-width="3"/>
+          <circle cx="105" cy="105" r="93" fill="white"/>
+          <text x="105" y="22" text-anchor="middle" font-size="13" font-weight="bold" fill="#1E293B" font-family="Nunito">12</text>
+          <text x="188" y="110" text-anchor="middle" font-size="13" font-weight="bold" fill="#1E293B" font-family="Nunito">3</text>
+          <text x="105" y="198" text-anchor="middle" font-size="13" font-weight="bold" fill="#1E293B" font-family="Nunito">6</text>
+          <text x="22" y="110" text-anchor="middle" font-size="13" font-weight="bold" fill="#1E293B" font-family="Nunito">9</text>
+          <text x="160" y="38" text-anchor="middle" font-size="11" font-weight="bold" fill="#1E293B" font-family="Nunito">2</text>
+          <text x="42" y="38" text-anchor="middle" font-size="11" font-weight="bold" fill="#1E293B" font-family="Nunito">10</text>
+          <text x="72" y="22" text-anchor="middle" font-size="11" font-weight="bold" fill="#1E293B" font-family="Nunito">11</text>
+          <text x="138" y="22" text-anchor="middle" font-size="11" font-weight="bold" fill="#1E293B" font-family="Nunito">1</text>
+          <!-- Circle around 9 for hour -->
+          <circle cx="22" cy="106" r="14" fill="rgba(220,38,38,.2)" stroke="#DC2626" stroke-width="2.5" stroke-dasharray="4,3"/>
+          <!-- Circle around 3 for minute -->
+          <circle cx="188" cy="106" r="14" fill="rgba(29,78,216,.2)" stroke="#1D4ED8" stroke-width="2.5" stroke-dasharray="4,3"/>
+          <line x1="105" y1="105" x2="185" y2="105" stroke="#1D4ED8" stroke-width="6" stroke-linecap="round"/>
+          <line x1="105" y1="105" x2="51" y2="98" stroke="#DC2626" stroke-width="8" stroke-linecap="round"/>
+          <circle cx="105" cy="105" r="6" fill="#1E293B"/>
+        </svg>
+        <div class="digital-box">9:15</div>
+      </div>
+      <div class="steps-col">
+        <div class="step-item">
+          <div class="step-num-circle" style="color:#166534">1</div>
+          <div class="step-text"><h4>Find the SHORT (red) hand</h4><p>It's just past the <strong style="color:#FFE566">9</strong>. So the hour = <strong style="color:#FFE566">9</strong></p></div>
+        </div>
+        <div class="step-item">
+          <div class="step-num-circle" style="color:#166534">2</div>
+          <div class="step-text"><h4>Find the LONG (blue) hand</h4><p>It points straight at the <strong style="color:#FFE566">3</strong> on the clock face</p></div>
+        </div>
+        <div class="step-item">
+          <div class="step-num-circle" style="color:#166534">3</div>
+          <div class="step-text"><h4>Count by 5s to the 3</h4><p>5, 10, <strong style="color:#FFE566">15</strong> minutes — the 3 = 15 minutes</p></div>
+        </div>
+        <div class="step-item">
+          <div class="step-num-circle" style="color:#166534">✅</div>
+          <div class="step-text"><h4>Write the digital time</h4><p>Hour : Minutes = <strong style="color:#FFE566">9:15</strong></p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S5 SKIP COUNT RING -->
+  <div class="slide s5">
+    <div class="slide-title">🔢 Skip Count the Minutes — Every Clock Number!</div>
+    <div style="background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);border-radius:18px;padding:1.2rem;max-width:700px;width:100%;margin-bottom:1rem;">
+      <svg width="100%" height="185" viewBox="0 0 560 185">
+        <circle cx="280" cy="93" r="78" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.2)" stroke-width="2"/>
+        <text x="280" y="18" text-anchor="middle" font-size="13" fill="white" font-weight="bold" font-family="Nunito">12 = :00</text>
+        <text x="365" y="46" text-anchor="middle" font-size="12" fill="#FFE566" font-weight="bold" font-family="Nunito">1 = :05</text>
+        <text x="402" y="99" text-anchor="middle" font-size="12" fill="#FFE566" font-weight="bold" font-family="Nunito">2 = :10</text>
+        <text x="378" y="155" text-anchor="middle" font-size="13" fill="#4ADE80" font-weight="bold" font-family="Nunito">3 = :15 ←</text>
+        <text x="318" y="178" text-anchor="middle" font-size="12" fill="#FFE566" font-weight="bold" font-family="Nunito">4 = :20</text>
+        <text x="230" y="178" text-anchor="middle" font-size="12" fill="#FFE566" font-weight="bold" font-family="Nunito">5 = :25</text>
+        <text x="168" y="155" text-anchor="middle" font-size="12" fill="#A5F3FC" font-weight="bold" font-family="Nunito">6 = :30</text>
+        <text x="148" y="99" text-anchor="middle" font-size="12" fill="#A5F3FC" font-weight="bold" font-family="Nunito">7 = :35</text>
+        <text x="176" y="46" text-anchor="middle" font-size="12" fill="#A5F3FC" font-weight="bold" font-family="Nunito">8 = :40</text>
+        <text x="178" y="18" text-anchor="middle" font-size="13" fill="#FCA5A5" font-weight="bold" font-family="Nunito">9 = :45</text>
+        <text x="340" y="18" text-anchor="middle" font-size="12" fill="white" font-weight="bold" font-family="Nunito">10 = :50</text>
+        <text x="398" y="30" text-anchor="middle" font-size="11" fill="white" font-weight="bold" font-family="Nunito">11 = :55</text>
+      </svg>
+    </div>
+    <div class="trick-box" style="max-width:680px;">✅ For our clock: long hand at 3 = :15  |  ⚠️ If minutes are less than 10, write a zero first: 9:05 NOT 9:5!</div>
+  </div>
+
+  <!-- S6 MANIPULATIVES -->
+  <div class="slide s6">
+    <div class="slide-title">🖐️ Practice Strategies!</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.9rem;max-width:860px;width:100%;">
+      <div style="background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);border-radius:18px;padding:1rem;text-align:center;"><div style="font-size:2.2rem;">🕐</div><div style="font-family:'Fredoka One',cursive;font-size:1.2rem;color:#FFE566;margin:.3rem 0;">Demo Clock</div><div style="font-size:.85rem;font-weight:700;color:rgba(255,255,255,.85);">Teacher sets the hands — students race to write the digital time!</div></div>
+      <div style="background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);border-radius:18px;padding:1rem;text-align:center;"><div style="font-size:2.2rem;">✋</div><div style="font-family:'Fredoka One',cursive;font-size:1.2rem;color:#FFE566;margin:.3rem 0;">Arm Clock</div><div style="font-size:.85rem;font-weight:700;color:rgba(255,255,255,.85);">Make one arm short (hour) and one long (minute). Partner reads the time!</div></div>
+      <div style="background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);border-radius:18px;padding:1rem;text-align:center;"><div style="font-size:2.2rem;">🔢</div><div style="font-family:'Fredoka One',cursive;font-size:1.2rem;color:#FFE566;margin:.3rem 0;">5s Chant</div><div style="font-size:.85rem;font-weight:700;color:rgba(255,255,255,.85);">Point to each number and count: 5, 10, 15... stop at the minute hand!</div></div>
+      <div style="background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);border-radius:18px;padding:1rem;text-align:center;"><div style="font-size:2.2rem;">📱</div><div style="font-family:'Fredoka One',cursive;font-size:1.2rem;color:#FFE566;margin:.3rem 0;">Check With Phone</div><div style="font-size:.85rem;font-weight:700;color:rgba(255,255,255,.85);">Read the analog clock → check your answer against the phone's digital time!</div></div>
+    </div>
+    <div class="trick-box" style="margin-top:.8rem;max-width:700px;">⚠️ TRICKY: At 9:15 the hour hand is NOT on the 9 — it has moved slightly toward 10!</div>
+  </div>
+
+  <!-- S7 WE DO — 3:00 -->
+  <div class="slide s7">
+    <div class="slide-title" style="font-size:clamp(1.8rem,4.5vw,3rem);">🤝 We Do — What Time Is This?</div>
+    <div style="color:rgba(255,255,255,.9);font-weight:700;font-size:clamp(.9rem,2.2vw,1.2rem);text-align:center;margin-bottom:1.2rem;">Write the digital time on your whiteboard!</div>
+    <div class="we-do-layout">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:.8rem;">
+        <!-- Clock showing 7:45 -->
+        <svg width="175" height="175" viewBox="0 0 210 210" style="filter:drop-shadow(0 4px 14px rgba(0,0,0,.3))">
+          <circle cx="105" cy="105" r="100" fill="#E2E8F0" stroke="#1E293B" stroke-width="3"/>
+          <circle cx="105" cy="105" r="93" fill="white"/>
+          <text x="105" y="22" text-anchor="middle" font-size="13" font-weight="bold" fill="#1E293B" font-family="Nunito">12</text>
+          <text x="188" y="110" text-anchor="middle" font-size="13" font-weight="bold" fill="#1E293B" font-family="Nunito">3</text>
+          <text x="105" y="198" text-anchor="middle" font-size="13" font-weight="bold" fill="#1E293B" font-family="Nunito">6</text>
+          <text x="22" y="110" text-anchor="middle" font-size="13" font-weight="bold" fill="#1E293B" font-family="Nunito">9</text>
+          <text x="42" y="38" text-anchor="middle" font-size="11" font-weight="bold" fill="#1E293B" font-family="Nunito">10</text>
+          <text x="160" y="38" text-anchor="middle" font-size="11" font-weight="bold" fill="#1E293B" font-family="Nunito">2</text>
+          <text x="72" y="22" text-anchor="middle" font-size="11" font-weight="bold" fill="#1E293B" font-family="Nunito">11</text>
+          <!-- 7:45: minute hand → 9 (left, pointing left) = 270° cw from 12 -->
+          <line x1="105" y1="105" x2="25" y2="105" stroke="#1D4ED8" stroke-width="6" stroke-linecap="round"/>
+          <!-- 7:45: hour hand: 7*30+45*0.5=210+22.5=232.5° cw from 12 → 90-232.5=-142.5° -->
+          <!-- cos(-142.5)=-0.793, sin(-142.5)=-0.609 → x=105+55*(-0.793)=61.4, y=105-55*(-0.609)=138.5 -->
+          <line x1="105" y1="105" x2="62" y2="138" stroke="#DC2626" stroke-width="8" stroke-linecap="round"/>
+          <circle cx="105" cy="105" r="6" fill="#1E293B"/>
+        </svg>
+        <div class="digital-blank">_ : _ _</div>
+      </div>
+      <div class="answer-reveal">
+        <h3>What time is it?</h3>
+        <div style="color:rgba(255,255,255,.8);font-weight:700;">Short hand = ___<br>Long hand at 9 = ___ min</div>
+        <button class="reveal-btn" style="color:#4C1D95;" onclick="revealAnswer()">🕐 Show Answer</button>
+        <div class="answer-shown" id="answerReveal">7:45 ✅<br><span style="font-size:.85rem;font-weight:700;opacity:.8;">Hr=7, min hand at 9=45min</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S8 CELEBRATE -->
+  <div class="slide s8">
+    <div class="slide-title" style="font-size:clamp(2rem,5.5vw,3.5rem);">🏆 Let's Check Our Work!</div>
+    <div class="review-cards">
+      <div class="review-card">
+        <h4>Test clock 🕐</h4>
+        <div style="font-size:1rem;margin:.3rem 0;">Short past 9, long at 3</div>
+        <div class="eq">9:15 ✅</div>
+        <div style="color:rgba(255,255,255,.7);font-size:.82rem;margin-top:.3rem;font-weight:700;">3×5 = 15 minutes</div>
+      </div>
+      <div class="review-card">
+        <h4>We practiced 🕖</h4>
+        <div style="font-size:1rem;margin:.3rem 0;">Short past 7, long at 9</div>
+        <div class="eq">7:45 ✅</div>
+        <div style="color:rgba(255,255,255,.7);font-size:.82rem;margin-top:.3rem;font-weight:700;">9×5 = 45 minutes</div>
+      </div>
+      <div class="review-card">
+        <h4>The rules!</h4>
+        <div style="font-size:1.5rem;margin:.4rem 0;">🔴🔵</div>
+        <div style="color:rgba(255,255,255,.85);font-size:.85rem;font-weight:700;">Short → hour<br>Long → count by 5s<br>Write hour:minutes</div>
+      </div>
+    </div>
+    <div class="self-check">
+      <div class="check-badge check-green">🟢 Got it right = GREEN</div>
+      <div class="check-badge check-orange">🟠 Need more practice = ORANGE</div>
+    </div>
+    <div class="star-msg">🕑 You're reading clocks like a pro — welcome to 3rd grade math! ⭐</div>
+  </div>
+
+</div>
+<nav class="nav">
+  <button class="nav-btn" onclick="go(-1)">◀</button>
+  <div class="dot-row" id="dots"></div>
+  <div class="slide-counter" id="counter">1 / 8</div>
+  <button class="nav-btn" onclick="go(1)">▶</button>
+</nav>
+<script>
+const slides=document.querySelectorAll('.slide'),dotsEl=document.getElementById('dots'),counterEl=document.getElementById('counter');
+let cur=0;
+slides.forEach((_,i)=>{const d=document.createElement('div');d.className='dot'+(i===0?' on':'');d.onclick=()=>goTo(i);dotsEl.appendChild(d);});
+function goTo(n){slides[cur].classList.remove('active');dotsEl.children[cur].classList.remove('on');cur=Math.max(0,Math.min(n,slides.length-1));slides[cur].classList.add('active');dotsEl.children[cur].classList.add('on');counterEl.textContent=(cur+1)+' / '+slides.length;if(cur===slides.length-1)launchConfetti();}
+function go(dir){goTo(cur+dir);}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key===' '){e.preventDefault();go(1);}if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();go(-1);}if(e.key==='f'||e.key==='F')toggleFS();});
+function revealAnswer(){document.getElementById('answerReveal').classList.add('visible');document.querySelector('.reveal-btn').style.display='none';}
+function toggleFS(){if(!document.fullscreenElement)document.documentElement.requestFullscreen();else document.exitFullscreen();}
+function launchConfetti(){const cols=['#FFE566','#0D9488','#16A34A','#DC2626','#F97316','#FFFFFF'];for(let i=0;i<60;i++){const p=document.createElement('div');p.className='confetti-piece';p.style.cssText=`left:${Math.random()*100}vw;top:-20px;background:${cols[Math.floor(Math.random()*cols.length)]};width:${8+Math.random()*10}px;height:${8+Math.random()*10}px;border-radius:${Math.random()>.5?'50%':'2px'};animation-duration:${2+Math.random()*3}s;animation-delay:${Math.random()*1.5}s;`;document.body.appendChild(p);setTimeout(()=>p.remove(),6000);}}
+</script>
+</body>
+</html>
