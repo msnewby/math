@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ms. Newby Teaches - Math Intervention Curriculum</title>
+<style>
+  :root {
+    --navy: #1a3a5c;
+    --blue: #1a5276;
+    --mid-blue: #2e86c1;
+    --light-blue: #d6eaf8;
+    --green: #1e8449;
+    --light-green: #d5f5e3;
+    --gold: #f39c12;
+    --light-gold: #fef9e7;
+    --gray: #f4f6f7;
+    --border: #dde1e4;
+    --text: #222;
+    --muted: #666;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f4f8; color: var(--text); }
+
+  /* -- HEADER -- */
+  .site-header {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 60%, var(--mid-blue) 100%);
+    color: white; padding: 28px 24px 20px; text-align: center;
+  }
+  .site-header h1 { font-size: 1.9rem; font-weight: 800; letter-spacing: -0.5px; }
+  .site-header .sub { font-size: 0.92rem; opacity: 0.85; margin-top: 4px; }
+  .badges { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 14px; }
+  .badge { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 20px; padding: 4px 12px; font-size: 0.8rem; }
+
+  /* -- PROGRESS -- */
+  .progress-section { background: white; border-bottom: 1px solid var(--border); padding: 16px 24px; }
+  .progress-inner { max-width: 900px; margin: 0 auto; }
+  .progress-stats { display: flex; gap: 24px; align-items: center; margin-bottom: 10px; flex-wrap: wrap; }
+  .stat-big { font-size: 1.6rem; font-weight: 800; color: var(--blue); }
+  .stat-label { font-size: 0.8rem; color: var(--muted); }
+  .progress-bar-bg { background: #e0e7ef; border-radius: 8px; height: 12px; flex: 1; min-width: 120px; }
+  .progress-bar-fill { background: linear-gradient(90deg, var(--mid-blue), var(--green)); height: 12px; border-radius: 8px; width: 3%; transition: width 0.5s; }
+
+  /* -- FILTERS -- */
+  .filters { background: white; border-bottom: 1px solid var(--border); padding: 10px 24px; position: sticky; top: 0; z-index: 10; }
+  .filters-inner { max-width: 900px; margin: 0 auto; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .filters input { border: 1px solid var(--border); border-radius: 6px; padding: 5px 10px; font-size: 0.85rem; width: 160px; }
+  .filter-btn { border: 1px solid var(--border); background: white; border-radius: 20px; padding: 4px 14px;
+    font-size: 0.82rem; cursor: pointer; transition: all 0.15s; }
+  .filter-btn:hover, .filter-btn.active { background: var(--blue); color: white; border-color: var(--blue); }
+
+  /* -- MAIN -- */
+  .main { max-width: 900px; margin: 0 auto; padding: 24px 16px 48px; }
+
+  /* -- SECTION HEADER -- */
+  .section-header { display: flex; align-items: center; gap: 12px; margin: 32px 0 16px; padding: 10px 16px;
+    background: var(--navy); color: white; border-radius: 8px; font-size: 1rem; font-weight: 700; }
+  .section-header.grade3 { background: linear-gradient(90deg, #145a32, #1e8449); }
+
+  /* -- LESSON CARD -- */
+  .lesson-card {
+    background: white; border: 1px solid var(--border); border-radius: 10px;
+    margin-bottom: 14px; overflow: hidden; transition: box-shadow 0.2s;
+  }
+  .lesson-card:hover { box-shadow: 0 4px 16px rgba(26,82,118,0.12); }
+  .card-top { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px 10px; }
+  .lesson-num { background: var(--blue); color: white; border-radius: 8px; min-width: 38px; height: 38px;
+    display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.95rem; flex-shrink: 0; }
+  .lesson-num.g3 { background: var(--green); }
+  .card-info { flex: 1; }
+  .card-info h3 { font-size: 1rem; font-weight: 700; color: var(--navy); line-height: 1.3; }
+  .card-info .desc { font-size: 0.82rem; color: var(--muted); margin-top: 3px; line-height: 1.5; }
+  .card-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 7px; }
+  .tag { font-size: 0.75rem; padding: 2px 9px; border-radius: 12px; background: var(--light-blue); color: var(--blue); font-weight: 600; }
+  .tag.g3 { background: var(--light-green); color: var(--green); }
+  .status-badge { flex-shrink: 0; font-size: 0.75rem; font-weight: 700; padding: 3px 10px;
+    border-radius: 12px; background: var(--light-green); color: var(--green); white-space: nowrap; }
+  .status-badge.soon { background: #fef3cd; color: #856404; }
+
+  /* -- LINKS ROW -- */
+  .card-links { padding: 0 16px 13px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .card-links a {
+    font-size: 0.78rem; padding: 4px 10px; border-radius: 6px; text-decoration: none;
+    border: 1px solid var(--border); color: var(--blue); background: var(--gray);
+    transition: all 0.15s; white-space: nowrap;
+  }
+  .card-links a:hover { background: var(--blue); color: white; border-color: var(--blue); }
+  .card-links a.primary { background: var(--blue); color: white; border-color: var(--blue); font-weight: 700; }
+  .card-links a.primary:hover { background: var(--navy); border-color: var(--navy); }
+  .card-links a.yt { color: #c0392b; border-color: #f5cac7; background: #fff5f5; }
+  .card-links a.yt:hover { background: #c0392b; color: white; border-color: #c0392b; }
+  .card-links a.ws { color: #7d3c98; border-color: #e8daef; background: #f9f0ff; }
+  .card-links a.ws:hover { background: #7d3c98; color: white; border-color: #7d3c98; }
+
+  /* -- COMING SOON CARD -- */
+  .coming-card {
+    background: white; border: 2px dashed var(--border); border-radius: 10px;
+    padding: 20px 20px; margin-bottom: 14px; display: flex; align-items: center; gap: 14px; color: var(--muted);
+  }
+  .coming-icon { font-size: 2rem; flex-shrink: 0; }
+
+  /* -- SETUP BOX -- */
+  .setup-box { background: white; border: 1px solid var(--border); border-radius: 10px; padding: 20px 22px; margin-top: 32px; }
+  .setup-box h3 { font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 12px; }
+  .setup-step { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 10px; font-size: 0.85rem; }
+  .step-num { background: var(--mid-blue); color: white; border-radius: 50%; width: 22px; height: 22px;
+    display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+  code { background: #f0f0f0; padding: 1px 5px; border-radius: 3px; font-size: 0.82rem; }
+
+  /* -- FOOTER -- */
+  .site-footer { text-align: center; font-size: 0.78rem; color: var(--muted); padding: 20px; border-top: 1px solid var(--border); background: white; }
+
+  @media (max-width: 600px) {
+    .site-header h1 { font-size: 1.4rem; }
+    .card-top { flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <h1>&#11088; Ms. Newby Teaches</h1>
+  <div class="sub">Applied Math Intervention Curriculum - one complete lesson package per Acadiance skill. Ready to grab and teach.</div>
+  <div class="badges">
+    <span class="badge">&#128202; Aligned to Acadiance PM</span>
+    <span class="badge">&#128101; Small Group - Grades 2-3</span>
+    <span class="badge">&#9201; 30 Min Blocks</span>
+    <span class="badge">&#128214; IEP Goal Driven</span>
+    <span class="badge">&#127979; Special Education</span>
+  </div>
+</header>
+
+<!-- PROGRESS -->
+<div class="progress-section">
+  <div class="progress-inner">
+    <div class="progress-stats">
+      <div><div class="stat-big">3</div><div class="stat-label">Ready</div></div>
+      <div><div class="stat-big" style="color:#ccc">97</div><div class="stat-label">Coming</div></div>
+      <div><div class="stat-big" style="color:#aaa">100</div><div class="stat-label">Total</div></div>
+      <div class="progress-bar-bg"><div class="progress-bar-fill"></div></div>
+      <div style="font-size:0.82rem;color:var(--muted);white-space:nowrap"><b>3%</b> complete</div>
+    </div>
+  </div>
+</div>
+
+<!-- FILTERS -->
+<div class="filters">
+  <div class="filters-inner">
+    <input type="text" id="search" placeholder="&#128269; Search lessons..." oninput="filterCards()">
+    <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
+    <button class="filter-btn" onclick="setFilter('ready',this)">&#9989; Ready</button>
+    <button class="filter-btn" onclick="setFilter('grade2',this)">2&#65039;&#8419; 2nd Grade</button>
+    <button class="filter-btn" onclick="setFilter('grade3',this)">3&#65039;&#8419; 3rd Grade</button>
+    <button class="filter-btn" onclick="setFilter('soon',this)">&#128284; Coming Soon</button>
+  </div>
+</div>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- 2ND GRADE SECTION -->
+  <div class="section-header" data-grade="grade2">
+    &#128998; 2nd Grade Skills - Ready to Use
+  </div>
+
+  <!-- L01 -->
+  <div class="lesson-card" data-grade="grade2" data-status="ready">
+    <div class="card-top">
+      <div class="lesson-num">01</div>
+      <div class="card-info">
+        <h3>Arrays &amp; Repeated Addition</h3>
+        <div class="desc">Count objects in rows/columns . Write a repeated addition equation</div>
+        <div class="card-tags"><span class="tag">&#128208; Arrays</span><span class="tag">&#10133; Repeated Addition</span><span class="tag">2nd Grade</span></div>
+      </div>
+      <span class="status-badge">&#9989; Ready</span>
+    </div>
+    <div class="card-links">
+      <a href="lesson-01-arrays/slideshow_arrays_lesson.html" class="primary">&#128421;&#65039; Open Slide Deck - Present Now</a>
+      <a href="lesson-01-arrays/lesson_arrays_repeated_addition.html">&#128203; Lesson Guide</a>
+      <a href="lesson-01-arrays/arrays_practice_problems.pdf">&#9999;&#65039; Practice (20 problems)</a>
+      <a href="lesson-01-arrays/arrays_answer_key.pdf">&#128273; Answer Key</a>
+      <a href="lesson-01-arrays/vocab_sheet_student.pdf">&#128214; Vocab Sheet</a>
+      <a href="lesson-01-arrays/vocab_sheet_example_key.pdf">&#128477;&#65039; Vocab Key</a>
+      <a href="https://www.youtube.com/watch?v=gzFbUZ8VjEg" class="yt" target="_blank">&#127925; Array Song 1</a>
+      <a href="https://www.youtube.com/watch?v=PZlDrv6bdFg" class="yt" target="_blank">&#127925; Array Song 2</a>
+    </div>
+  </div>
+
+  <!-- L02 -->
+  <div class="lesson-card" data-grade="grade2" data-status="ready">
+    <div class="card-top">
+      <div class="lesson-num">02</div>
+      <div class="card-info">
+        <h3>Equal Shares - Partitioning Shapes</h3>
+        <div class="desc">Count equal shares in rectangles &amp; circles . Halves, thirds, fourths</div>
+        <div class="card-tags"><span class="tag">&#9986;&#65039; Partitioning</span><span class="tag">&#127829; Equal Shares</span><span class="tag">2nd Grade</span></div>
+      </div>
+      <span class="status-badge">&#9989; Ready</span>
+    </div>
+    <div class="card-links">
+      <a href="lesson-02-equal-shares/L2_slideshow_equal_shares.html" class="primary">&#128421;&#65039; Open Slide Deck - Present Now</a>
+      <a href="lesson-02-equal-shares/L2_equal_shares_practice.pdf">&#9999;&#65039; Practice (20 problems)</a>
+      <a href="lesson-02-equal-shares/L2_equal_shares_answer_key.pdf">&#128273; Answer Key</a>
+      <a href="lesson-02-equal-shares/L2_vocab_sheet_student.pdf">&#128214; Vocab Sheet</a>
+      <a href="lesson-02-equal-shares/L2_vocab_sheet_key.pdf">&#128477;&#65039; Vocab Key</a>
+      <a href="https://www.youtube.com/watch?v=lTce7f6KGE0" class="yt" target="_blank">&#127925; The Fractions Song</a>
+      <a href="https://www.youtube.com/watch?v=DnFrOetuUKg" class="yt" target="_blank">&#127925; Halves, Thirds, Fourths Song</a>
+    </div>
+  </div>
+
+  <!-- L03 -->
+  <div class="lesson-card" data-grade="grade2" data-status="ready">
+    <div class="card-top">
+      <div class="lesson-num">03</div>
+      <div class="card-info">
+        <h3>Comparing Numbers - &gt;, =, &lt;</h3>
+        <div class="desc">Compare 3-digit numbers . Use greater than, less than, equal to symbols</div>
+        <div class="card-tags"><span class="tag">&#128010; Comparing</span><span class="tag">&#128290; Place Value</span><span class="tag">2nd Grade</span></div>
+      </div>
+      <span class="status-badge">&#9989; Ready</span>
+    </div>
+    <div class="card-links">
+      <a href="lesson-03-comparing-numbers/L3_slideshow_comparing_numbers.html" class="primary">&#128421;&#65039; Open Slide Deck - Present Now</a>
+      <a href="lesson-03-comparing-numbers/L3_comparing_numbers_practice.pdf">&#9999;&#65039; Practice (20 problems)</a>
+      <a href="lesson-03-comparing-numbers/L3_comparing_numbers_answer_key.pdf">&#128273; Answer Key</a>
+      <a href="lesson-03-comparing-numbers/L3_vocab_sheet_student.pdf">&#128214; Vocab Sheet</a>
+      <a href="lesson-03-comparing-numbers/L3_vocab_sheet_key.pdf">&#128477;&#65039; Vocab Key</a>
+      <a href="https://www.youtube.com/watch?v=dMp1mSqRXFM" class="yt" target="_blank">&#127925; Greater/Less Than Song</a>
+      <a href="https://www.youtube.com/watch?v=MzDLp9q4QNE" class="yt" target="_blank">&#127925; Alligator Song</a>
+    </div>
+  </div>
+
+  <!-- L04 -->
+  <div class="lesson-card" data-grade="grade2" data-status="ready">
+    <div class="card-top">
+      <div class="lesson-num">04</div>
+      <div class="card-info">
+        <h3>Measuring Length in Inches</h3>
+        <div class="desc">Use a ruler to measure lines . Read inches . Start at zero</div>
+        <div class="card-tags"><span class="tag">&#128207; Measurement</span><span class="tag">&#128208; Ruler</span><span class="tag">2nd Grade</span></div>
+      </div>
+      <span class="status-badge">&#9989; Ready</span>
+    </div>
+    <div class="card-links">
+      <a href="lesson-04-measuring-length/L4_slideshow_measuring_length.html" class="primary">&#128421;&#65039; Open Slide Deck - Present Now</a>
+      <a href="lesson-04-measuring-length/L4_measuring_length_practice.pdf">&#9999;&#65039; Practice (20 problems)</a>
+      <a href="lesson-04-measuring-length/L4_measuring_length_answer_key.pdf">&#128273; Answer Key</a>
+      <a href="lesson-04-measuring-length/L4_vocab_sheet_student.pdf">&#128214; Vocab Sheet</a>
+      <a href="lesson-04-measuring-length/L4_vocab_sheet_key.pdf">&#128477;&#65039; Vocab Key</a>
+      <a href="https://www.youtube.com/watch?v=GTXEZRryoFk" class="yt" target="_blank">&#127925; The Ruler Song</a>
+      <a href="https://www.youtube.com/watch?v=WF27W7usRqM" class="yt" target="_blank">&#127925; Measurement Song</a>
+    </div>
+  </div>
+
+  <!-- L05 -->
+  <div class="lesson-card" data-grade="grade2" data-status="ready">
+    <div class="card-top">
+      <div class="lesson-num">05</div>
+      <div class="card-info">
+        <h3>Adding 3 Numbers - Word Problems</h3>
+        <div class="desc">Add three addends . Doubles strategy . Make-a-ten strategy</div>
+        <div class="card-tags"><span class="tag">&#127822; 3 Addends</span><span class="tag">&#127919; Doubles</span><span class="tag">2nd Grade</span></div>
+      </div>
+      <span class="status-badge">&#9989; Ready</span>
+    </div>
+    <div class="card-links">
+      <a href="lesson-05-adding3/L5_slideshow_adding3.html" class="primary">&#128421;&#65039; Open Slide Deck - Present Now</a>
+      <a href="lesson-05-adding3/L5_adding3_practice.pdf">&#9999;&#65039; Practice (20 problems)</a>
+      <a href="lesson-05-adding3/L5_adding3_answer_key.pdf">&#128273; Answer Key</a>
+      <a href="lesson-05-adding3/L5_vocab_sheet_student.pdf">&#128214; Vocab Sheet</a>
+      <a href="lesson-05-adding3/L5_vocab_sheet_key.pdf">&#128477;&#65039; Vocab Key</a>
+      <a href="https://www.youtube.com/watch?v=qaqLjzMyyHI" class="yt" target="_blank">&#127925; Doubles Shuffle Song</a>
+      <a href="https://www.youtube.com/watch?v=MYHOyKtT5sY" class="yt" target="_blank">&#127925; Make a Ten to Add</a>
+    </div>
+  </div>
+
+  <!-- L06 -->
+  <div class="lesson-card" data-grade="grade2" data-status="ready">
+    <div class="card-top">
+      <div class="lesson-num">06</div>
+      <div class="card-info">
+        <h3>Telling Time - Draw the Clock Hands</h3>
+        <div class="desc">Read digital time . Draw hour &amp; minute hands on analog clock</div>
+        <div class="card-tags"><span class="tag">&#128336; Telling Time</span><span class="tag">&#128308; Clock Hands</span><span class="tag">2nd Grade</span></div>
+      </div>
+      <span class="status-badge">&#9989; Ready</span>
+    </div>
+    <div class="card-links">
+      <a href="lesson-06-telling-time/L6_slideshow_telling_time.html" class="primary">&#128421;&#65039; Open Slide Deck - Present Now</a>
+      <a href="lesson-06-telling-time/L6_telling_time_practice.pdf">&#9999;&#65039; Practice (20 problems)</a>
+      <a href="lesson-06-telling-time/L6_telling_time_answer_key.pdf">&#128273; Answer Key</a>
+      <a href="lesson-06-telling-time/L6_vocab_sheet_student.pdf">&#128214; Vocab Sheet</a>
+      <a href="lesson-06-telling-time/L6_vocab_sheet_key.pdf">&#128477;&#65039; Vocab Key</a>
+      <a href="https://www.youtube.com/watch?v=h6RNkQ7lU8Y" class="yt" target="_blank">&#127925; Telling Time Song</a>
+      <a href="https://www.youtube.com/watch?v=Pxr0dySHsgU" class="yt" target="_blank">&#127925; Skip Around the Clock</a>
+    </div>
+  </div>
+
+  <!-- L07 -->
+  <div class="lesson-card" data-grade="grade2" data-status="ready">
+    <div class="card-top">
+      <div class="lesson-num">07</div>
+      <div class="card-info">
+        <h3>Addition Word Problems</h3>
+        <div class="desc">Read word problems . Find signal words . Write &amp; solve addition equations</div>
+        <div class="card-tags"><span class="tag">&#128049; Word Problems</span><span class="tag">&#128678; Signal Words</span><span class="tag">2nd Grade</span></div>
+      </div>
+      <span class="status-badge">&#9989; Ready</span>
+    </div>
+    <div class="card-links">
+      <a href="lesson-07-addition-word-problems/L7_slideshow_addition_wordproblems.html" class="primary">&#128421;&#65039; Open Slide Deck - Present Now</a>
+      <a href="lesson-07-addition-word-problems/L7_addition_wordproblems_practice.pdf">&#9999;&#65039; Practice (20 problems)</a>
+      <a href="lesson-07-addition-word-problems/L7_addition_wordproblems_answer_key.pdf">&#128273; Answer Key</a>
+      <a href="lesson-07-addition-word-problems/L7_vocab_sheet_student.pdf">&#128214; Vocab Sheet</a>
+      <a href="lesson-07-addition-word-problems/L7_vocab_sheet_key.pdf">&#128477;&#65039; Vocab Key</a>
+      <a href="https://www.youtube.com/watch?v=-iAQI5k-8cQ" class="yt" target="_blank">&#127925; Number Sentences Song</a>
+      <a href="https://www.youtube.com/watch?v=S_vopnfJ2Ec" class="yt" target="_blank">&#127925; Key Words Song</a>
+    </div>
+  </div>
+
+  <!-- L08 -->
+  <div class="lesson-card" data-grade="grade2" data-status="ready">
+    <div class="card-top">
+      <div class="lesson-num">08</div>
+      <div class="card-info">
+        <h3>Comparing Lengths - How Much Longer?</h3>
+        <div class="desc">Measure two objects . Subtract to find the difference in length</div>
+        <div class="card-tags"><span class="tag">&#128207; Comparing</span><span class="tag">&#10134; Subtract</span><span class="tag">2nd Grade</span></div>
+      </div>
+      <span class="status-badge">&#9989; Ready</span>
+    </div>
+    <div class="card-links">
+      <a href="lesson-08-comparing-lengths/L8_slideshow_comparing_lengths.html" class="primary">&#128421;&#65039; Open Slide Deck - Present Now</a>
+      <a href="lesson-08-comparing-lengths/L8_comparing_lengths_practice.pdf">&#9999;&#65039; Practice (20 problems)</a>
+      <a href="lesson-08-comparing-lengths/L8_comparing_lengths_answer_key.pdf">&#128273; Answer Key</a>
+      <a href="lesson-08-comparing-lengths/L8_vocab_sheet_student.pdf">&#128214; Vocab Sheet</a>
+      <a href="lesson-08-comparing-lengths/L8_vocab_sheet_key.pdf">&#128477;&#65039; Vocab Key</a>
+      <a href="https://www.youtube.com/watch?v=GTXEZRryoFk" class="yt" target="_blank">&#127925; Ruler Song</a>
+      <a href="https://www.youtube.com/watch?v=dxRilLOhevE" class="yt" target="_blank">&#127925; Length Song</a>
+    </div>
+  </div>
+
+  <!-- L09 -->
+  <div class="lesson-card" data-grade="grade2" data-status="ready">
+    <div class="card-top">
+      <div class="lesson-num">09</div>
+      <div class="card-info">
+        <h3>Identifying Shapes</h3>
+        <div class="desc">Triangle . Diamond . Pentagon . Hexagon . Cube - count sides to name!</div>
+        <div class="card-tags"><span class="tag">&#128311; Geometry</span><span class="tag">&#11040; Pentagon</span><span class="tag">2nd Grade</span></div>
+      </div>
+      <span class="status-badge">&#9989; Ready</span>
+    </div>
+    <div class="card-links">
+      <a href="lesson-09-shapes/L9_slideshow_shapes.html" class="primary">&#128421;&#65039; Open Slide Deck - Present Now</a>
+      <a href="lesson-09-shapes/L9_shapes_practice.pdf">&#9999;&#65039; Practice (20 problems)</a>
+      <a href="lesson-09-shapes/L9_shapes_answer_key.pdf">&#128273; Answer Key</a>
+      <a href="lesson-09-shapes/L9_vocab_sheet_student.pdf">&#128214; Vocab Sheet</a>
+      <a href="lesson-09-shapes/L9_vocab_sheet_key.pdf">&#128477;&#65039; Vocab Key</a>
+      <a href="https://www.youtube.com/watch?v=9L_UhC8Fl30" class="yt" target="_blank">&#127925; Pentagon/Hexagon Song</a>
+      <a href="https://www.youtube.com/watch?v=C9D2RHuYa74" class="yt" target="_blank">&#127925; More 2D Shapes Song</a>
+    </div>
+  </div>
+
+  <!-- L10 -->
+  <div class="lesson-card" data-grade="grade2" data-status="ready">
+    <div class="card-top">
+      <div class="lesson-num">10</div>
+      <div class="card-info">
+        <h3>More Than &amp; Less Than - Addition</h3>
+        <div class="desc">"More than" = ADD . Solve 3-digit + 2-digit with regrouping</div>
+        <div class="card-tags"><span class="tag">&#10133; More Than</span><span class="tag">&#128290; Place Value</span><span class="tag">2nd Grade</span></div>
+      </div>
+      <span class="status-badge">&#9989; Ready</span>
+    </div>
+    <div class="card-links">
+      <a href="lesson-10-more-than/L10_slideshow_more_than.html" class="primary">&#128421;&#65039; Open Slide Deck - Present Now</a>
+      <a href="lesson-10-more-than/L10_more_than_practice.pdf">&#9999;&#65039; Practice (20 problems)</a>
+      <a href="lesson-10-more-than/L10_more_than_answer_key.pdf">&#128273; Answer Key</a>
+      <a href="lesson-10-more-than/L10_vocab_sheet_student.pdf">&#128214; Vocab Sheet</a>
+      <a href="lesson-10-more-than/L10_vocab_sheet_key.pdf">&#128477;&#65039; Vocab Key</a>
+      <a href="https://www.youtube.com/watch?v=rPVdItitgIU" class="yt" target="_blank">&#127925; Addition &amp; Subtraction Song</a>
+      <a href="https://www.youtube.com/watch?v=-iAQI5k-8cQ" class="yt" target="_blank">&#127925; Number Sentences Song</a>
+    </div>
+  </div>
+
+  <!-- L11 -->
+  <div class="lesson-card" data-grade="grade2" data-status="ready">
+    <div class="card-top">
+      <div class="lesson-num">11</div>
+      <div class="card-info">
+        <h3>Adding Lengths - Measurement Word Problems</h3>
+        <div class="desc">Find two lengths . "Together" = ADD . Write equation in inches</div>
+        <div class="card-tags"><span class="tag">&#129698; Add Lengths</span><span class="tag">&#128207; Measurement</span><span class="tag">2nd Grade</span></div>
+      </div>
+      <span class="status-badge">&#9989; Ready</span>
+    </div>
+    <div class="card-links">
+      <a href="lesson-11-adding-lengths/L11_slideshow_adding_lengths.html" class="primary">&#128421;&#65039; Open Slide Deck - Present Now</a>
+      <a href="lesson-11-adding-lengths/L11_adding_lengths_practice.pdf">&#9999;&#65039; Practice (20 problems)</a>
+      <a href="lesson-11-adding-lengths/L11_adding_lengths_answer_key.pdf">&#128273; Answer Key</a>
+      <a href="lesson-11-adding-lengths/L11_vocab_sheet_student.pdf">&#128214; Vocab Sheet</a>
+      <a href="lesson-11-adding-lengths/L11_vocab_sheet_key.pdf">&#128477;&#65039; Vocab Key</a>
+      <a href="https://www.youtube.com/watch?v=GTXEZRryoFk" class="yt" target="_blank">&#127925; Ruler Song</a>
+      <a href="https://www.youtube.com/watch?v=-iAQI5k-8cQ" class="yt" target="_blank">&#127925; Word Problems Song</a>
+    </div>
+  </div>
+
+  <!-- L12 -->
+  <div class="lesson-card" data-grade="grade2" data-status="ready">
+    <div class="card-top">
+      <div class="lesson-num">12</div>
+      <div class="card-info">
+        <h3>Missing Addend - ___ + 5 = 14</h3>
+        <div class="desc">Find the unknown number . Total &#8722; Known = Missing . Check your answer</div>
+        <div class="card-tags"><span class="tag">&#10067; Missing Addend</span><span class="tag">&#127969; Fact Families</span><span class="tag">2nd Grade</span></div>
+      </div>
+      <span class="status-badge">&#9989; Ready</span>
+    </div>
+    <div class="card-links">
+      <a href="lesson-12-missing-addend/L12_slideshow_missing_addend.html" class="primary">&#128421;&#65039; Open Slide Deck - Present Now</a>
+      <a href="lesson-12-missing-addend/L12_missing_addend_practice.pdf">&#9999;&#65039; Practice (20 problems)</a>
+      <a href="lesson-12-missing-addend/L12_missing_addend_answer_key.pdf">&#128273; Answer Key</a>
+      <a href="lesson-12-missing-addend/L12_vocab_sheet_student.pdf">&#128214; Vocab Sheet</a>
+      <a href="lesson-12-missing-addend/L12_vocab_sheet_key.pdf">&#128477;&#65039; Vocab Key</a>
+      <a href="https://www.youtube.com/watch?v=rPVdItitgIU" class="yt" target="_blank">&#127925; Addition &amp; Subtraction Song</a>
+      <a href="https://www.youtube.com/watch?v=-iAQI5k-8cQ" class="yt" target="_blank">&#127925; Number Sentences Song</a>
+    </div>
+  </div>
+
+  <!-- L13 -->
+  <div class="lesson-card" data-grade="grade2" data-status="ready">
+    <div class="card-top">
+      <div class="lesson-num">13</div>
+      <div class="card-info">
+        <h3>Place Value - Which Digit Is In That Place?</h3>
+        <div class="desc">Identify digits in 1s . 10s . 100s place of 3-digit numbers</div>
+        <div class="card-tags"><span class="tag">&#128290; Place Value</span><span class="tag">H-T-O</span><span class="tag">2nd Grade</span></div>
+      </div>
+      <span class="status-badge">&#9989; Ready</span>
+    </div>
+    <div class="card-links">
+      <a href="lesson-13-place-value/L13_slideshow_place_value.html" class="primary">&#128421;&#65039; Open Slide Deck - Present Now</a>
+      <a href="lesson-13-place-value/L13_place_value_practice.pdf">&#9999;&#65039; Practice (20 problems)</a>
+      <a href="lesson-13-place-value/L13_place_value_answer_key.pdf">&#128273; Answer Key</a>
+      <a href="lesson-13-place-value/L13_vocab_sheet_student.pdf">&#128214; Vocab Sheet</a>
+      <a href="lesson-13-place-value/L13_vocab_sheet_key.pdf">&#128477;&#65039; Vocab Key</a>
+      <a href="https://www.youtube.com/watch?v=nFvBPFf9ZK0" class="yt" target="_blank">&#127925; Place Value Song</a>
+      <a href="https://www.youtube.com/watch?v=a4FXl4zb3E4" class="yt" target="_blank">&#127925; Place Value Song (Numberock)</a>
+    </div>
+  </div>
+
+  <!-- L14 -->
+  <div class="lesson-card" data-grade="grade2" data-status="ready">
+    <div class="card-top">
+      <div class="lesson-num">14</div>
+      <div class="card-info">
+        <h3>Telling Time - Read Analog, Write Digital</h3>
+        <div class="desc">Look at analog clock hands &#8594; write the digital time (reverse of Lesson 6)</div>
+        <div class="card-tags"><span class="tag">&#128337; Read Clock</span><span class="tag">&#128241; Digital Time</span><span class="tag">2nd Grade</span></div>
+      </div>
+      <span class="status-badge">&#9989; Ready</span>
+    </div>
+    <div class="card-links">
+      <a href="lesson-14-read-the-clock/L14_slideshow_telling_time_digital.html" class="primary">&#128421;&#65039; Open Slide Deck - Present Now</a>
+      <a href="lesson-14-read-the-clock/L14_telling_time_digital_practice.pdf">&#9999;&#65039; Practice (20 problems)</a>
+      <a href="lesson-14-read-the-clock/L14_telling_time_digital_answer_key.pdf">&#128273; Answer Key</a>
+      <a href="lesson-14-read-the-clock/L14_vocab_sheet_student.pdf">&#128214; Vocab Sheet</a>
+      <a href="lesson-14-read-the-clock/L14_vocab_sheet_key.pdf">&#128477;&#65039; Vocab Key</a>
+      <a href="https://www.youtube.com/watch?v=h6RNkQ7lU8Y" class="yt" target="_blank">&#127925; Telling Time Song</a>
+      <a href="https://www.youtube.com/watch?v=Pxr0dySHsgU" class="yt" target="_blank">&#127925; Skip Around the Clock</a>
+    </div>
+  </div>
+
+  <!-- L15 -->
+  <div class="lesson-card" data-grade="grade2" data-status="ready">
+    <div class="card-top">
+      <div class="lesson-num">15</div>
+      <div class="card-info">
+        <h3>Two-Step Word Problems</h3>
+        <div class="desc">Two events in one story . Solve Step 1 first . Use that answer for Step 2</div>
+        <div class="card-tags"><span class="tag">&#10134;&#10134; Two Steps</span><span class="tag">&#128221; Show Work</span><span class="tag">2nd Grade</span></div>
+      </div>
+      <span class="status-badge">&#9989; Ready</span>
+    </div>
+    <div class="card-links">
+      <a href="lesson-15-two-step/L15_slideshow_two_step.html" class="primary">&#128421;&#65039; Open Slide Deck - Present Now</a>
+      <a href="lesson-15-two-step/L15_two_step_practice.pdf">&#9999;&#65039; Practice (20 problems)</a>
+      <a href="lesson-15-two-step/L15_two_step_answer_key.pdf">&#128273; Answer Key</a>
+      <a href="lesson-15-two-step/L15_vocab_sheet_student.pdf">&#128214; Vocab Sheet</a>
+      <a href="lesson-15-two-step/L15_vocab_sheet_key.pdf">&#128477;&#65039; Vocab Key</a>
+      <a href="https://www.youtube.com/watch?v=-iAQI5k-8cQ" class="yt" target="_blank">&#127925; Word Problems Song</a>
+      <a href="https://www.youtube.com/watch?v=rPVdItitgIU" class="yt" target="_blank">&#127925; Add &amp; Subtract Song</a>
+    </div>
+  </div>
+
+  <!-- L16 -->
+  <div class="lesson-card" data-grade="grade2" data-status="ready">
+    <div class="card-top">
+      <div class="lesson-num">16</div>
+      <div class="card-info">
+        <h3>Counting Coins - How Many Cents? &#11088; Last 2nd Grade!</h3>
+        <div class="desc">Quarter=25&#162; . Dime=10&#162; . Nickel=5&#162; . Penny=1&#162; . Count up biggest&#8594;smallest</div>
+        <div class="card-tags"><span class="tag">&#129689; Counting Coins</span><span class="tag">&#128176; Money</span><span class="tag">2nd Grade</span></div>
+      </div>
+      <span class="status-badge">&#9989; Ready</span>
+    </div>
+    <div class="card-links">
+      <a href="lesson-16-counting-coins/L16_slideshow_counting_coins.html" class="primary">&#128421;&#65039; Open Slide Deck - Present Now</a>
+      <a href="lesson-16-counting-coins/L16_counting_coins_practice.pdf">&#9999;&#65039; Practice (20 problems)</a>
+      <a href="lesson-16-counting-coins/L16_counting_coins_answer_key.pdf">&#128273; Answer Key</a>
+      <a href="lesson-16-counting-coins/L16_vocab_sheet_student.pdf">&#128214; Vocab Sheet</a>
+      <a href="lesson-16-counting-coins/L16_vocab_sheet_key.pdf">&#128477;&#65039; Vocab Key</a>
+      <a href="https://www.youtube.com/watch?v=MbtmucV-U2c" class="yt" target="_blank">&#127925; Counting Coins (Numberock)</a>
+      <a href="https://www.youtube.com/watch?v=pnXJGNo08v0" class="yt" target="_blank">&#127925; The Money Song (Jack Hartmann)</a>
+    </div>
+  </div>
+
+  <!-- 3RD GRADE SECTION -->
+  <div class="section-header grade3" data-grade="grade3">
+    &#127891; 3rd Grade - Acadiance Applied Math &nbsp;.&nbsp; <span style="font-weight:400;font-size:0.85rem">Lesson number = Question number on the 3rd grade progress monitoring sheet</span>
+  </div>
+
+  <!-- 3G L01 -->
+  <div class="lesson-card" data-grade="grade3" data-status="ready">
+    <div class="card-top">
+      <div class="lesson-num g3">01</div>
+      <div class="card-info">
+        <h3>3G . Lesson 1 - Fill In the Digital Clock</h3>
+        <div class="desc">Read analog clock hands &#8594; write the digital time (9:15)</div>
+        <div class="card-tags"><span class="tag g3">&#128337; Telling Time</span><span class="tag g3">&#128241; Digital Time</span><span class="tag g3">3rd Grade</span></div>
+      </div>
+      <span class="status-badge">&#9989; Ready</span>
+    </div>
+    <div class="card-links">
+      <a href="grade-3/lesson-01-telling-time/3G_L1_slideshow_telling_time.html" class="primary">&#128421;&#65039; Open Slide Deck - Present Now</a>
+      <a href="grade-3/lesson-01-telling-time/3G_L1_telling_time_practice.pdf">&#9999;&#65039; Practice (20 problems)</a>
+      <a href="grade-3/lesson-01-telling-time/3G_L1_telling_time_answer_key.pdf">&#128273; Answer Key</a>
+      <a href="grade-3/lesson-01-telling-time/3G_L1_vocab_sheet_student.pdf">&#128214; Vocab Sheet</a>
+      <a href="grade-3/lesson-01-telling-time/3G_L1_vocab_sheet_key.pdf">&#128477;&#65039; Vocab Key</a>
+      <a href="https://www.youtube.com/watch?v=h6RNkQ7lU8Y" class="yt" target="_blank">&#127925; Telling Time Song</a>
+      <a href="https://www.youtube.com/watch?v=Pxr0dySHsgU" class="yt" target="_blank">&#127925; Skip Around the Clock</a>
+    </div>
+  </div>
+
+  <!-- 3G L02 -->
+  <div class="lesson-card" data-grade="grade3" data-status="ready">
+    <div class="card-top">
+      <div class="lesson-num g3">02</div>
+      <div class="card-info">
+        <h3>3G . Lesson 2 - Write the Fraction for Shaded Parts</h3>
+        <div class="desc">Count shaded parts (numerator) . Count total parts (denominator) . Write the fraction</div>
+        <div class="card-tags"><span class="tag g3">1/2 Fractions</span><span class="tag g3">&#9999;&#65039; Write It</span><span class="tag g3">3rd Grade</span></div>
+      </div>
+      <span class="status-badge">&#9989; Ready</span>
+    </div>
+    <div class="card-links">
+      <a href="grade-3/lesson-02-fractions/3G_L2_slideshow_fractions.html" class="primary">&#128421;&#65039; Open Slide Deck - Present Now</a>
+      <a href="grade-3/lesson-02-fractions/3G_L2_fractions_practice.pdf">&#9999;&#65039; Practice (20 problems)</a>
+      <a href="grade-3/lesson-02-fractions/3G_L2_fractions_answer_key.pdf">&#128273; Answer Key</a>
+      <a href="grade-3/lesson-02-fractions/3G_L2_vocab_sheet_student.pdf">&#128214; Vocab Sheet</a>
+      <a href="grade-3/lesson-02-fractions/3G_L2_vocab_sheet_key.pdf">&#128477;&#65039; Vocab Key</a>
+      <a href="https://www.youtube.com/watch?v=5lHXd1cJcMQ" class="yt" target="_blank">&#127925; The Fractions Song</a>
+      <a href="https://www.youtube.com/watch?v=lTce7f6KGE0" class="yt" target="_blank">&#127925; Fractions for Kids Song</a>
+    </div>
+  </div>
+
+  <!-- 3G L03 - NEW! -->
+  <div class="lesson-card" data-grade="grade3" data-status="ready">
+    <div class="card-top">
+      <div class="lesson-num g3">03</div>
+      <div class="card-info">
+        <h3>3G . Lesson 3 - Rounding to the Nearest 10 and 100</h3>
+        <div class="desc">Look at ones digit &#8594; round to nearest 10 . Look at tens digit &#8594; round to nearest 100</div>
+        <div class="card-tags"><span class="tag g3">&#128290; Rounding</span><span class="tag g3">&#128202; Place Value</span><span class="tag g3">3rd Grade</span></div>
+      </div>
+      <span class="status-badge">&#9989; Ready</span>
+    </div>
+    <div class="card-links">
+      <a href="grade-3/lesson-03-rounding/g3_q03_ws1.html" class="ws">&#9999;&#65039; Practice Worksheet 1</a>
+      <a href="grade-3/lesson-03-rounding/g3_q03_ws2.html" class="ws">&#9999;&#65039; Practice Worksheet 2</a>
+      <a href="grade-3/lesson-03-rounding/g3_q03_ws3.html" class="ws">&#9999;&#65039; Practice Worksheet 3 &#11088;</a>
+      <a href="https://www.ixl.com/math/grade-3/round-to-the-nearest-ten-or-hundred" target="_blank">&#128279; IXL: Round to nearest 10 or 100</a>
+      <a href="https://www.youtube.com/watch?v=P7pBjxCxMmY" class="yt" target="_blank">&#127925; Rounding Song (Numberock)</a>
+    </div>
+  </div>
+
+  <!-- COMING SOON -->
+  <div class="section-header grade3" data-grade="grade3" style="background: linear-gradient(90deg,#5d6d7e,#7f8c8d);">
+    &#129001; 3rd Grade Skills - Coming Soon
+  </div>
+
+  <div class="coming-card" data-grade="grade3" data-status="soon">
+    <div class="coming-icon">&#128193;</div>
+    <div>
+      <strong style="color:var(--navy)">3rd Grade Lessons 4+</strong><br>
+      <span style="font-size:0.83rem">Multiplication, division, fractions &amp; more - coming as we build! Share 3rd grade Acadiance screenshots with Claude to generate the next lesson.</span>
+    </div>
+  </div>
+
+  <!-- SETUP BOX -->
+  <div class="setup-box">
+    <h3>&#128193; How to Set Up Your Curriculum Folder</h3>
+    <div class="setup-step"><div class="step-num">1</div><div>Create a folder called <code>math-intervention</code> on your Desktop</div></div>
+    <div class="setup-step"><div class="step-num">2</div><div>Save this file as <code>index.html</code> inside that folder</div></div>
+    <div class="setup-step"><div class="step-num">3</div><div>For 2nd grade: create subfolders like <code>lesson-01-arrays/</code> and drop all lesson files inside</div></div>
+    <div class="setup-step"><div class="step-num">4</div><div>For 3rd grade: use <code>grade-3/lesson-03-rounding/</code> and drop the 3 worksheet HTML files inside</div></div>
+    <div class="setup-step"><div class="step-num">5</div><div>Open <code>index.html</code> in Chrome - every link will work!</div></div>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <strong>Ms. Newby Teaches</strong> . Math Intervention Curriculum . Built for Acadiance Applied Math Progress Monitoring . Grades 2-3 Special Education<br>
+  Each lesson: 10-min instruction + 20-min practice . Aligned to 2nd &amp; 3rd Grade CCSS Math Standards
+</footer>
+
+<script>
+  let activeFilter = 'all';
+
+  function setFilter(f, btn) {
+    activeFilter = f;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    applyFilters();
+  }
+
+  function filterCards() { applyFilters(); }
+
+  function applyFilters() {
+    const q = document.getElementById('search').value.toLowerCase();
+    document.querySelectorAll('.lesson-card, .coming-card').forEach(card => {
+      const gradeMatch = activeFilter === 'all' || card.dataset.grade === activeFilter || activeFilter === card.dataset.status;
+      const readyMatch = activeFilter === 'ready' ? card.dataset.status === 'ready' : true;
+      const textMatch = !q || card.innerText.toLowerCase().includes(q);
+      card.style.display = (gradeMatch && readyMatch && textMatch) ? '' : 'none';
+    });
+    document.querySelectorAll('.section-header').forEach(h => {
+      const grade = h.dataset.grade;
+      const visible = [...document.querySelectorAll(`.lesson-card[data-grade="${grade}"], .coming-card[data-grade="${grade}"]`)]
+        .some(c => c.style.display !== 'none');
+      h.style.display = visible ? '' : 'none';
+    });
+  }
+</script>
+</body>
+</html>
