@@ -4,303 +4,472 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ms. Newby Teaches — Math Intervention Curriculum</title>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
 <style>
-:root {
-  --ink:     #0F172A;
-  --muted:   #64748B;
-  --border:  #E2E8F0;
-  --bg:      #F8FAFF;
-  --card:    #FFFFFF;
-  --blue:    #2563EB;
-  --blue-lt: #DBEAFE;
-  --green:   #16A34A;
-  --green-lt:#DCFCE7;
-  --orange:  #EA580C;
-  --orange-lt:#FFEDD5;
-  --purple:  #7C3AED;
-  --purple-lt:#F3E8FF;
-  --yellow:  #D97706;
-  --yellow-lt:#FEF3C7;
-  --pink:    #DB2777;
-  --pink-lt: #FCE7F3;
-  --teal:    #0D9488;
-  --teal-lt: #CCFBF1;
-  --radius:  14px;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
-.site-header { background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 55%, #1D4ED8 100%); padding: 0; position: sticky; top: 0; z-index: 200; box-shadow: 0 2px 20px rgba(0,0,0,.35); }
-.header-inner { max-width: 1200px; margin: 0 auto; padding: .9rem 1.5rem; display: flex; align-items: center; gap: 1rem; }
-.site-logo { font-family: 'Fredoka One', cursive; font-size: 1.35rem; color: #FFE566; white-space: nowrap; line-height: 1.1; }
-.site-logo span { display: block; font-size: .7rem; color: rgba(255,255,255,.6); font-family: 'Nunito', sans-serif; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; }
-.header-stats { margin-left: auto; display: flex; gap: .6rem; flex-wrap: wrap; }
-.stat-chip { background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.25); color: white; font-size: .75rem; font-weight: 800; padding: .28rem .85rem; border-radius: 999px; white-space: nowrap; }
-.stat-chip em { opacity: .65; font-style: normal; font-weight: 600; margin-right: .3rem; }
-.hero { background: linear-gradient(135deg, #1E3A8A, #4F46E5, #7C3AED); padding: 3rem 1.5rem 2.5rem; text-align: center; position: relative; overflow: hidden; }
-.hero::after { content: ''; position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat; }
-.hero-content { position: relative; }
-.hero h1 { font-family: 'Fredoka One', cursive; font-size: clamp(2rem, 5vw, 3.4rem); color: #FFE566; line-height: 1.15; margin-bottom: .5rem; text-shadow: 2px 3px 0 rgba(0,0,0,.2); }
-.hero p { color: rgba(255,255,255,.85); font-size: clamp(.9rem, 2vw, 1.1rem); max-width: 680px; margin: 0 auto 1.6rem; font-weight: 600; line-height: 1.5; }
-.hero-badges { display: flex; flex-wrap: wrap; justify-content: center; gap: .6rem; }
-.hero-badge { background: rgba(255,255,255,.15); border: 1.5px solid rgba(255,255,255,.3); color: white; font-size: .82rem; font-weight: 800; padding: .35rem 1.1rem; border-radius: 999px; }
-.toolbar { max-width: 1200px; margin: 1.8rem auto .4rem; padding: 0 1.5rem; display: flex; gap: .8rem; align-items: center; flex-wrap: wrap; }
-.search-wrap { position: relative; flex: 1; min-width: 200px; }
-.search-wrap input { width: 100%; padding: .65rem 1rem .65rem 2.6rem; border: 2px solid var(--border); border-radius: 999px; font-family: 'Nunito', sans-serif; font-size: .92rem; font-weight: 600; background: white; color: var(--ink); outline: none; transition: border-color .2s; }
-.search-wrap input:focus { border-color: var(--blue); }
-.search-icon { position: absolute; left: .85rem; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 1rem; pointer-events: none; }
-.filter-btn { padding: .62rem 1.1rem; border: 2px solid var(--border); border-radius: 999px; background: white; font-family: 'Nunito', sans-serif; font-size: .82rem; font-weight: 800; cursor: pointer; color: var(--muted); transition: all .2s; white-space: nowrap; }
-.filter-btn:hover, .filter-btn.active { border-color: var(--blue); color: var(--blue); background: var(--blue-lt); }
-.lesson-count { font-size: .82rem; font-weight: 700; color: var(--muted); white-space: nowrap; margin-left: auto; }
-.section-wrap { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem 3rem; }
-.section-label { font-family: 'Fredoka One', cursive; font-size: 1.2rem; color: var(--ink); margin: 2rem 0 1rem; display: flex; align-items: center; gap: .6rem; }
-.section-label::after { content: ''; flex: 1; height: 2px; background: var(--border); border-radius: 2px; }
-.lesson-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.2rem; }
-.lesson-card { background: var(--card); border-radius: var(--radius); border: 2px solid var(--border); overflow: hidden; transition: transform .2s, box-shadow .2s, border-color .2s; display: flex; flex-direction: column; }
-.lesson-card:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(0,0,0,.1); border-color: #CBD5E1; }
-.lesson-card.complete { border-color: #A7F3D0; }
-.lesson-card.coming-soon { opacity: .55; }
-.card-top { padding: 1.1rem 1.2rem .9rem; display: flex; align-items: flex-start; gap: .9rem; border-bottom: 1.5px solid var(--border); }
-.lesson-num { font-family: 'Fredoka One', cursive; font-size: 1.5rem; line-height: 1; min-width: 42px; text-align: center; }
-.card-meta { flex: 1; }
-.card-meta h3 { font-size: 1rem; font-weight: 800; color: var(--ink); line-height: 1.25; margin-bottom: .25rem; }
-.card-meta p { font-size: .78rem; color: var(--muted); font-weight: 600; }
-.status-badge { font-size: .7rem; font-weight: 800; padding: .22rem .7rem; border-radius: 999px; white-space: nowrap; align-self: flex-start; }
-.badge-ready    { background: var(--green-lt);  color: var(--green);  }
-.badge-coming   { background: var(--yellow-lt); color: var(--yellow); }
-.badge-progress { background: var(--orange-lt); color: var(--orange); }
-.skill-tag { display: inline-flex; align-items: center; gap: .35rem; font-size: .72rem; font-weight: 700; padding: .22rem .7rem; border-radius: 6px; margin: 0 .3rem .3rem 0; }
-.card-resources { padding: .8rem 1.2rem 1rem; display: flex; flex-direction: column; gap: .4rem; flex: 1; }
-.resource-row { display: grid; grid-template-columns: 1fr 1fr; gap: .4rem; }
-.res-link { display: flex; align-items: center; gap: .45rem; padding: .48rem .75rem; border-radius: 8px; text-decoration: none; font-size: .78rem; font-weight: 800; color: var(--ink); background: var(--bg); border: 1.5px solid var(--border); transition: all .18s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.res-link:hover { background: white; border-color: #94A3B8; transform: translateX(2px); }
-.res-link .icon { font-size: .95rem; flex-shrink: 0; }
-.res-link.primary { grid-column: 1 / -1; background: var(--blue); color: white; border-color: var(--blue); justify-content: center; font-size: .85rem; padding: .6rem; }
-.res-link.primary:hover { background: #1D4ED8; border-color: #1D4ED8; transform: none; }
-.res-link.disabled { opacity: .45; cursor: not-allowed; pointer-events: none; }
-.howto { background: linear-gradient(135deg, #FEF9C3, #FEF3C7); border: 2px solid #FDE68A; border-radius: var(--radius); padding: 1.3rem 1.6rem; margin: 1.8rem 0 .5rem; display: flex; gap: 1.2rem; align-items: flex-start; }
-.howto-icon { font-size: 1.8rem; flex-shrink: 0; margin-top: .1rem; }
-.howto h3 { font-size: .95rem; font-weight: 800; color: #92400E; margin-bottom: .4rem; }
-.howto p  { font-size: .83rem; color: #78350F; font-weight: 600; line-height: 1.55; }
-.howto code { background: rgba(0,0,0,.08); border-radius: 4px; padding: .1rem .4rem; font-size: .8rem; font-family: monospace; }
-.setup-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: .8rem; margin-top: .8rem; }
-.setup-step { background: white; border-radius: 10px; padding: .9rem 1rem; border: 1.5px solid #FDE68A; display: flex; gap: .6rem; align-items: flex-start; }
-.setup-num { width: 26px; height: 26px; border-radius: 50%; background: #D97706; color: white; font-weight: 900; font-size: .8rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.setup-step p { font-size: .8rem; color: #78350F; font-weight: 700; line-height: 1.4; }
-.setup-step a { color: #D97706; }
-.progress-section { background: white; border: 2px solid var(--border); border-radius: var(--radius); padding: 1.2rem 1.5rem; margin: 1.5rem 0 .5rem; display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
-.progress-label { font-weight: 800; font-size: .9rem; color: var(--ink); white-space: nowrap; }
-.progress-bar-wrap { flex: 1; min-width: 160px; }
-.progress-bar { height: 10px; background: #F1F5F9; border-radius: 999px; overflow: hidden; }
-.progress-fill { height: 100%; background: linear-gradient(90deg, var(--green), #4ADE80); border-radius: 999px; transition: width .6s ease; }
-.progress-pct { font-weight: 800; color: var(--green); font-size: .9rem; white-space: nowrap; }
-.progress-stats { display: flex; gap: 1rem; flex-wrap: wrap; }
-.prog-stat { text-align: center; }
-.prog-stat .num { font-family: 'Fredoka One', cursive; font-size: 1.4rem; color: var(--ink); line-height: 1; }
-.prog-stat .lbl { font-size: .72rem; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
-footer { background: #0F172A; color: rgba(255,255,255,.55); text-align: center; padding: 1.5rem; font-size: .8rem; font-weight: 600; }
-footer strong { color: rgba(255,255,255,.85); }
-@media (max-width: 600px) { .lesson-grid { grid-template-columns: 1fr; } .resource-row { grid-template-columns: 1fr; } .header-stats { display: none; } }
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:#1a1a2e}
+header{background:linear-gradient(135deg,#0f3460 0%,#16213e 100%);color:white;padding:28px 24px 20px;text-align:center}
+header h1{font-size:1.8rem;margin-bottom:6px}
+header p{font-size:0.95rem;opacity:0.8}
+.progress-bar-wrap{background:#16213e;padding:14px 24px;display:flex;align-items:center;gap:16px;justify-content:center;flex-wrap:wrap}
+.progress-label{color:#e0e0e0;font-size:0.9rem}
+.progress-bar{flex:1;max-width:300px;background:#0a0a1a;border-radius:20px;height:12px;overflow:hidden}
+.progress-fill{background:linear-gradient(90deg,#e94560,#f5a623);height:100%;width:19%;border-radius:20px}
+.progress-stats{display:flex;gap:16px;color:#e0e0e0;font-size:0.85rem}
+.stat{text-align:center}.stat .num{font-size:1.2rem;font-weight:700;color:#e94560}
+.filter-bar{background:white;padding:12px 24px;display:flex;gap:8px;flex-wrap:wrap;border-bottom:2px solid #e0e0e0;position:sticky;top:0;z-index:100}
+.filter-btn{padding:6px 16px;border-radius:20px;border:2px solid #ddd;background:white;cursor:pointer;font-size:0.85rem;font-weight:600;transition:all 0.2s}
+.filter-btn:hover,.filter-btn.active{background:#0f3460;color:white;border-color:#0f3460}
+.search-box{margin-left:auto;padding:6px 14px;border-radius:20px;border:2px solid #ddd;font-size:0.85rem;outline:none}
+.search-box:focus{border-color:#0f3460}
+main{max-width:1100px;margin:0 auto;padding:24px 16px}
+.section-header{font-size:1.3rem;font-weight:800;color:#0f3460;margin:24px 0 14px;padding-bottom:8px;border-bottom:3px solid #e94560;display:flex;align-items:center;gap:10px}
+.lessons-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px}
+.card{background:white;border-radius:14px;padding:20px;box-shadow:0 2px 12px rgba(0,0,0,0.08);border:1px solid #e8eaf0;transition:transform 0.2s,box-shadow 0.2s}
+.card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,0.12)}
+.card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.lesson-num{background:#0f3460;color:white;border-radius:8px;padding:4px 10px;font-size:0.8rem;font-weight:700}
+.badge{padding:4px 10px;border-radius:20px;font-size:0.75rem;font-weight:700}
+.badge-ready{background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7}
+.badge-soon{background:#fff3e0;color:#e65100;border:1px solid #ffcc80}
+.card h3{font-size:1rem;color:#1a1a2e;margin-bottom:6px;line-height:1.3}
+.card .desc{font-size:0.82rem;color:#666;margin-bottom:10px;line-height:1.4}
+.card-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px}
+.tag{background:#f0f4ff;border:1px solid #c5cae9;border-radius:12px;padding:3px 9px;font-size:0.75rem;color:#3949ab;font-weight:600}
+.tag.red{background:#fff0f2;border-color:#ffcdd2;color:#c62828}
+.divider{border:none;border-top:1px solid #eee;margin:10px 0}
+.links{display:flex;flex-wrap:wrap;gap:6px}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:8px;font-size:0.8rem;font-weight:600;text-decoration:none;cursor:pointer;border:none;transition:all 0.15s}
+.btn-primary{background:#0f3460;color:white}.btn-primary:hover{background:#1a4a7a}
+.btn-outline{background:white;color:#0f3460;border:1.5px solid #0f3460}.btn-outline:hover{background:#f0f4ff}
+.btn-pdf{background:#fff0f2;color:#c62828;border:1.5px solid #ef9a9a}.btn-pdf:hover{background:#ffebee}
+.btn-yt{background:#fff8e1;color:#c47a00;border:1.5px solid #ffe082}.btn-yt:hover{background:#fff3cd}
+.coming-card{background:#fafafa;border:2px dashed #e0e0e0;border-radius:14px;padding:24px;text-align:center;color:#aaa}
+.coming-card h3{color:#ccc;margin-bottom:6px}
+footer{background:#16213e;color:#aaa;text-align:center;padding:20px;font-size:0.85rem;margin-top:40px}
+.setup-box{background:white;border-radius:14px;padding:24px;margin-top:24px;box-shadow:0 2px 12px rgba(0,0,0,0.08)}
+.setup-box h3{color:#0f3460;margin-bottom:12px;font-size:1.1rem}
+.setup-steps{list-style:none;counter-reset:step}
+.setup-steps li{counter-increment:step;display:flex;gap:12px;margin-bottom:10px;font-size:0.9rem;align-items:flex-start}
+.setup-steps li::before{content:counter(step);background:#0f3460;color:white;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8rem;flex-shrink:0;margin-top:1px}
+@media(max-width:600px){.lessons-grid{grid-template-columns:1fr}.filter-bar{gap:5px}}
 </style>
 </head>
 <body>
-<header class="site-header">
-  <div class="header-inner">
-    <div class="site-logo">
-      &#11088; Ms. Newby Teaches
-      <span>Math Intervention &middot; Acadiance Applied Math &middot; Grades 4&ndash;6 SpEd</span>
-    </div>
-    <div class="header-stats">
-      <div class="stat-chip" id="hdr-complete">3 of 100 Ready</div>
-    </div>
-  </div>
+
+<header>
+  <h1>⭐ Ms. Newby Teaches</h1>
+  <p>Applied Math Intervention Curriculum &mdash; Acadiance Applied Math &middot; Grades 4&ndash;6 SpEd</p>
 </header>
-<section class="hero">
-  <div class="hero-content">
-    <h1>&#11088; Ms. Newby Teaches</h1>
-    <p>Applied Math Intervention Curriculum &mdash; one complete lesson package per Acadiance skill. Ready to grab and teach. Each package includes a slide deck, practice problems, answer key, and vocabulary sheets.</p>
-    <div class="hero-badges">
-      <div class="hero-badge">&#128202; Aligned to Acadiance PM</div>
-      <div class="hero-badge">&#128101; Small Group &mdash; Grades 4&ndash;6</div>
-      <div class="hero-badge">&#9201; 30 Min Blocks</div>
-      <div class="hero-badge">&#128214; IEP Goal Driven</div>
-      <div class="hero-badge">&#127979; Special Education</div>
-    </div>
-  </div>
-</section>
-<div class="section-wrap">
-  <div class="progress-section">
-    <div class="progress-label">&#128202; Curriculum Build Progress</div>
-    <div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:1%"></div></div></div>
-    <div class="progress-pct" id="prog-pct">1%</div>
-    <div class="progress-stats">
-      <div class="prog-stat"><div class="num" id="stat-ready">1</div><div class="lbl">Ready</div></div>
-      <div class="prog-stat"><div class="num" id="stat-coming">99</div><div class="lbl">Coming</div></div>
-      <div class="prog-stat"><div class="num">100</div><div class="lbl">Total</div></div>
-    </div>
-  </div>
-  <div class="toolbar">
-    <div class="search-wrap">
-      <span class="search-icon">&#128269;</span>
-      <input type="text" id="searchInput" placeholder="Search by skill, keyword, or grade&hellip;" oninput="filterCards()">
-    </div>
-    <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
-    <button class="filter-btn" onclick="setFilter('ready',this)">&#9989; Ready</button>
-    <button class="filter-btn" onclick="setFilter('2nd',this)">2nd Grade</button>
-    <button class="filter-btn" onclick="setFilter('3rd',this)">3rd Grade</button>
-    <button class="filter-btn" onclick="setFilter('coming',this)">&#128284; Coming Soon</button>
-    <span class="lesson-count" id="countLabel">Showing 3 lessons</span>
-  </div>
-  <div class="section-label" id="grade2Label">&#128998; 2nd Grade Skills &mdash; Ready to Use</div>
-  <div class="lesson-grid" id="lessonGrid">
 
-    <div class="lesson-card complete" data-status="ready" data-grade="2nd" data-tags="array repeated addition row column equal groups total 2nd grade">
-      <div class="card-top"><div class="lesson-num" style="color:#2563EB">01</div><div class="card-meta"><h3>Arrays &amp; Repeated Addition</h3><p>Count objects in rows/columns &middot; Write a repeated addition equation</p><div style="margin-top:.4rem"><span class="skill-tag" style="background:#DBEAFE;color:#1D4ED8">&#128208; Arrays</span><span class="skill-tag" style="background:#DCFCE7;color:#16A34A">&#10133; Repeated Addition</span><span class="skill-tag" style="background:#F3E8FF;color:#7C3AED">2nd Grade</span></div></div><span class="status-badge badge-ready">&#9989; Ready</span></div>
-      <div class="card-resources"><a class="res-link primary" href="lesson-01-arrays/slideshow_arrays_lesson.html" target="_blank"><span class="icon">&#128421;</span> Open Slide Deck &mdash; Present Now</a><div class="resource-row"><a class="res-link" href="lesson-01-arrays/lesson_arrays_repeated_addition.html" target="_blank"><span class="icon">&#128203;</span> Lesson Guide</a><a class="res-link" href="lesson-01-arrays/arrays_practice_problems.pdf" target="_blank"><span class="icon">&#9999;</span> Practice (20 problems)</a><a class="res-link" href="lesson-01-arrays/arrays_answer_key.pdf" target="_blank"><span class="icon">&#128273;</span> Answer Key</a><a class="res-link" href="lesson-01-arrays/vocab_sheet_student.pdf" target="_blank"><span class="icon">&#128214;</span> Vocab Sheet</a><a class="res-link" href="lesson-01-arrays/vocab_sheet_example_key.pdf" target="_blank"><span class="icon">&#128477;</span> Vocab Key</a><a class="res-link" href="https://www.youtube.com/watch?v=gzFbUZ8VjEg" target="_blank"><span class="icon">&#127925;</span> Array Song 1</a><a class="res-link" href="https://www.youtube.com/watch?v=PZlDrv6bdFg" target="_blank"><span class="icon">&#127925;</span> Array Song 2</a></div></div>
-    </div>
-
-    <div class="lesson-card complete" data-status="ready" data-grade="2nd" data-tags="equal shares partitioning shapes halves thirds fourths whole fractions parts 2nd grade">
-      <div class="card-top"><div class="lesson-num" style="color:#7C3AED">02</div><div class="card-meta"><h3>Equal Shares &mdash; Partitioning Shapes</h3><p>Count equal shares in rectangles &amp; circles &middot; Halves, thirds, fourths</p><div style="margin-top:.4rem"><span class="skill-tag" style="background:#F3E8FF;color:#7C3AED">&#9986; Partitioning</span><span class="skill-tag" style="background:#DCFCE7;color:#16A34A">&#127829; Equal Shares</span><span class="skill-tag" style="background:#F3E8FF;color:#7C3AED">2nd Grade</span></div></div><span class="status-badge badge-ready">&#9989; Ready</span></div>
-      <div class="card-resources"><a class="res-link primary" href="lesson-02-equal-shares/L2_slideshow_equal_shares.html" target="_blank"><span class="icon">&#128421;</span> Open Slide Deck &mdash; Present Now</a><div class="resource-row"><a class="res-link" href="lesson-02-equal-shares/L2_equal_shares_practice.pdf" target="_blank"><span class="icon">&#9999;</span> Practice (20 problems)</a><a class="res-link" href="lesson-02-equal-shares/L2_equal_shares_answer_key.pdf" target="_blank"><span class="icon">&#128273;</span> Answer Key</a><a class="res-link" href="lesson-02-equal-shares/L2_vocab_sheet_student.pdf" target="_blank"><span class="icon">&#128214;</span> Vocab Sheet</a><a class="res-link" href="lesson-02-equal-shares/L2_vocab_sheet_key.pdf" target="_blank"><span class="icon">&#128477;</span> Vocab Key</a><a class="res-link" href="https://www.youtube.com/watch?v=lTce7f6KGE0" target="_blank"><span class="icon">&#127925;</span> The Fractions Song</a><a class="res-link" href="https://www.youtube.com/watch?v=DnFrOetuUKg" target="_blank"><span class="icon">&#127925;</span> Halves, Thirds, Fourths Song</a></div></div>
-    </div>
-
-    <div class="lesson-card complete" data-status="ready" data-grade="2nd" data-tags="comparing numbers greater than less than equal to symbols place value hundreds 2nd grade">
-      <div class="card-top"><div class="lesson-num" style="color:#0D9488">03</div><div class="card-meta"><h3>Comparing Numbers &mdash; &gt;, =, &lt;</h3><p>Compare 3-digit numbers &middot; Use greater than, less than, equal to symbols</p><div style="margin-top:.4rem"><span class="skill-tag" style="background:#CCFBF1;color:#0D9488">&#128010; Comparing</span><span class="skill-tag" style="background:#DBEAFE;color:#1D4ED8">&#128290; Place Value</span><span class="skill-tag" style="background:#F3E8FF;color:#7C3AED">2nd Grade</span></div></div><span class="status-badge badge-ready">&#9989; Ready</span></div>
-      <div class="card-resources"><a class="res-link primary" href="lesson-03-comparing-numbers/L3_slideshow_comparing_numbers.html" target="_blank"><span class="icon">&#128421;</span> Open Slide Deck &mdash; Present Now</a><div class="resource-row"><a class="res-link" href="lesson-03-comparing-numbers/L3_comparing_numbers_practice.pdf" target="_blank"><span class="icon">&#9999;</span> Practice (20 problems)</a><a class="res-link" href="lesson-03-comparing-numbers/L3_comparing_numbers_answer_key.pdf" target="_blank"><span class="icon">&#128273;</span> Answer Key</a><a class="res-link" href="lesson-03-comparing-numbers/L3_vocab_sheet_student.pdf" target="_blank"><span class="icon">&#128214;</span> Vocab Sheet</a><a class="res-link" href="lesson-03-comparing-numbers/L3_vocab_sheet_key.pdf" target="_blank"><span class="icon">&#128477;</span> Vocab Key</a><a class="res-link" href="https://www.youtube.com/watch?v=dMp1mSqRXFM" target="_blank"><span class="icon">&#127925;</span> Greater/Less Than Song</a><a class="res-link" href="https://www.youtube.com/watch?v=MzDLp9q4QNE" target="_blank"><span class="icon">&#127925;</span> Alligator Song</a></div></div>
-    </div>
-
-    <div class="lesson-card complete" data-status="ready" data-grade="2nd" data-tags="measuring length inches ruler zero estimate inch 2nd grade">
-      <div class="card-top"><div class="lesson-num" style="color:#B45309">04</div><div class="card-meta"><h3>Measuring Length in Inches</h3><p>Use a ruler to measure lines &middot; Read inches &middot; Start at zero</p><div style="margin-top:.4rem"><span class="skill-tag" style="background:#FEF3C7;color:#B45309">&#128207; Measurement</span><span class="skill-tag" style="background:#DBEAFE;color:#1D4ED8">&#128208; Ruler</span><span class="skill-tag" style="background:#F3E8FF;color:#7C3AED">2nd Grade</span></div></div><span class="status-badge badge-ready">&#9989; Ready</span></div>
-      <div class="card-resources"><a class="res-link primary" href="lesson-04-measuring-length/L4_slideshow_measuring_length.html" target="_blank"><span class="icon">&#128421;</span> Open Slide Deck &mdash; Present Now</a><div class="resource-row"><a class="res-link" href="lesson-04-measuring-length/L4_measuring_length_practice.pdf" target="_blank"><span class="icon">&#9999;</span> Practice (20 problems)</a><a class="res-link" href="lesson-04-measuring-length/L4_measuring_length_answer_key.pdf" target="_blank"><span class="icon">&#128273;</span> Answer Key</a><a class="res-link" href="lesson-04-measuring-length/L4_vocab_sheet_student.pdf" target="_blank"><span class="icon">&#128214;</span> Vocab Sheet</a><a class="res-link" href="lesson-04-measuring-length/L4_vocab_sheet_key.pdf" target="_blank"><span class="icon">&#128477;</span> Vocab Key</a><a class="res-link" href="https://www.youtube.com/watch?v=GTXEZRryoFk" target="_blank"><span class="icon">&#127925;</span> The Ruler Song</a><a class="res-link" href="https://www.youtube.com/watch?v=WF27W7usRqM" target="_blank"><span class="icon">&#127925;</span> Measurement Song</a></div></div>
-    </div>
-
-    <div class="lesson-card complete" data-status="ready" data-grade="2nd" data-tags="adding three numbers word problems addend sum doubles make a ten 2nd grade">
-      <div class="card-top"><div class="lesson-num" style="color:#DC2626">05</div><div class="card-meta"><h3>Adding 3 Numbers &mdash; Word Problems</h3><p>Add three addends &middot; Doubles strategy &middot; Make-a-ten strategy</p><div style="margin-top:.4rem"><span class="skill-tag" style="background:#FEE2E2;color:#DC2626">&#127822; 3 Addends</span><span class="skill-tag" style="background:#DCFCE7;color:#16A34A">&#127919; Doubles</span><span class="skill-tag" style="background:#F3E8FF;color:#7C3AED">2nd Grade</span></div></div><span class="status-badge badge-ready">&#9989; Ready</span></div>
-      <div class="card-resources"><a class="res-link primary" href="lesson-05-adding3/L5_slideshow_adding3.html" target="_blank"><span class="icon">&#128421;</span> Open Slide Deck &mdash; Present Now</a><div class="resource-row"><a class="res-link" href="lesson-05-adding3/L5_adding3_practice.pdf" target="_blank"><span class="icon">&#9999;</span> Practice (20 problems)</a><a class="res-link" href="lesson-05-adding3/L5_adding3_answer_key.pdf" target="_blank"><span class="icon">&#128273;</span> Answer Key</a><a class="res-link" href="lesson-05-adding3/L5_vocab_sheet_student.pdf" target="_blank"><span class="icon">&#128214;</span> Vocab Sheet</a><a class="res-link" href="lesson-05-adding3/L5_vocab_sheet_key.pdf" target="_blank"><span class="icon">&#128477;</span> Vocab Key</a><a class="res-link" href="https://www.youtube.com/watch?v=qaqLjzMyyHI" target="_blank"><span class="icon">&#127925;</span> Doubles Shuffle Song</a><a class="res-link" href="https://www.youtube.com/watch?v=MYHOyKtT5sY" target="_blank"><span class="icon">&#127925;</span> Make a Ten to Add</a></div></div>
-    </div>
-
-    <div class="lesson-card complete" data-status="ready" data-grade="2nd" data-tags="telling time clock hands analog digital hour minute 2nd grade">
-      <div class="card-top"><div class="lesson-num" style="color:#4338CA">06</div><div class="card-meta"><h3>Telling Time &mdash; Draw the Clock Hands</h3><p>Read digital time &middot; Draw hour &amp; minute hands on analog clock</p><div style="margin-top:.4rem"><span class="skill-tag" style="background:#EEF2FF;color:#4338CA">&#128336; Telling Time</span><span class="skill-tag" style="background:#FEE2E2;color:#DC2626">&#128308; Clock Hands</span><span class="skill-tag" style="background:#F3E8FF;color:#7C3AED">2nd Grade</span></div></div><span class="status-badge badge-ready">&#9989; Ready</span></div>
-      <div class="card-resources"><a class="res-link primary" href="lesson-06-telling-time/L6_slideshow_telling_time.html" target="_blank"><span class="icon">&#128421;</span> Open Slide Deck &mdash; Present Now</a><div class="resource-row"><a class="res-link" href="lesson-06-telling-time/L6_telling_time_practice.pdf" target="_blank"><span class="icon">&#9999;</span> Practice (20 problems)</a><a class="res-link" href="lesson-06-telling-time/L6_telling_time_answer_key.pdf" target="_blank"><span class="icon">&#128273;</span> Answer Key</a><a class="res-link" href="lesson-06-telling-time/L6_vocab_sheet_student.pdf" target="_blank"><span class="icon">&#128214;</span> Vocab Sheet</a><a class="res-link" href="lesson-06-telling-time/L6_vocab_sheet_key.pdf" target="_blank"><span class="icon">&#128477;</span> Vocab Key</a><a class="res-link" href="https://www.youtube.com/watch?v=h6RNkQ7lU8Y" target="_blank"><span class="icon">&#127925;</span> Telling Time Song</a><a class="res-link" href="https://www.youtube.com/watch?v=Pxr0dySHsgU" target="_blank"><span class="icon">&#127925;</span> Skip Around the Clock</a></div></div>
-    </div>
-
-    <div class="lesson-card complete" data-status="ready" data-grade="2nd" data-tags="addition word problems signal words in all altogether addend sum count on 2nd grade">
-      <div class="card-top"><div class="lesson-num" style="color:#0891B2">07</div><div class="card-meta"><h3>Addition Word Problems</h3><p>Read word problems &middot; Find signal words &middot; Write &amp; solve addition equations</p><div style="margin-top:.4rem"><span class="skill-tag" style="background:#ECFEFF;color:#0891B2">&#128049; Word Problems</span><span class="skill-tag" style="background:#FEF9C3;color:#CA8A04">&#128678; Signal Words</span><span class="skill-tag" style="background:#F3E8FF;color:#7C3AED">2nd Grade</span></div></div><span class="status-badge badge-ready">&#9989; Ready</span></div>
-      <div class="card-resources"><a class="res-link primary" href="lesson-07-addition-word-problems/L7_slideshow_addition_wordproblems.html" target="_blank"><span class="icon">&#128421;</span> Open Slide Deck &mdash; Present Now</a><div class="resource-row"><a class="res-link" href="lesson-07-addition-word-problems/L7_addition_wordproblems_practice.pdf" target="_blank"><span class="icon">&#9999;</span> Practice (20 problems)</a><a class="res-link" href="lesson-07-addition-word-problems/L7_addition_wordproblems_answer_key.pdf" target="_blank"><span class="icon">&#128273;</span> Answer Key</a><a class="res-link" href="lesson-07-addition-word-problems/L7_vocab_sheet_student.pdf" target="_blank"><span class="icon">&#128214;</span> Vocab Sheet</a><a class="res-link" href="lesson-07-addition-word-problems/L7_vocab_sheet_key.pdf" target="_blank"><span class="icon">&#128477;</span> Vocab Key</a><a class="res-link" href="https://www.youtube.com/watch?v=-iAQI5k-8cQ" target="_blank"><span class="icon">&#127925;</span> Number Sentences Song</a><a class="res-link" href="https://www.youtube.com/watch?v=S_vopnfJ2Ec" target="_blank"><span class="icon">&#127925;</span> Key Words Song</a></div></div>
-    </div>
-
-    <div class="lesson-card complete" data-status="ready" data-grade="2nd" data-tags="comparing lengths how much longer shorter difference subtract measurement 2nd grade">
-      <div class="card-top"><div class="lesson-num" style="color:#7C3AED">08</div><div class="card-meta"><h3>Comparing Lengths &mdash; How Much Longer?</h3><p>Measure two objects &middot; Subtract to find the difference in length</p><div style="margin-top:.4rem"><span class="skill-tag" style="background:#F5F3FF;color:#7C3AED">&#128207; Comparing</span><span class="skill-tag" style="background:#FEE2E2;color:#DC2626">&#10134; Subtract</span><span class="skill-tag" style="background:#F3E8FF;color:#7C3AED">2nd Grade</span></div></div><span class="status-badge badge-ready">&#9989; Ready</span></div>
-      <div class="card-resources"><a class="res-link primary" href="lesson-08-comparing-lengths/L8_slideshow_comparing_lengths.html" target="_blank"><span class="icon">&#128421;</span> Open Slide Deck &mdash; Present Now</a><div class="resource-row"><a class="res-link" href="lesson-08-comparing-lengths/L8_comparing_lengths_practice.pdf" target="_blank"><span class="icon">&#9999;</span> Practice (20 problems)</a><a class="res-link" href="lesson-08-comparing-lengths/L8_comparing_lengths_answer_key.pdf" target="_blank"><span class="icon">&#128273;</span> Answer Key</a><a class="res-link" href="lesson-08-comparing-lengths/L8_vocab_sheet_student.pdf" target="_blank"><span class="icon">&#128214;</span> Vocab Sheet</a><a class="res-link" href="lesson-08-comparing-lengths/L8_vocab_sheet_key.pdf" target="_blank"><span class="icon">&#128477;</span> Vocab Key</a><a class="res-link" href="https://www.youtube.com/watch?v=GTXEZRryoFk" target="_blank"><span class="icon">&#127925;</span> Ruler Song</a><a class="res-link" href="https://www.youtube.com/watch?v=dxRilLOhevE" target="_blank"><span class="icon">&#127925;</span> Length Song</a></div></div>
-    </div>
-
-    <div class="lesson-card complete" data-status="ready" data-grade="2nd" data-tags="shapes pentagon hexagon triangle diamond cube sides 2d 3d geometry 2nd grade">
-      <div class="card-top"><div class="lesson-num" style="color:#059669">09</div><div class="card-meta"><h3>Identifying Shapes</h3><p>Triangle &middot; Diamond &middot; Pentagon &middot; Hexagon &middot; Cube &mdash; count sides to name!</p><div style="margin-top:.4rem"><span class="skill-tag" style="background:#DCFCE7;color:#059669">&#128311; Geometry</span><span class="skill-tag" style="background:#FEF3C7;color:#D97706">&#11040; Pentagon</span><span class="skill-tag" style="background:#F3E8FF;color:#7C3AED">2nd Grade</span></div></div><span class="status-badge badge-ready">&#9989; Ready</span></div>
-      <div class="card-resources"><a class="res-link primary" href="lesson-09-shapes/L9_slideshow_shapes.html" target="_blank"><span class="icon">&#128421;</span> Open Slide Deck &mdash; Present Now</a><div class="resource-row"><a class="res-link" href="lesson-09-shapes/L9_shapes_practice.pdf" target="_blank"><span class="icon">&#9999;</span> Practice (20 problems)</a><a class="res-link" href="lesson-09-shapes/L9_shapes_answer_key.pdf" target="_blank"><span class="icon">&#128273;</span> Answer Key</a><a class="res-link" href="lesson-09-shapes/L9_vocab_sheet_student.pdf" target="_blank"><span class="icon">&#128214;</span> Vocab Sheet</a><a class="res-link" href="lesson-09-shapes/L9_vocab_sheet_key.pdf" target="_blank"><span class="icon">&#128477;</span> Vocab Key</a><a class="res-link" href="https://www.youtube.com/watch?v=9L_UhC8Fl30" target="_blank"><span class="icon">&#127925;</span> Pentagon/Hexagon Song</a><a class="res-link" href="https://www.youtube.com/watch?v=C9D2RHuYa74" target="_blank"><span class="icon">&#127925;</span> More 2D Shapes Song</a></div></div>
-    </div>
-
-    <div class="lesson-card complete" data-status="ready" data-grade="2nd" data-tags="more than less than addition subtraction place value regroup signal words 2nd grade">
-      <div class="card-top"><div class="lesson-num" style="color:#0369A1">10</div><div class="card-meta"><h3>More Than &amp; Less Than &mdash; Addition</h3><p>&ldquo;More than&rdquo; = ADD &middot; Solve 3-digit + 2-digit with regrouping</p><div style="margin-top:.4rem"><span class="skill-tag" style="background:#E0F2FE;color:#0369A1">&#10133; More Than</span><span class="skill-tag" style="background:#DCFCE7;color:#16A34A">&#128290; Place Value</span><span class="skill-tag" style="background:#F3E8FF;color:#7C3AED">2nd Grade</span></div></div><span class="status-badge badge-ready">&#9989; Ready</span></div>
-      <div class="card-resources"><a class="res-link primary" href="lesson-10-more-than/L10_slideshow_more_than.html" target="_blank"><span class="icon">&#128421;</span> Open Slide Deck &mdash; Present Now</a><div class="resource-row"><a class="res-link" href="lesson-10-more-than/L10_more_than_practice.pdf" target="_blank"><span class="icon">&#9999;</span> Practice (20 problems)</a><a class="res-link" href="lesson-10-more-than/L10_more_than_answer_key.pdf" target="_blank"><span class="icon">&#128273;</span> Answer Key</a><a class="res-link" href="lesson-10-more-than/L10_vocab_sheet_student.pdf" target="_blank"><span class="icon">&#128214;</span> Vocab Sheet</a><a class="res-link" href="lesson-10-more-than/L10_vocab_sheet_key.pdf" target="_blank"><span class="icon">&#128477;</span> Vocab Key</a><a class="res-link" href="https://www.youtube.com/watch?v=rPVdItitgIU" target="_blank"><span class="icon">&#127925;</span> Addition &amp; Subtraction Song</a><a class="res-link" href="https://www.youtube.com/watch?v=-iAQI5k-8cQ" target="_blank"><span class="icon">&#127925;</span> Number Sentences Song</a></div></div>
-    </div>
-
-    <div class="lesson-card complete" data-status="ready" data-grade="2nd" data-tags="adding lengths measurement word problems together combined total inches ruler 2nd grade">
-      <div class="card-top"><div class="lesson-num" style="color:#0F766E">11</div><div class="card-meta"><h3>Adding Lengths &mdash; Measurement Word Problems</h3><p>Find two lengths &middot; &ldquo;Together&rdquo; = ADD &middot; Write equation in inches</p><div style="margin-top:.4rem"><span class="skill-tag" style="background:#F0FDFA;color:#0F766E">&#129698; Add Lengths</span><span class="skill-tag" style="background:#DBEAFE;color:#2563EB">&#128207; Measurement</span><span class="skill-tag" style="background:#F3E8FF;color:#7C3AED">2nd Grade</span></div></div><span class="status-badge badge-ready">&#9989; Ready</span></div>
-      <div class="card-resources"><a class="res-link primary" href="lesson-11-adding-lengths/L11_slideshow_adding_lengths.html" target="_blank"><span class="icon">&#128421;</span> Open Slide Deck &mdash; Present Now</a><div class="resource-row"><a class="res-link" href="lesson-11-adding-lengths/L11_adding_lengths_practice.pdf" target="_blank"><span class="icon">&#9999;</span> Practice (20 problems)</a><a class="res-link" href="lesson-11-adding-lengths/L11_adding_lengths_answer_key.pdf" target="_blank"><span class="icon">&#128273;</span> Answer Key</a><a class="res-link" href="lesson-11-adding-lengths/L11_vocab_sheet_student.pdf" target="_blank"><span class="icon">&#128214;</span> Vocab Sheet</a><a class="res-link" href="lesson-11-adding-lengths/L11_vocab_sheet_key.pdf" target="_blank"><span class="icon">&#128477;</span> Vocab Key</a><a class="res-link" href="https://www.youtube.com/watch?v=GTXEZRryoFk" target="_blank"><span class="icon">&#127925;</span> Ruler Song</a><a class="res-link" href="https://www.youtube.com/watch?v=-iAQI5k-8cQ" target="_blank"><span class="icon">&#127925;</span> Word Problems Song</a></div></div>
-    </div>
-
-    <div class="lesson-card complete" data-status="ready" data-grade="2nd" data-tags="missing addend unknown fact family subtract to find check 2nd grade">
-      <div class="card-top"><div class="lesson-num" style="color:#7C3AED">12</div><div class="card-meta"><h3>Missing Addend &mdash; ___ + 5 = 14</h3><p>Find the unknown number &middot; Total &minus; Known = Missing &middot; Check your answer</p><div style="margin-top:.4rem"><span class="skill-tag" style="background:#F5F3FF;color:#7C3AED">&#10067; Missing Addend</span><span class="skill-tag" style="background:#DCFCE7;color:#16A34A">&#127969; Fact Families</span><span class="skill-tag" style="background:#F3E8FF;color:#7C3AED">2nd Grade</span></div></div><span class="status-badge badge-ready">&#9989; Ready</span></div>
-      <div class="card-resources"><a class="res-link primary" href="lesson-12-missing-addend/L12_slideshow_missing_addend.html" target="_blank"><span class="icon">&#128421;</span> Open Slide Deck &mdash; Present Now</a><div class="resource-row"><a class="res-link" href="lesson-12-missing-addend/L12_missing_addend_practice.pdf" target="_blank"><span class="icon">&#9999;</span> Practice (20 problems)</a><a class="res-link" href="lesson-12-missing-addend/L12_missing_addend_answer_key.pdf" target="_blank"><span class="icon">&#128273;</span> Answer Key</a><a class="res-link" href="lesson-12-missing-addend/L12_vocab_sheet_student.pdf" target="_blank"><span class="icon">&#128214;</span> Vocab Sheet</a><a class="res-link" href="lesson-12-missing-addend/L12_vocab_sheet_key.pdf" target="_blank"><span class="icon">&#128477;</span> Vocab Key</a><a class="res-link" href="https://www.youtube.com/watch?v=rPVdItitgIU" target="_blank"><span class="icon">&#127925;</span> Addition &amp; Subtraction Song</a><a class="res-link" href="https://www.youtube.com/watch?v=-iAQI5k-8cQ" target="_blank"><span class="icon">&#127925;</span> Number Sentences Song</a></div></div>
-    </div>
-
-    <div class="lesson-card complete" data-status="ready" data-grade="2nd" data-tags="place value hundreds tens ones digit HTO 3-digit numbers 2nd grade">
-      <div class="card-top"><div class="lesson-num" style="color:#B45309">13</div><div class="card-meta"><h3>Place Value &mdash; Which Digit Is In That Place?</h3><p>Identify digits in 1s &middot; 10s &middot; 100s place of 3-digit numbers</p><div style="margin-top:.4rem"><span class="skill-tag" style="background:#FEF9C3;color:#B45309">&#128290; Place Value</span><span class="skill-tag" style="background:#F5F3FF;color:#7C3AED">H&ndash;T&ndash;O</span><span class="skill-tag" style="background:#DBEAFE;color:#0369A1">2nd Grade</span></div></div><span class="status-badge badge-ready">&#9989; Ready</span></div>
-      <div class="card-resources"><a class="res-link primary" href="lesson-13-place-value/L13_slideshow_place_value.html" target="_blank"><span class="icon">&#128421;</span> Open Slide Deck &mdash; Present Now</a><div class="resource-row"><a class="res-link" href="lesson-13-place-value/L13_place_value_practice.pdf" target="_blank"><span class="icon">&#9999;</span> Practice (20 problems)</a><a class="res-link" href="lesson-13-place-value/L13_place_value_answer_key.pdf" target="_blank"><span class="icon">&#128273;</span> Answer Key</a><a class="res-link" href="lesson-13-place-value/L13_vocab_sheet_student.pdf" target="_blank"><span class="icon">&#128214;</span> Vocab Sheet</a><a class="res-link" href="lesson-13-place-value/L13_vocab_sheet_key.pdf" target="_blank"><span class="icon">&#128477;</span> Vocab Key</a><a class="res-link" href="https://www.youtube.com/watch?v=nFvBPFf9ZK0" target="_blank"><span class="icon">&#127925;</span> Place Value Song</a><a class="res-link" href="https://www.youtube.com/watch?v=a4FXl4zb3E4" target="_blank"><span class="icon">&#127925;</span> Place Value Song (Numberock)</a></div></div>
-    </div>
-
-    <div class="lesson-card complete" data-status="ready" data-grade="2nd" data-tags="telling time analog digital clock read hands hour minute skip count 2nd grade">
-      <div class="card-top"><div class="lesson-num" style="color:#0F766E">14</div><div class="card-meta"><h3>Telling Time &mdash; Read Analog, Write Digital</h3><p>Look at analog clock hands &rarr; write the digital time (reverse of Lesson 6)</p><div style="margin-top:.4rem"><span class="skill-tag" style="background:#F0FDFA;color:#0F766E">&#128337; Read Clock</span><span class="skill-tag" style="background:#DBEAFE;color:#1D4ED8">&#128241; Digital Time</span><span class="skill-tag" style="background:#F3E8FF;color:#7C3AED">2nd Grade</span></div></div><span class="status-badge badge-ready">&#9989; Ready</span></div>
-      <div class="card-resources"><a class="res-link primary" href="lesson-14-read-the-clock/L14_slideshow_telling_time_digital.html" target="_blank"><span class="icon">&#128421;</span> Open Slide Deck &mdash; Present Now</a><div class="resource-row"><a class="res-link" href="lesson-14-read-the-clock/L14_telling_time_digital_practice.pdf" target="_blank"><span class="icon">&#9999;</span> Practice (20 problems)</a><a class="res-link" href="lesson-14-read-the-clock/L14_telling_time_digital_answer_key.pdf" target="_blank"><span class="icon">&#128273;</span> Answer Key</a><a class="res-link" href="lesson-14-read-the-clock/L14_vocab_sheet_student.pdf" target="_blank"><span class="icon">&#128214;</span> Vocab Sheet</a><a class="res-link" href="lesson-14-read-the-clock/L14_vocab_sheet_key.pdf" target="_blank"><span class="icon">&#128477;</span> Vocab Key</a><a class="res-link" href="https://www.youtube.com/watch?v=h6RNkQ7lU8Y" target="_blank"><span class="icon">&#127925;</span> Telling Time Song</a><a class="res-link" href="https://www.youtube.com/watch?v=Pxr0dySHsgU" target="_blank"><span class="icon">&#127925;</span> Skip Around the Clock</a></div></div>
-    </div>
-
-    <div class="lesson-card complete" data-status="ready" data-grade="2nd" data-tags="two step word problems subtraction multi-step show work equations 2nd grade">
-      <div class="card-top"><div class="lesson-num" style="color:#BE185D">15</div><div class="card-meta"><h3>Two-Step Word Problems</h3><p>Two events in one story &middot; Solve Step 1 first &middot; Use that answer for Step 2</p><div style="margin-top:.4rem"><span class="skill-tag" style="background:#FDF2F8;color:#BE185D">&#10134;&#10134; Two Steps</span><span class="skill-tag" style="background:#FEF9C3;color:#D97706">&#128221; Show Work</span><span class="skill-tag" style="background:#F3E8FF;color:#7C3AED">2nd Grade</span></div></div><span class="status-badge badge-ready">&#9989; Ready</span></div>
-      <div class="card-resources"><a class="res-link primary" href="lesson-15-two-step/L15_slideshow_two_step.html" target="_blank"><span class="icon">&#128421;</span> Open Slide Deck &mdash; Present Now</a><div class="resource-row"><a class="res-link" href="lesson-15-two-step/L15_two_step_practice.pdf" target="_blank"><span class="icon">&#9999;</span> Practice (20 problems)</a><a class="res-link" href="lesson-15-two-step/L15_two_step_answer_key.pdf" target="_blank"><span class="icon">&#128273;</span> Answer Key</a><a class="res-link" href="lesson-15-two-step/L15_vocab_sheet_student.pdf" target="_blank"><span class="icon">&#128214;</span> Vocab Sheet</a><a class="res-link" href="lesson-15-two-step/L15_vocab_sheet_key.pdf" target="_blank"><span class="icon">&#128477;</span> Vocab Key</a><a class="res-link" href="https://www.youtube.com/watch?v=-iAQI5k-8cQ" target="_blank"><span class="icon">&#127925;</span> Word Problems Song</a><a class="res-link" href="https://www.youtube.com/watch?v=rPVdItitgIU" target="_blank"><span class="icon">&#127925;</span> Add &amp; Subtract Song</a></div></div>
-    </div>
-
-    <div class="lesson-card complete" data-status="ready" data-grade="2nd" data-tags="counting coins quarter dime nickel penny cents money 2nd grade">
-      <div class="card-top"><div class="lesson-num" style="color:#B45309">16</div><div class="card-meta"><h3>Counting Coins &mdash; How Many Cents?</h3><p>Quarter=25&#162; &middot; Dime=10&#162; &middot; Nickel=5&#162; &middot; Penny=1&#162; &middot; Count up biggest&rarr;smallest</p><div style="margin-top:.4rem"><span class="skill-tag" style="background:#FEF9C3;color:#B45309">&#129689; Counting Coins</span><span class="skill-tag" style="background:#DCFCE7;color:#16A34A">&#128176; Money</span><span class="skill-tag" style="background:#FEE2E2;color:#DC2626">&#11088; Last 2nd Grade!</span></div></div><span class="status-badge badge-ready">&#9989; Ready</span></div>
-      <div class="card-resources"><a class="res-link primary" href="lesson-16-counting-coins/L16_slideshow_counting_coins.html" target="_blank"><span class="icon">&#128421;</span> Open Slide Deck &mdash; Present Now</a><div class="resource-row"><a class="res-link" href="lesson-16-counting-coins/L16_counting_coins_practice.pdf" target="_blank"><span class="icon">&#9999;</span> Practice (20 problems)</a><a class="res-link" href="lesson-16-counting-coins/L16_counting_coins_answer_key.pdf" target="_blank"><span class="icon">&#128273;</span> Answer Key</a><a class="res-link" href="lesson-16-counting-coins/L16_vocab_sheet_student.pdf" target="_blank"><span class="icon">&#128214;</span> Vocab Sheet</a><a class="res-link" href="lesson-16-counting-coins/L16_vocab_sheet_key.pdf" target="_blank"><span class="icon">&#128477;</span> Vocab Key</a><a class="res-link" href="https://www.youtube.com/watch?v=MbtmucV-U2c" target="_blank"><span class="icon">&#127925;</span> Counting Coins (Numberock)</a><a class="res-link" href="https://www.youtube.com/watch?v=pnXJGNo08v0" target="_blank"><span class="icon">&#127925;</span> The Money Song (Jack Hartmann)</a></div></div>
-    </div>
-
-    <div style="grid-column:1/-1;text-align:center;padding:2.5rem 1rem 1.5rem;border-top:4px solid rgba(15,118,110,.6);margin-top:1.5rem;">
-      <div style="display:inline-block;background:rgba(15,118,110,.25);border:2px solid rgba(15,118,110,.5);border-radius:999px;padding:.5rem 2rem;font-family:'Fredoka One',cursive;font-size:1.4rem;color:#5EEAD4;margin-bottom:.5rem;">&#127891; 3rd Grade &mdash; Acadiance Applied Math</div>
-      <div style="color:rgba(15,118,110,.8);font-weight:700;font-size:.85rem;">Lesson number = Question number on the 3rd grade progress monitoring sheet</div>
-    </div>
-
-    <div class="lesson-card complete" data-status="ready" data-grade="3rd" data-tags="telling time analog digital clock read hands hour minute 3rd grade">
-      <div class="card-top"><div class="lesson-num" style="color:#0F766E">01</div><div class="card-meta"><h3>3G &middot; Lesson 1 &mdash; Fill In the Digital Clock</h3><p>Read analog clock hands &rarr; write the digital time (9:15)</p><div style="margin-top:.4rem"><span class="skill-tag" style="background:#F0FDFA;color:#0F766E">&#128337; Telling Time</span><span class="skill-tag" style="background:#DBEAFE;color:#1D4ED8">&#128241; Digital Time</span><span class="skill-tag" style="background:#CCFBF1;color:#0D9488">3rd Grade</span></div></div><span class="status-badge badge-ready">&#9989; Ready</span></div>
-      <div class="card-resources"><a class="res-link primary" href="grade-3/lesson-01-telling-time/3G_L1_slideshow_telling_time.html" target="_blank"><span class="icon">&#128421;</span> Open Slide Deck &mdash; Present Now</a><div class="resource-row"><a class="res-link" href="grade-3/lesson-01-telling-time/3G_L1_telling_time_practice.pdf" target="_blank"><span class="icon">&#9999;</span> Practice (20 problems)</a><a class="res-link" href="grade-3/lesson-01-telling-time/3G_L1_telling_time_answer_key.pdf" target="_blank"><span class="icon">&#128273;</span> Answer Key</a><a class="res-link" href="grade-3/lesson-01-telling-time/3G_L1_vocab_sheet_student.pdf" target="_blank"><span class="icon">&#128214;</span> Vocab Sheet</a><a class="res-link" href="grade-3/lesson-01-telling-time/3G_L1_vocab_sheet_key.pdf" target="_blank"><span class="icon">&#128477;</span> Vocab Key</a><a class="res-link" href="https://www.youtube.com/watch?v=h6RNkQ7lU8Y" target="_blank"><span class="icon">&#127925;</span> Telling Time Song</a><a class="res-link" href="https://www.youtube.com/watch?v=Pxr0dySHsgU" target="_blank"><span class="icon">&#127925;</span> Skip Around the Clock</a></div></div>
-    </div>
-
-    <div class="lesson-card complete" data-status="ready" data-grade="3rd" data-tags="fractions shaded parts numerator denominator equal parts 3rd grade">
-      <div class="card-top"><div class="lesson-num" style="color:#7C3AED">02</div><div class="card-meta"><h3>3G &middot; Lesson 2 &mdash; Write the Fraction for Shaded Parts</h3><p>Count shaded parts (numerator) &middot; Count total parts (denominator) &middot; Write the fraction</p><div style="margin-top:.4rem"><span class="skill-tag" style="background:#F5F3FF;color:#7C3AED">&#189; Fractions</span><span class="skill-tag" style="background:#DCFCE7;color:#16A34A">&#9999; Write It</span><span class="skill-tag" style="background:#CCFBF1;color:#0D9488">3rd Grade</span></div></div><span class="status-badge badge-ready">&#9989; Ready</span></div>
-      <div class="card-resources"><a class="res-link primary" href="grade-3/lesson-02-fractions/3G_L2_slideshow_fractions.html" target="_blank"><span class="icon">&#128421;</span> Open Slide Deck &mdash; Present Now</a><div class="resource-row"><a class="res-link" href="grade-3/lesson-02-fractions/3G_L2_fractions_practice.pdf" target="_blank"><span class="icon">&#9999;</span> Practice (20 problems)</a><a class="res-link" href="grade-3/lesson-02-fractions/3G_L2_fractions_answer_key.pdf" target="_blank"><span class="icon">&#128273;</span> Answer Key</a><a class="res-link" href="grade-3/lesson-02-fractions/3G_L2_vocab_sheet_student.pdf" target="_blank"><span class="icon">&#128214;</span> Vocab Sheet</a><a class="res-link" href="grade-3/lesson-02-fractions/3G_L2_vocab_sheet_key.pdf" target="_blank"><span class="icon">&#128477;</span> Vocab Key</a><a class="res-link" href="https://www.youtube.com/watch?v=5lHXd1cJcMQ" target="_blank"><span class="icon">&#127925;</span> The Fractions Song</a><a class="res-link" href="https://www.youtube.com/watch?v=lTce7f6KGE0" target="_blank"><span class="icon">&#127925;</span> Fractions for Kids Song</a></div></div>
-    </div>
-
-    <div class="lesson-card complete" data-status="ready" data-grade="3rd" data-tags="rounding nearest ten hundred place value 3rd grade">
-      <div class="card-top"><div class="lesson-num" style="color:#0891B2">03</div><div class="card-meta"><h3>3G &middot; Lesson 3 &mdash; Rounding to the Nearest 10 and 100</h3><p>Look at ones digit &rarr; round to nearest 10 &middot; Look at tens digit &rarr; round to nearest 100</p><div style="margin-top:.4rem"><span class="skill-tag" style="background:#ECFEFF;color:#0891B2">&#128290; Rounding</span><span class="skill-tag" style="background:#DBEAFE;color:#1D4ED8">&#128202; Place Value</span><span class="skill-tag" style="background:#CCFBF1;color:#0D9488">3rd Grade</span></div></div><span class="status-badge badge-ready">&#9989; Ready</span></div>
-      <div class="card-resources"><a class="res-link primary" href="grade-3/lesson-03-rounding/3G_L3_Rounding%20%281%29.html#slides" target="_blank"><span class="icon">&#128421;</span> Open Slide Deck &mdash; Present Now</a><div class="resource-row"><a class="res-link" href="grade-3/lesson-03-rounding/3G_L3_Rounding%20%281%29.html#practice" target="_blank"><span class="icon">&#9999;</span> Practice (20 problems)</a><a class="res-link" href="grade-3/lesson-03-rounding/3G_L3_Rounding%20%281%29.html#answerkey" target="_blank"><span class="icon">&#128273;</span> Answer Key</a><a class="res-link" href="grade-3/lesson-03-rounding/3G_L3_Rounding%20%281%29.html#vocab" target="_blank"><span class="icon">&#128214;</span> Vocab Sheet</a><a class="res-link" href="grade-3/lesson-03-rounding/3G_L3_Rounding%20%281%29.html#vocabkey" target="_blank"><span class="icon">&#128477;</span> Vocab Key</a><a class="res-link" href="https://www.youtube.com/watch?v=P7pBjxCxMmY" target="_blank"><span class="icon">&#127925;</span> Rounding Song (Numberock)</a><a class="res-link" href="https://www.youtube.com/watch?v=ZKPQe1VYhbk" target="_blank"><span class="icon">&#127925;</span> Round to 10 &amp; 100 Song</a></div></div>
-    </div>
-
-    <a class="add-card" href="#" onclick="alert('Share 3rd grade question 4 screenshot to build Lesson 4!'); return false;" data-status="coming" data-grade="3rd">
-      <div class="add-icon">&#10133;</div>
-      <div style="font-family:'Fredoka One',cursive;font-size:1.05rem;">Add 3rd Grade Lesson 4</div>
-      <div style="font-size:.78rem;text-align:center;line-height:1.4;">Share question 4 from your 3rd grade Acadiance sheet</div>
-    </a>
-
-  </div>
-
-  <div class="section-label" id="grade3Label">&#129001; 3rd Grade Skills &mdash; Coming Soon</div>
-  <div class="lesson-grid" id="grade3Grid">
-    <div class="lesson-card coming-soon" data-status="coming" data-grade="3rd" data-tags="3rd grade multiplication division rounding">
-      <div class="card-top"><div class="lesson-num" style="color:#CBD5E1">3+</div><div class="card-meta"><h3>3rd Grade Lessons</h3><p>Multiplication, division, rounding, fractions &amp; more &mdash; coming as we build!</p><div style="margin-top:.35rem"><span class="skill-tag" style="background:#DCFCE7;color:#16A34A">3rd Grade</span></div></div><span class="status-badge badge-coming">&#128284; Soon</span></div>
-      <div class="card-resources"><div style="text-align:center;padding:1rem 0;color:#94A3B8;font-size:.85rem;font-weight:700;">Share 3rd grade Acadiance screenshots<br>with Claude to generate these lessons</div></div>
-    </div>
-  </div>
-
-  <div class="section-label" id="comingSoonLabel">&#128284; More 2nd Grade Lessons &mdash; Coming Soon</div>
-  <div class="lesson-grid" id="comingGrid"></div>
-
-  <div class="howto">
-    <div class="howto-icon">&#128193;</div>
-    <div>
-      <h3>How to Set Up Your Curriculum Folder</h3>
-      <p>Keep all lesson files in one folder so every link works. The recommended structure is:<br><code>math-intervention/</code> &rarr; <code>index.html</code> (this page) + one subfolder per lesson named <code>lesson-01-arrays/</code>, <code>lesson-02-next/</code>, etc.<br><br>Put all 6 files for Lesson 1 inside <code>lesson-01-arrays/</code> and all links on this card will work instantly when you open <code>index.html</code> in any browser.</p>
-      <div class="setup-steps">
-        <div class="setup-step"><div class="setup-num">1</div><p>Create a folder called <code>math-intervention</code> on your Desktop</p></div>
-        <div class="setup-step"><div class="setup-num">2</div><p>Save this file as <code>index.html</code> inside that folder</p></div>
-        <div class="setup-step"><div class="setup-num">3</div><p>Create a subfolder <code>lesson-01-arrays</code> and drop all 6 Lesson 1 files in it</p></div>
-        <div class="setup-step"><div class="setup-num">4</div><p>Open <code>index.html</code> in Chrome &mdash; every link will work!</p></div>
-        <div class="setup-step"><div class="setup-num">5</div><p><strong>Want a shareable link?</strong> Drag your whole folder to <a href="https://app.netlify.com/drop" target="_blank">netlify.com/drop</a> &mdash; free, instant URL, no account needed</p></div>
-      </div>
-    </div>
+<div class="progress-bar-wrap">
+  <span class="progress-label">&#x1F4CA; Curriculum Build Progress</span>
+  <div class="progress-bar"><div class="progress-fill"></div></div>
+  <div class="progress-stats">
+    <div class="stat"><div class="num">19</div><div>Ready</div></div>
+    <div class="stat"><div class="num">81</div><div>Coming</div></div>
+    <div class="stat"><div class="num">100</div><div>Total</div></div>
   </div>
 </div>
 
-<footer><strong>Ms. Newby Teaches</strong> &middot; Math Intervention Curriculum &middot; Built for Acadiance Applied Math Progress Monitoring &middot; Grades 4&ndash;6 Special Education<br>Each lesson: 10-min instruction + 20-min practice &middot; Aligned to 2nd &amp; 3rd Grade CCSS Math Standards</footer>
+<div class="filter-bar">
+  <button class="filter-btn active" onclick="filterCards('all',this)">All</button>
+  <button class="filter-btn" onclick="filterCards('ready',this)">&#x2705; Ready</button>
+  <button class="filter-btn" onclick="filterCards('grade2',this)">2&#xFE0F;&#x20E3; 2nd Grade</button>
+  <button class="filter-btn" onclick="filterCards('grade3',this)">3&#xFE0F;&#x20E3; 3rd Grade</button>
+  <button class="filter-btn" onclick="filterCards('soon',this)">&#x1F51C; Coming Soon</button>
+  <input class="search-box" type="text" placeholder="&#x1F50D; Search lessons..." oninput="searchCards(this.value)">
+</div>
+
+<main>
+
+<!-- ══ 2ND GRADE ══════════════════════════════════════════════════════════ -->
+<div class="section-header" data-grade="grade2">&#x1F7E6; 2nd Grade Skills &mdash; Ready to Use</div>
+<div class="lessons-grid" id="grid-grade2">
+
+  <div class="card" data-grade="grade2" data-status="ready" data-title="arrays repeated addition">
+    <div class="card-header"><span class="lesson-num">01</span><span class="badge badge-ready">&#x2705; Ready</span></div>
+    <h3>Arrays &amp; Repeated Addition</h3>
+    <div class="desc">Count objects in rows/columns &middot; Write a repeated addition equation</div>
+    <div class="card-tags"><span class="tag">&#x1F4D0; Arrays</span><span class="tag red">&#x2795; Repeated Addition</span><span class="tag">2nd Grade</span></div>
+    <hr class="divider">
+    <div class="links">
+      <a class="btn btn-primary" href="lesson-01-arrays/slideshow_arrays_lesson.html" target="_blank">&#x1F5A5;&#xFE0F; Open Slide Deck</a>
+      <a class="btn btn-outline" href="lesson-01-arrays/lesson_arrays_repeated_addition.html" target="_blank">&#x1F4CB; Lesson Guide</a>
+      <a class="btn btn-pdf" href="lesson-01-arrays/arrays_practice_problems.pdf" target="_blank">&#x270F;&#xFE0F; Practice</a>
+      <a class="btn btn-pdf" href="lesson-01-arrays/arrays_answer_key.pdf" target="_blank">&#x1F511; Answer Key</a>
+      <a class="btn btn-pdf" href="lesson-01-arrays/vocab_sheet_student.pdf" target="_blank">&#x1F4D6; Vocab Sheet</a>
+      <a class="btn btn-pdf" href="lesson-01-arrays/vocab_sheet_example_key.pdf" target="_blank">&#x1F5DD;&#xFE0F; Vocab Key</a>
+      <a class="btn btn-yt" href="https://www.youtube.com/watch?v=gzFbUZ8VjEg" target="_blank">&#x1F3B5; Song 1</a>
+      <a class="btn btn-yt" href="https://www.youtube.com/watch?v=PZlDrv6bdFg" target="_blank">&#x1F3B5; Song 2</a>
+    </div>
+  </div>
+
+  <div class="card" data-grade="grade2" data-status="ready" data-title="equal shares partitioning shapes halves thirds fourths">
+    <div class="card-header"><span class="lesson-num">02</span><span class="badge badge-ready">&#x2705; Ready</span></div>
+    <h3>Equal Shares &mdash; Partitioning Shapes</h3>
+    <div class="desc">Count equal shares in rectangles &amp; circles &middot; Halves, thirds, fourths</div>
+    <div class="card-tags"><span class="tag">&#x2702;&#xFE0F; Partitioning</span><span class="tag red">&#x1F355; Equal Shares</span><span class="tag">2nd Grade</span></div>
+    <hr class="divider">
+    <div class="links">
+      <a class="btn btn-primary" href="lesson-02-equal-shares/L2_slideshow_equal_shares.html" target="_blank">&#x1F5A5;&#xFE0F; Open Slide Deck</a>
+      <a class="btn btn-pdf" href="lesson-02-equal-shares/L2_equal_shares_practice.pdf" target="_blank">&#x270F;&#xFE0F; Practice</a>
+      <a class="btn btn-pdf" href="lesson-02-equal-shares/L2_equal_shares_answer_key.pdf" target="_blank">&#x1F511; Answer Key</a>
+      <a class="btn btn-pdf" href="lesson-02-equal-shares/L2_vocab_sheet_student.pdf" target="_blank">&#x1F4D6; Vocab Sheet</a>
+      <a class="btn btn-pdf" href="lesson-02-equal-shares/L2_vocab_sheet_key.pdf" target="_blank">&#x1F5DD;&#xFE0F; Vocab Key</a>
+      <a class="btn btn-yt" href="https://www.youtube.com/watch?v=lTce7f6KGE0" target="_blank">&#x1F3B5; Fractions Song</a>
+      <a class="btn btn-yt" href="https://www.youtube.com/watch?v=DnFrOetuUKg" target="_blank">&#x1F3B5; Halves Song</a>
+    </div>
+  </div>
+
+  <div class="card" data-grade="grade2" data-status="ready" data-title="comparing numbers greater less equal">
+    <div class="card-header"><span class="lesson-num">03</span><span class="badge badge-ready">&#x2705; Ready</span></div>
+    <h3>Comparing Numbers &mdash; &gt;, =, &lt;</h3>
+    <div class="desc">Compare 3-digit numbers &middot; Use greater than, less than, equal to symbols</div>
+    <div class="card-tags"><span class="tag">&#x1F40A; Comparing</span><span class="tag red">&#x1F522; Place Value</span><span class="tag">2nd Grade</span></div>
+    <hr class="divider">
+    <div class="links">
+      <a class="btn btn-primary" href="lesson-03-comparing-numbers/L3_slideshow_comparing_numbers.html" target="_blank">&#x1F5A5;&#xFE0F; Open Slide Deck</a>
+      <a class="btn btn-pdf" href="lesson-03-comparing-numbers/L3_comparing_numbers_practice.pdf" target="_blank">&#x270F;&#xFE0F; Practice</a>
+      <a class="btn btn-pdf" href="lesson-03-comparing-numbers/L3_comparing_numbers_answer_key.pdf" target="_blank">&#x1F511; Answer Key</a>
+      <a class="btn btn-pdf" href="lesson-03-comparing-numbers/L3_vocab_sheet_student.pdf" target="_blank">&#x1F4D6; Vocab Sheet</a>
+      <a class="btn btn-pdf" href="lesson-03-comparing-numbers/L3_vocab_sheet_key.pdf" target="_blank">&#x1F5DD;&#xFE0F; Vocab Key</a>
+      <a class="btn btn-yt" href="https://www.youtube.com/watch?v=dMp1mSqRXFM" target="_blank">&#x1F3B5; Greater/Less Song</a>
+      <a class="btn btn-yt" href="https://www.youtube.com/watch?v=MzDLp9q4QNE" target="_blank">&#x1F3B5; Alligator Song</a>
+    </div>
+  </div>
+
+  <div class="card" data-grade="grade2" data-status="ready" data-title="measuring length inches ruler">
+    <div class="card-header"><span class="lesson-num">04</span><span class="badge badge-ready">&#x2705; Ready</span></div>
+    <h3>Measuring Length in Inches</h3>
+    <div class="desc">Use a ruler to measure lines &middot; Read inches &middot; Start at zero</div>
+    <div class="card-tags"><span class="tag">&#x1F4CF; Measurement</span><span class="tag red">&#x1F4D0; Ruler</span><span class="tag">2nd Grade</span></div>
+    <hr class="divider">
+    <div class="links">
+      <a class="btn btn-primary" href="lesson-04-measuring-length/L4_slideshow_measuring_length.html" target="_blank">&#x1F5A5;&#xFE0F; Open Slide Deck</a>
+      <a class="btn btn-pdf" href="lesson-04-measuring-length/L4_measuring_length_practice.pdf" target="_blank">&#x270F;&#xFE0F; Practice</a>
+      <a class="btn btn-pdf" href="lesson-04-measuring-length/L4_measuring_length_answer_key.pdf" target="_blank">&#x1F511; Answer Key</a>
+      <a class="btn btn-pdf" href="lesson-04-measuring-length/L4_vocab_sheet_student.pdf" target="_blank">&#x1F4D6; Vocab Sheet</a>
+      <a class="btn btn-pdf" href="lesson-04-measuring-length/L4_vocab_sheet_key.pdf" target="_blank">&#x1F5DD;&#xFE0F; Vocab Key</a>
+      <a class="btn btn-yt" href="https://www.youtube.com/watch?v=GTXEZRryoFk" target="_blank">&#x1F3B5; Ruler Song</a>
+      <a class="btn btn-yt" href="https://www.youtube.com/watch?v=WF27W7usRqM" target="_blank">&#x1F3B5; Measurement Song</a>
+    </div>
+  </div>
+
+  <div class="card" data-grade="grade2" data-status="ready" data-title="adding 3 numbers word problems doubles make ten">
+    <div class="card-header"><span class="lesson-num">05</span><span class="badge badge-ready">&#x2705; Ready</span></div>
+    <h3>Adding 3 Numbers &mdash; Word Problems</h3>
+    <div class="desc">Add three addends &middot; Doubles strategy &middot; Make-a-ten strategy</div>
+    <div class="card-tags"><span class="tag">&#x1F34E; 3 Addends</span><span class="tag red">&#x1F3AF; Doubles</span><span class="tag">2nd Grade</span></div>
+    <hr class="divider">
+    <div class="links">
+      <a class="btn btn-primary" href="lesson-05-adding3/L5_slideshow_adding3.html" target="_blank">&#x1F5A5;&#xFE0F; Open Slide Deck</a>
+      <a class="btn btn-pdf" href="lesson-05-adding3/L5_adding3_practice.pdf" target="_blank">&#x270F;&#xFE0F; Practice</a>
+      <a class="btn btn-pdf" href="lesson-05-adding3/L5_adding3_answer_key.pdf" target="_blank">&#x1F511; Answer Key</a>
+      <a class="btn btn-pdf" href="lesson-05-adding3/L5_vocab_sheet_student.pdf" target="_blank">&#x1F4D6; Vocab Sheet</a>
+      <a class="btn btn-pdf" href="lesson-05-adding3/L5_vocab_sheet_key.pdf" target="_blank">&#x1F5DD;&#xFE0F; Vocab Key</a>
+      <a class="btn btn-yt" href="https://www.youtube.com/watch?v=qaqLjzMyyHI" target="_blank">&#x1F3B5; Doubles Song</a>
+      <a class="btn btn-yt" href="https://www.youtube.com/watch?v=MYHOyKtT5sY" target="_blank">&#x1F3B5; Make a Ten</a>
+    </div>
+  </div>
+
+  <div class="card" data-grade="grade2" data-status="ready" data-title="telling time clock hands analog digital">
+    <div class="card-header"><span class="lesson-num">06</span><span class="badge badge-ready">&#x2705; Ready</span></div>
+    <h3>Telling Time &mdash; Draw the Clock Hands</h3>
+    <div class="desc">Read digital time &middot; Draw hour &amp; minute hands on analog clock</div>
+    <div class="card-tags"><span class="tag">&#x1F550; Telling Time</span><span class="tag red">&#x1F534; Clock Hands</span><span class="tag">2nd Grade</span></div>
+    <hr class="divider">
+    <div class="links">
+      <a class="btn btn-primary" href="lesson-06-telling-time/L6_slideshow_telling_time.html" target="_blank">&#x1F5A5;&#xFE0F; Open Slide Deck</a>
+      <a class="btn btn-pdf" href="lesson-06-telling-time/L6_telling_time_practice.pdf" target="_blank">&#x270F;&#xFE0F; Practice</a>
+      <a class="btn btn-pdf" href="lesson-06-telling-time/L6_telling_time_answer_key.pdf" target="_blank">&#x1F511; Answer Key</a>
+      <a class="btn btn-pdf" href="lesson-06-telling-time/L6_vocab_sheet_student.pdf" target="_blank">&#x1F4D6; Vocab Sheet</a>
+      <a class="btn btn-pdf" href="lesson-06-telling-time/L6_vocab_sheet_key.pdf" target="_blank">&#x1F5DD;&#xFE0F; Vocab Key</a>
+      <a class="btn btn-yt" href="https://www.youtube.com/watch?v=h6RNkQ7lU8Y" target="_blank">&#x1F3B5; Telling Time Song</a>
+      <a class="btn btn-yt" href="https://www.youtube.com/watch?v=Pxr0dySHsgU" target="_blank">&#x1F3B5; Skip Around Clock</a>
+    </div>
+  </div>
+
+  <div class="card" data-grade="grade2" data-status="ready" data-title="addition word problems signal words">
+    <div class="card-header"><span class="lesson-num">07</span><span class="badge badge-ready">&#x2705; Ready</span></div>
+    <h3>Addition Word Problems</h3>
+    <div class="desc">Read word problems &middot; Find signal words &middot; Write &amp; solve addition equations</div>
+    <div class="card-tags"><span class="tag">&#x1F431; Word Problems</span><span class="tag red">&#x1F6A6; Signal Words</span><span class="tag">2nd Grade</span></div>
+    <hr class="divider">
+    <div class="links">
+      <a class="btn btn-primary" href="lesson-07-addition-word-problems/L7_slideshow_addition_wordproblems.html" target="_blank">&#x1F5A5;&#xFE0F; Open Slide Deck</a>
+      <a class="btn btn-pdf" href="lesson-07-addition-word-problems/L7_addition_wordproblems_practice.pdf" target="_blank">&#x270F;&#xFE0F; Practice</a>
+      <a class="btn btn-pdf" href="lesson-07-addition-word-problems/L7_addition_wordproblems_answer_key.pdf" target="_blank">&#x1F511; Answer Key</a>
+      <a class="btn btn-pdf" href="lesson-07-addition-word-problems/L7_vocab_sheet_student.pdf" target="_blank">&#x1F4D6; Vocab Sheet</a>
+      <a class="btn btn-pdf" href="lesson-07-addition-word-problems/L7_vocab_sheet_key.pdf" target="_blank">&#x1F5DD;&#xFE0F; Vocab Key</a>
+      <a class="btn btn-yt" href="https://www.youtube.com/watch?v=-iAQI5k-8cQ" target="_blank">&#x1F3B5; Number Sentences</a>
+      <a class="btn btn-yt" href="https://www.youtube.com/watch?v=S_vopnfJ2Ec" target="_blank">&#x1F3B5; Key Words Song</a>
+    </div>
+  </div>
+
+  <div class="card" data-grade="grade2" data-status="ready" data-title="comparing lengths how much longer subtract">
+    <div class="card-header"><span class="lesson-num">08</span><span class="badge badge-ready">&#x2705; Ready</span></div>
+    <h3>Comparing Lengths &mdash; How Much Longer?</h3>
+    <div class="desc">Measure two objects &middot; Subtract to find the difference in length</div>
+    <div class="card-tags"><span class="tag">&#x1F4CF; Comparing</span><span class="tag red">&#x2796; Subtract</span><span class="tag">2nd Grade</span></div>
+    <hr class="divider">
+    <div class="links">
+      <a class="btn btn-primary" href="lesson-08-comparing-lengths/L8_slideshow_comparing_lengths.html" target="_blank">&#x1F5A5;&#xFE0F; Open Slide Deck</a>
+      <a class="btn btn-pdf" href="lesson-08-comparing-lengths/L8_comparing_lengths_practice.pdf" target="_blank">&#x270F;&#xFE0F; Practice</a>
+      <a class="btn btn-pdf" href="lesson-08-comparing-lengths/L8_comparing_lengths_answer_key.pdf" target="_blank">&#x1F511; Answer Key</a>
+      <a class="btn btn-pdf" href="lesson-08-comparing-lengths/L8_vocab_sheet_student.pdf" target="_blank">&#x1F4D6; Vocab Sheet</a>
+      <a class="btn btn-pdf" href="lesson-08-comparing-lengths/L8_vocab_sheet_key.pdf" target="_blank">&#x1F5DD;&#xFE0F; Vocab Key</a>
+      <a class="btn btn-yt" href="https://www.youtube.com/watch?v=GTXEZRryoFk" target="_blank">&#x1F3B5; Ruler Song</a>
+      <a class="btn btn-yt" href="https://www.youtube.com/watch?v=dxRilLOhevE" target="_blank">&#x1F3B5; Length Song</a>
+    </div>
+  </div>
+
+  <div class="card" data-grade="grade2" data-status="ready" data-title="identifying shapes geometry pentagon hexagon cube">
+    <div class="card-header"><span class="lesson-num">09</span><span class="badge badge-ready">&#x2705; Ready</span></div>
+    <h3>Identifying Shapes</h3>
+    <div class="desc">Triangle &middot; Diamond &middot; Pentagon &middot; Hexagon &middot; Cube &mdash; count sides to name!</div>
+    <div class="card-tags"><span class="tag">&#x1F537; Geometry</span><span class="tag red">&#x2B20; Pentagon</span><span class="tag">2nd Grade</span></div>
+    <hr class="divider">
+    <div class="links">
+      <a class="btn btn-primary" href="lesson-09-shapes/L9_slideshow_shapes.html" target="_blank">&#x1F5A5;&#xFE0F; Open Slide Deck</a>
+      <a class="btn btn-pdf" href="lesson-09-shapes/L9_shapes_practice.pdf" target="_blank">&#x270F;&#xFE0F; Practice</a>
+      <a class="btn btn-pdf" href="lesson-09-shapes/L9_shapes_answer_key.pdf" target="_blank">&#x1F511; Answer Key</a>
+      <a class="btn btn-pdf" href="lesson-09-shapes/L9_vocab_sheet_student.pdf" target="_blank">&#x1F4D6; Vocab Sheet</a>
+      <a class="btn btn-pdf" href="lesson-09-shapes/L9_vocab_sheet_key.pdf" target="_blank">&#x1F5DD;&#xFE0F; Vocab Key</a>
+      <a class="btn btn-yt" href="https://www.youtube.com/watch?v=9L_UhC8Fl30" target="_blank">&#x1F3B5; Pentagon Song</a>
+      <a class="btn btn-yt" href="https://www.youtube.com/watch?v=C9D2RHuYa74" target="_blank">&#x1F3B5; 2D Shapes Song</a>
+    </div>
+  </div>
+
+  <div class="card" data-grade="grade2" data-status="ready" data-title="more than less than addition place value">
+    <div class="card-header"><span class="lesson-num">10</span><span class="badge badge-ready">&#x2705; Ready</span></div>
+    <h3>More Than &amp; Less Than &mdash; Addition</h3>
+    <div class="desc">"More than" = ADD &middot; Solve 3-digit + 2-digit with regrouping</div>
+    <div class="card-tags"><span class="tag">&#x2795; More Than</span><span class="tag red">&#x1F522; Place Value</span><span class="tag">2nd Grade</span></div>
+    <hr class="divider">
+    <div class="links">
+      <a class="btn btn-primary" href="lesson-10-more-than/L10_slideshow_more_than.html" target="_blank">&#x1F5A5;&#xFE0F; Open Slide Deck</a>
+      <a class="btn btn-pdf" href="lesson-10-more-than/L10_more_than_practice.pdf" target="_blank">&#x270F;&#xFE0F; Practice</a>
+      <a class="btn btn-pdf" href="lesson-10-more-than/L10_more_than_answer_key.pdf" target="_blank">&#x1F511; Answer Key</a>
+      <a class="btn btn-pdf" href="lesson-10-more-than/L10_vocab_sheet_student.pdf" target="_blank">&#x1F4D6; Vocab Sheet</a>
+      <a class="btn btn-pdf" href="lesson-10-more-than/L10_vocab_sheet_key.pdf" target="_blank">&#x1F5DD;&#xFE0F; Vocab Key</a>
+      <a class="btn btn-yt" href="https://www.youtube.com/watch?v=rPVdItitgIU" target="_blank">&#x1F3B5; Add/Sub Song</a>
+      <a class="btn btn-yt" href="https://www.youtube.com/watch?v=-iAQI5k-8cQ" target="_blank">&#x1F3B5; Number Sentences</a>
+    </div>
+  </div>
+
+  <div class="card" data-grade="grade2" data-status="ready" data-title="adding lengths measurement word problems inches">
+    <div class="card-header"><span class="lesson-num">11</span><span class="badge badge-ready">&#x2705; Ready</span></div>
+    <h3>Adding Lengths &mdash; Measurement Word Problems</h3>
+    <div class="desc">Find two lengths &middot; "Together" = ADD &middot; Write equation in inches</div>
+    <div class="card-tags"><span class="tag">&#x1FA9A; Add Lengths</span><span class="tag red">&#x1F4CF; Measurement</span><span class="tag">2nd Grade</span></div>
+    <hr class="divider">
+    <div class="links">
+      <a class="btn btn-primary" href="lesson-11-adding-lengths/L11_slideshow_adding_lengths.html" target="_blank">&#x1F5A5;&#xFE0F; Open Slide Deck</a>
+      <a class="btn btn-pdf" href="lesson-11-adding-lengths/L11_adding_lengths_practice.pdf" target="_blank">&#x270F;&#xFE0F; Practice</a>
+      <a class="btn btn-pdf" href="lesson-11-adding-lengths/L11_adding_lengths_answer_key.pdf" target="_blank">&#x1F511; Answer Key</a>
+      <a class="btn btn-pdf" href="lesson-11-adding-lengths/L11_vocab_sheet_student.pdf" target="_blank">&#x1F4D6; Vocab Sheet</a>
+      <a class="btn btn-pdf" href="lesson-11-adding-lengths/L11_vocab_sheet_key.pdf" target="_blank">&#x1F5DD;&#xFE0F; Vocab Key</a>
+      <a class="btn btn-yt" href="https://www.youtube.com/watch?v=GTXEZRryoFk" target="_blank">&#x1F3B5; Ruler Song</a>
+      <a class="btn btn-yt" href="https://www.youtube.com/watch?v=-iAQI5k-8cQ" target="_blank">&#x1F3B5; Word Problems</a>
+    </div>
+  </div>
+
+  <div class="card" data-grade="grade2" data-status="ready" data-title="missing addend fact families unknown">
+    <div class="card-header"><span class="lesson-num">12</span><span class="badge badge-ready">&#x2705; Ready</span></div>
+    <h3>Missing Addend &mdash; ___ + 5 = 14</h3>
+    <div class="desc">Find the unknown number &middot; Total &minus; Known = Missing &middot; Check your answer</div>
+    <div class="card-tags"><span class="tag">&#x2753; Missing Addend</span><span class="tag red">&#x1F3E1; Fact Families</span><span class="tag">2nd Grade</span></div>
+    <hr class="divider">
+    <div class="links">
+      <a class="btn btn-primary" href="lesson-12-missing-addend/L12_slideshow_missing_addend.html" target="_blank">&#x1F5A5;&#xFE0F; Open Slide Deck</a>
+      <a class="btn btn-pdf" href="lesson-12-missing-addend/L12_missing_addend_practice.pdf" target="_blank">&#x270F;&#xFE0F; Practice</a>
+      <a class="btn btn-pdf" href="lesson-12-missing-addend/L12_missing_addend_answer_key.pdf" target="_blank">&#x1F511; Answer Key</a>
+      <a class="btn btn-pdf" href="lesson-12-missing-addend/L12_vocab_sheet_student.pdf" target="_blank">&#x1F4D6; Vocab Sheet</a>
+      <a class="btn btn-pdf" href="lesson-12-missing-addend/L12_vocab_sheet_key.pdf" target="_blank">&#x1F5DD;&#xFE0F; Vocab Key</a>
+      <a class="btn btn-yt" href="https://www.youtube.com/watch?v=rPVdItitgIU" target="_blank">&#x1F3B5; Add/Sub Song</a>
+      <a class="btn btn-yt" href="https://www.youtube.com/watch?v=-iAQI5k-8cQ" target="_blank">&#x1F3B5; Number Sentences</a>
+    </div>
+  </div>
+
+  <div class="card" data-grade="grade2" data-status="ready" data-title="place value digit hundreds tens ones">
+    <div class="card-header"><span class="lesson-num">13</span><span class="badge badge-ready">&#x2705; Ready</span></div>
+    <h3>Place Value &mdash; Which Digit Is In That Place?</h3>
+    <div class="desc">Identify digits in 1s &middot; 10s &middot; 100s place of 3-digit numbers</div>
+    <div class="card-tags"><span class="tag">&#x1F522; Place Value H&ndash;T&ndash;O</span><span class="tag">2nd Grade</span></div>
+    <hr class="divider">
+    <div class="links">
+      <a class="btn btn-primary" href="lesson-13-place-value/L13_slideshow_place_value.html" target="_blank">&#x1F5A5;&#xFE0F; Open Slide Deck</a>
+      <a class="btn btn-pdf" href="lesson-13-place-value/L13_place_value_practice.pdf" target="_blank">&#x270F;&#xFE0F; Practice</a>
+      <a class="btn btn-pdf" href="lesson-13-place-value/L13_place_value_answer_key.pdf" target="_blank">&#x1F511; Answer Key</a>
+      <a class="btn btn-pdf" href="lesson-13-place-value/L13_vocab_sheet_student.pdf" target="_blank">&#x1F4D6; Vocab Sheet</a>
+      <a class="btn btn-pdf" href="lesson-13-place-value/L13_vocab_sheet_key.pdf" target="_blank">&#x1F5DD;&#xFE0F; Vocab Key</a>
+      <a class="btn btn-yt" href="https://www.youtube.com/watch?v=nFvBPFf9ZK0" target="_blank">&#x1F3B5; Place Value Song</a>
+      <a class="btn btn-yt" href="https://www.youtube.com/watch?v=a4FXl4zb3E4" target="_blank">&#x1F3B5; Numberock</a>
+    </div>
+  </div>
+
+  <div class="card" data-grade="grade2" data-status="ready" data-title="telling time read analog write digital clock">
+    <div class="card-header"><span class="lesson-num">14</span><span class="badge badge-ready">&#x2705; Ready</span></div>
+    <h3>Telling Time &mdash; Read Analog, Write Digital</h3>
+    <div class="desc">Look at analog clock hands &rarr; write the digital time (reverse of Lesson 6)</div>
+    <div class="card-tags"><span class="tag">&#x1F551; Read Clock</span><span class="tag red">&#x1F4F1; Digital Time</span><span class="tag">2nd Grade</span></div>
+    <hr class="divider">
+    <div class="links">
+      <a class="btn btn-primary" href="lesson-14-read-the-clock/L14_slideshow_telling_time_digital.html" target="_blank">&#x1F5A5;&#xFE0F; Open Slide Deck</a>
+      <a class="btn btn-pdf" href="lesson-14-read-the-clock/L14_telling_time_digital_practice.pdf" target="_blank">&#x270F;&#xFE0F; Practice</a>
+      <a class="btn btn-pdf" href="lesson-14-read-the-clock/L14_telling_time_digital_answer_key.pdf" target="_blank">&#x1F511; Answer Key</a>
+      <a class="btn btn-pdf" href="lesson-14-read-the-clock/L14_vocab_sheet_student.pdf" target="_blank">&#x1F4D6; Vocab Sheet</a>
+      <a class="btn btn-pdf" href="lesson-14-read-the-clock/L14_vocab_sheet_key.pdf" target="_blank">&#x1F5DD;&#xFE0F; Vocab Key</a>
+      <a class="btn btn-yt" href="https://www.youtube.com/watch?v=h6RNkQ7lU8Y" target="_blank">&#x1F3B5; Telling Time</a>
+      <a class="btn btn-yt" href="https://www.youtube.com/watch?v=Pxr0dySHsgU" target="_blank">&#x1F3B5; Skip Around Clock</a>
+    </div>
+  </div>
+
+  <div class="card" data-grade="grade2" data-status="ready" data-title="two step word problems show work">
+    <div class="card-header"><span class="lesson-num">15</span><span class="badge badge-ready">&#x2705; Ready</span></div>
+    <h3>Two-Step Word Problems</h3>
+    <div class="desc">Two events in one story &middot; Solve Step 1 first &middot; Use that answer for Step 2</div>
+    <div class="card-tags"><span class="tag">&#x2796;&#x2796; Two Steps</span><span class="tag red">&#x1F4DD; Show Work</span><span class="tag">2nd Grade</span></div>
+    <hr class="divider">
+    <div class="links">
+      <a class="btn btn-primary" href="lesson-15-two-step/L15_slideshow_two_step.html" target="_blank">&#x1F5A5;&#xFE0F; Open Slide Deck</a>
+      <a class="btn btn-pdf" href="lesson-15-two-step/L15_two_step_practice.pdf" target="_blank">&#x270F;&#xFE0F; Practice</a>
+      <a class="btn btn-pdf" href="lesson-15-two-step/L15_two_step_answer_key.pdf" target="_blank">&#x1F511; Answer Key</a>
+      <a class="btn btn-pdf" href="lesson-15-two-step/L15_vocab_sheet_student.pdf" target="_blank">&#x1F4D6; Vocab Sheet</a>
+      <a class="btn btn-pdf" href="lesson-15-two-step/L15_vocab_sheet_key.pdf" target="_blank">&#x1F5DD;&#xFE0F; Vocab Key</a>
+      <a class="btn btn-yt" href="https://www.youtube.com/watch?v=-iAQI5k-8cQ" target="_blank">&#x1F3B5; Word Problems</a>
+      <a class="btn btn-yt" href="https://www.youtube.com/watch?v=rPVdItitgIU" target="_blank">&#x1F3B5; Add &amp; Sub Song</a>
+    </div>
+  </div>
+
+  <div class="card" data-grade="grade2" data-status="ready" data-title="counting coins money quarter dime nickel penny">
+    <div class="card-header"><span class="lesson-num">16</span><span class="badge badge-ready">&#x2705; Ready</span></div>
+    <h3>Counting Coins &mdash; How Many Cents?</h3>
+    <div class="desc">Quarter=25&cent; &middot; Dime=10&cent; &middot; Nickel=5&cent; &middot; Penny=1&cent; &middot; Count biggest&rarr;smallest</div>
+    <div class="card-tags"><span class="tag">&#x1FA99; Counting Coins</span><span class="tag red">&#x1F4B0; Money</span><span class="tag">&#x2B50; Last 2nd Grade!</span></div>
+    <hr class="divider">
+    <div class="links">
+      <a class="btn btn-primary" href="lesson-16-counting-coins/L16_slideshow_counting_coins.html" target="_blank">&#x1F5A5;&#xFE0F; Open Slide Deck</a>
+      <a class="btn btn-pdf" href="lesson-16-counting-coins/L16_counting_coins_practice.pdf" target="_blank">&#x270F;&#xFE0F; Practice</a>
+      <a class="btn btn-pdf" href="lesson-16-counting-coins/L16_counting_coins_answer_key.pdf" target="_blank">&#x1F511; Answer Key</a>
+      <a class="btn btn-pdf" href="lesson-16-counting-coins/L16_vocab_sheet_student.pdf" target="_blank">&#x1F4D6; Vocab Sheet</a>
+      <a class="btn btn-pdf" href="lesson-16-counting-coins/L16_vocab_sheet_key.pdf" target="_blank">&#x1F5DD;&#xFE0F; Vocab Key</a>
+      <a class="btn btn-yt" href="https://www.youtube.com/watch?v=MbtmucV-U2c" target="_blank">&#x1F3B5; Counting Coins</a>
+      <a class="btn btn-yt" href="https://www.youtube.com/watch?v=pnXJGNo08v0" target="_blank">&#x1F3B5; Money Song</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══ 3RD GRADE ═════════════════════════════════════════════════════════ -->
+<div class="section-header" data-grade="grade3" style="margin-top:32px">&#x1F393; 3rd Grade &mdash; Acadiance Applied Math</div>
+<div class="lessons-grid" id="grid-grade3">
+
+  <div class="card" data-grade="grade3" data-status="ready" data-title="telling time digital clock fill in analog">
+    <div class="card-header"><span class="lesson-num">3G&middot;01</span><span class="badge badge-ready">&#x2705; Ready</span></div>
+    <h3>3G &middot; Lesson 1 &mdash; Fill In the Digital Clock</h3>
+    <div class="desc">Read analog clock hands &rarr; write the digital time (9:15)</div>
+    <div class="card-tags"><span class="tag">&#x1F551; Telling Time</span><span class="tag red">&#x1F4F1; Digital Time</span><span class="tag">3rd Grade</span></div>
+    <hr class="divider">
+    <div class="links">
+      <a class="btn btn-primary" href="grade-3/lesson-01-telling-time/3G_L1_slideshow_telling_time.html" target="_blank">&#x1F5A5;&#xFE0F; Open Slide Deck</a>
+      <a class="btn btn-pdf" href="grade-3/lesson-01-telling-time/3G_L1_telling_time_practice.pdf" target="_blank">&#x270F;&#xFE0F; Practice</a>
+      <a class="btn btn-pdf" href="grade-3/lesson-01-telling-time/3G_L1_telling_time_answer_key.pdf" target="_blank">&#x1F511; Answer Key</a>
+      <a class="btn btn-pdf" href="grade-3/lesson-01-telling-time/3G_L1_vocab_sheet_student.pdf" target="_blank">&#x1F4D6; Vocab Sheet</a>
+      <a class="btn btn-pdf" href="grade-3/lesson-01-telling-time/3G_L1_vocab_sheet_key.pdf" target="_blank">&#x1F5DD;&#xFE0F; Vocab Key</a>
+      <a class="btn btn-yt" href="https://www.youtube.com/watch?v=h6RNkQ7lU8Y" target="_blank">&#x1F3B5; Telling Time</a>
+      <a class="btn btn-yt" href="https://www.youtube.com/watch?v=Pxr0dySHsgU" target="_blank">&#x1F3B5; Skip Around Clock</a>
+    </div>
+  </div>
+
+  <div class="card" data-grade="grade3" data-status="ready" data-title="fractions shaded parts numerator denominator write">
+    <div class="card-header"><span class="lesson-num">3G&middot;02</span><span class="badge badge-ready">&#x2705; Ready</span></div>
+    <h3>3G &middot; Lesson 2 &mdash; Write the Fraction for Shaded Parts</h3>
+    <div class="desc">Count shaded parts (numerator) &middot; Count total parts (denominator) &middot; Write the fraction</div>
+    <div class="card-tags"><span class="tag">&#xBD; Fractions</span><span class="tag red">&#x270F;&#xFE0F; Write It</span><span class="tag">3rd Grade</span></div>
+    <hr class="divider">
+    <div class="links">
+      <a class="btn btn-primary" href="grade-3/lesson-02-fractions/3G_L2_slideshow_fractions.html" target="_blank">&#x1F5A5;&#xFE0F; Open Slide Deck</a>
+      <a class="btn btn-pdf" href="grade-3/lesson-02-fractions/3G_L2_fractions_practice.pdf" target="_blank">&#x270F;&#xFE0F; Practice</a>
+      <a class="btn btn-pdf" href="grade-3/lesson-02-fractions/3G_L2_fractions_answer_key.pdf" target="_blank">&#x1F511; Answer Key</a>
+      <a class="btn btn-pdf" href="grade-3/lesson-02-fractions/3G_L2_vocab_sheet_student.pdf" target="_blank">&#x1F4D6; Vocab Sheet</a>
+      <a class="btn btn-pdf" href="grade-3/lesson-02-fractions/3G_L2_vocab_sheet_key.pdf" target="_blank">&#x1F5DD;&#xFE0F; Vocab Key</a>
+      <a class="btn btn-yt" href="https://www.youtube.com/watch?v=5lHXd1cJcMQ" target="_blank">&#x1F3B5; Fractions Song</a>
+      <a class="btn btn-yt" href="https://www.youtube.com/watch?v=lTce7f6KGE0" target="_blank">&#x1F3B5; Fractions for Kids</a>
+    </div>
+  </div>
+
+  <!-- ═══ LESSON 3 — EMBEDDED ═══════════════════════════════════════════ -->
+  <div class="card" data-grade="grade3" data-status="ready" data-title="rounding nearest ten hundred place value digit">
+    <div class="card-header"><span class="lesson-num">3G&middot;03</span><span class="badge badge-ready">&#x2705; Ready</span></div>
+    <h3>3G &middot; Lesson 3 &mdash; Rounding to Nearest 10 &amp; 100</h3>
+    <div class="desc">Look at the next digit &middot; 0&ndash;4 stay, 5&ndash;9 go up &middot; Fill in the table!</div>
+    <div class="card-tags"><span class="tag">&#x1F522; Rounding</span><span class="tag red">&#x1F4CA; Place Value</span><span class="tag">3rd Grade</span></div>
+    <hr class="divider">
+    <div class="links">
+      <button class="btn btn-primary" onclick="openSlideshow()">&#x1F5A5;&#xFE0F; Open Slide Deck</button>
+      <a class="btn btn-pdf" download="3G_L3_rounding_practice.pdf" href="data:application/pdf;base64,JVBERi0xLjQKJZOMi54gUmVwb3J0TGFiIEdlbmVyYXRlZCBQREYgZG9jdW1lbnQgKG9wZW5zb3VyY2UpCjEgMCBvYmoKPDwKL0YxIDIgMCBSIC9GMiAzIDAgUgo+PgplbmRvYmoKMiAwIG9iago8PAovQmFzZUZvbnQgL0hlbHZldGljYSAvRW5jb2RpbmcgL1dpbkFuc2lFbmNvZGluZyAvTmFtZSAvRjEgL1N1YnR5cGUgL1R5cGUxIC9UeXBlIC9Gb250Cj4+CmVuZG9iagozIDAgb2JqCjw8Ci9CYXNlRm9udCAvSGVsdmV0aWNhLUJvbGQgL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcgL05hbWUgL0YyIC9TdWJ0eXBlIC9UeXBlMSAvVHlwZSAvRm9udAo+PgplbmRvYmoKNCAwIG9iago8PAovQ29udGVudHMgOSAwIFIgL01lZGlhQm94IFsgMCAwIDYxMiA3OTIgXSAvUGFyZW50IDggMCBSIC9SZXNvdXJjZXMgPDwKL0ZvbnQgMSAwIFIgL1Byb2NTZXQgWyAvUERGIC9UZXh0IC9JbWFnZUIgL0ltYWdlQyAvSW1hZ2VJIF0KPj4gL1JvdGF0ZSAwIC9UcmFucyA8PAoKPj4gCiAgL1R5cGUgL1BhZ2UKPj4KZW5kb2JqCjUgMCBvYmoKPDwKL0NvbnRlbnRzIDEwIDAgUiAvTWVkaWFCb3ggWyAwIDAgNjEyIDc5MiBdIC9QYXJlbnQgOCAwIFIgL1Jlc291cmNlcyA8PAovRm9udCAxIDAgUiAvUHJvY1NldCBbIC9QREYgL1RleHQgL0ltYWdlQiAvSW1hZ2VDIC9JbWFnZUkgXQo+PiAvUm90YXRlIDAgL1RyYW5zIDw8Cgo+PiAKICAvVHlwZSAvUGFnZQo+PgplbmRvYmoKNiAwIG9iago8PAovUGFnZU1vZGUgL1VzZU5vbmUgL1BhZ2VzIDggMCBSIC9UeXBlIC9DYXRhbG9nCj4+CmVuZG9iago3IDAgb2JqCjw8Ci9BdXRob3IgKFwoYW5vbnltb3VzXCkpIC9DcmVhdGlvbkRhdGUgKEQ6MjAyNjA1MjkwNDA3MDErMDAnMDAnKSAvQ3JlYXRvciAoXCh1bnNwZWNpZmllZFwpKSAvS2V5d29yZHMgKCkgL01vZERhdGUgKEQ6MjAyNjA1MjkwNDA3MDErMDAnMDAnKSAvUHJvZHVjZXIgKFJlcG9ydExhYiBQREYgTGlicmFyeSAtIFwob3BlbnNvdXJjZVwpKSAKICAvU3ViamVjdCAoXCh1bnNwZWNpZmllZFwpKSAvVGl0bGUgKFwoYW5vbnltb3VzXCkpIC9UcmFwcGVkIC9GYWxzZQo+PgplbmRvYmoKOCAwIG9iago8PAovQ291bnQgMiAvS2lkcyBbIDQgMCBSIDUgMCBSIF0gL1R5cGUgL1BhZ2VzCj4+CmVuZG9iago5IDAgb2JqCjw8Ci9GaWx0ZXIgWyAvQVNDSUk4NURlY29kZSAvRmxhdGVEZWNvZGUgXSAvTGVuZ3RoIDExNTUKPj4Kc3RyZWFtCkdiIi8mOWknTS8mQUA3LjlRJ3JnbCRmaEY7QGU6KzpmLlM5KiVHcTdgJ0ElI1pqQCNHbEF0Q1kyZzRRKy1GVldjODszXV5sU25HNUcnOCg5Yl5uMCJxdEktN15lUDxBaGY3UVVpYlJIWid1V1ZIKE8qVDtwYWppSVlgYEVfaUgsZyZOWnQucyJkO1tlNVxaNGAqJSFUYlU+ZTMxKChoIjQ9b15MUT4sOSkvLEdRdUdHUT9QMTtoWDJsbmFacSc4Y1MnNlJETFY9UDYoI0dxTFxwMlAzSSdOIV9GMlRqK2wlP29COWNnaV1EclRNN1ojPz4jNEJfZWs2W3VvTGYsZ01rPm9SNz9DMC0/dXJrYDNiMXExb1FoQm81REsnaUtTOShJYW4uYituJ2I6XihnST5UaU08cnIpXiJNOWpdWTpzPEZVckcxOWdtJSQka0RvYS8nTj5NSlVhXms9K2grRz1GYzkjZypKTXIhSSdPS0prND1KPCNHTSIvSnFcZzxWaVdVXWBOdDhIUk01U2NQc00lKlxkO05LZC00QzIsJDoyKnRhXyJjPGlhVFFiamxwQkhZdGoiSmJAZ2NwVS9xJiZMUVtyPCskSXRFVUhgIyFESUlOMlgwJj5sb1ZASl8vKnIkMkxoXjNPRGRbUWg+cEknSipyV1VOLTlhYSFZcz9KPj4uUSQoV09tQUIiQCJTbUZzaDZaL2BbXjJHVWg4c0NnVElgSWk/WmldXm5zaWBOO2hkbCllPFs8ZWMibXUqbiVoK1tFdGhjQW9eIV8uU2A4RUM+JCtNYixtdFRCVGVmW3QtIj1wQVtOaFlHJ3M2TyteZisrRWVXYCEnPE84bjA2NllfWFNsLnVAOHAkKzlMNnAjWDsjM0w0UVEhN103Ty1wQGlOMT1pZ25naU5PXXRMazUtbHBMOylcZTFPZiheLTkjKE07T0snayxjdTpLQEdmMHNCKCNrM0E7JlJiUFF1YSw/aFY7LGJbKzFFaGY/KCN1QlZgZDEzXnAiciluRURPWko3SzhiQlA3J2VAMCM5YC5gJC4uOFIpWzw+IVNvcTJrSjNnc3NFUT9HMEtabUdhRSRuKHJzXmdpX2dPTE9WJyU6KipGIUEmSHVeVCsrXmRhdDphPFhFOUdlIjErKC1RSSNiVWQjVzJ1WyhAOmRfW0h1Wy9kJyE+X2E2VDJZVj01KGQndGheTXVqYjRxSkRISG9qOjxYS3A/PTYoOzpPIWRxKWxhN2EvTVMmUSJIXFVuTTtjNFJINjs+O1dESm5ccWQ0OCZwSyw/VkFHJjkhPWpzZEVoM2ZGIkdBTnFEamtnWF9tXkxaLj9hcktROGxQPTlNIzonNT9aNF0yKEwoXiFaZ3BBNjo8Si45N0JnWG82YGY5PEFxb0xobENVUU05aU4mTEFDSGZTXGg9bUIsVTpnY3IqPV9EQCdUYShMWTElczdpYWolIkQpNCRKL15COV5hS25yPVpEJGYvTEBFTi1RJ0IuU0FJMU8mTWRebm4xdCM9RFJKYz5UYktTaDB+PmVuZHN0cmVhbQplbmRvYmoKMTAgMCBvYmoKPDwKL0ZpbHRlciBbIC9BU0NJSTg1RGVjb2RlIC9GbGF0ZURlY29kZSBdIC9MZW5ndGggODA0Cj4+CnN0cmVhbQpHYXVgUmdNWWIiJSI3a09uMWNGaTlwQjBvKl1JbWMyUVIpNXE/UEhnRCxOMmNrSTptKG0sUCIlL1JNcz9uXkhEQTIwRi1sTVBTPDs7Iz9wY0lGblVLYmkmRjkiRCFUVyFYXitvcVtUNylqQ2EoUFZGbFtKS29EaFUxLUZLZG5nUSI9YzcqMCdLVlYjUkFKISEoKlxTL2trdVEhcl5tWjlHRDtWS1MpZlNSITBKTEZyPj9Haj5oYS1yRWZnVyRxRUgkU2tSUlYyPE04bEE5Q2wjXFpJJ19fbmAtTkZmW29aVG9wYGlZZ2BlMXQ/U1F1V0RGNmhlZU1wXWcyTkdDZ2k5T0NGM0BuNiZCPyVhWUUsT00vbmVtXmxBZSMjTjI6ZlBwTikkIVJEUjNGSzxnPWRbLkVsL18qWSwibHJCKkRjb1RTbmUqJyIxWURndVQ4dWw9P1hYSy5pLklkWlpjJ0Uxa1kpV09iY2osJGBdMWRPUVk8ZDNgWSlSInU/MThjZ2BIZTw1Im1OIlJBVS1wPkomJmlKIj48PkdBK2g5InJDPiMiXD1XVWFWUEUzJjp1Qk9DYHREcWswJW0sKj1xbFQ/Sm1rXDpidFdaPigpKixiPVlSSTtaPGVNcm5qRU01RzBtPzIqaEBDLjJOXzAuO0ltTmxjKDtxSDdmajFPNVhMX2VpI2FqU2tlVicvV1hRWGJgVV1UVTlAK201KGRJJy1CV0dLUWduciUrMkVFRUNXYlVmI0cxLj9eVSEpR3VrXilNSXBpVVM3KmM5amIqQ0lncHVgOVI7VDZCZWxuKlJVPzkzJ1g/JFErcko2JiU6LSs7S0BGOyZUL0JgNGpwbkdgVVZnZnIhQ3QucFlaWClbPEMxM2UwPyhjSkk7NF9uJ1o5dVU5L0xQODJeYGAyTkRiWCcrcTRKXWtGTXMjJW1kWj5LRkVcT21hVG5zKD4hbkJTKWBLLDJlO2FUQEBjbEcldCZWTUlHKlszXDZgM09wZl5YQnEoIit1YyoiOGYwMzwqbS9sdCdnbWJXaU9WS2NrQG9zLzU/KmlHK3QiYWVZczpCfj5lbmRzdHJlYW0KZW5kb2JqCnhyZWYKMCAxMQowMDAwMDAwMDAwIDY1NTM1IGYgCjAwMDAwMDAwNjEgMDAwMDAgbiAKMDAwMDAwMDEwMiAwMDAwMCBuIAowMDAwMDAwMjA5IDAwMDAwIG4gCjAwMDAwMDAzMjEgMDAwMDAgbiAKMDAwMDAwMDUxNCAwMDAwMCBuIAowMDAwMDAwNzA4IDAwMDAwIG4gCjAwMDAwMDA3NzYgMDAwMDAgbiAKMDAwMDAwMTA1NiAwMDAwMCBuIAowMDAwMDAxMTIxIDAwMDAwIG4gCjAwMDAwMDIzNjcgMDAwMDAgbiAKdHJhaWxlcgo8PAovSUQgCls8MzMyM2JmNTllOTI0M2I1MWVjNDRiNGQ3NjM5YjAzNjk+PDMzMjNiZjU5ZTkyNDNiNTFlYzQ0YjRkNzYzOWIwMzY5Pl0KJSBSZXBvcnRMYWIgZ2VuZXJhdGVkIFBERiBkb2N1bWVudCAtLSBkaWdlc3QgKG9wZW5zb3VyY2UpCgovSW5mbyA3IDAgUgovUm9vdCA2IDAgUgovU2l6ZSAxMQo+PgpzdGFydHhyZWYKMzI2MgolJUVPRgo=">&#x270F;&#xFE0F; Practice</a>
+      <a class="btn btn-pdf" download="3G_L3_rounding_answer_key.pdf" href="data:application/pdf;base64,JVBERi0xLjQKJZOMi54gUmVwb3J0TGFiIEdlbmVyYXRlZCBQREYgZG9jdW1lbnQgKG9wZW5zb3VyY2UpCjEgMCBvYmoKPDwKL0YxIDIgMCBSIC9GMiAzIDAgUgo+PgplbmRvYmoKMiAwIG9iago8PAovQmFzZUZvbnQgL0hlbHZldGljYSAvRW5jb2RpbmcgL1dpbkFuc2lFbmNvZGluZyAvTmFtZSAvRjEgL1N1YnR5cGUgL1R5cGUxIC9UeXBlIC9Gb250Cj4+CmVuZG9iagozIDAgb2JqCjw8Ci9CYXNlRm9udCAvSGVsdmV0aWNhLUJvbGQgL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcgL05hbWUgL0YyIC9TdWJ0eXBlIC9UeXBlMSAvVHlwZSAvRm9udAo+PgplbmRvYmoKNCAwIG9iago8PAovQ29udGVudHMgOSAwIFIgL01lZGlhQm94IFsgMCAwIDYxMiA3OTIgXSAvUGFyZW50IDggMCBSIC9SZXNvdXJjZXMgPDwKL0ZvbnQgMSAwIFIgL1Byb2NTZXQgWyAvUERGIC9UZXh0IC9JbWFnZUIgL0ltYWdlQyAvSW1hZ2VJIF0KPj4gL1JvdGF0ZSAwIC9UcmFucyA8PAoKPj4gCiAgL1R5cGUgL1BhZ2UKPj4KZW5kb2JqCjUgMCBvYmoKPDwKL0NvbnRlbnRzIDEwIDAgUiAvTWVkaWFCb3ggWyAwIDAgNjEyIDc5MiBdIC9QYXJlbnQgOCAwIFIgL1Jlc291cmNlcyA8PAovRm9udCAxIDAgUiAvUHJvY1NldCBbIC9QREYgL1RleHQgL0ltYWdlQiAvSW1hZ2VDIC9JbWFnZUkgXQo+PiAvUm90YXRlIDAgL1RyYW5zIDw8Cgo+PiAKICAvVHlwZSAvUGFnZQo+PgplbmRvYmoKNiAwIG9iago8PAovUGFnZU1vZGUgL1VzZU5vbmUgL1BhZ2VzIDggMCBSIC9UeXBlIC9DYXRhbG9nCj4+CmVuZG9iago3IDAgb2JqCjw8Ci9BdXRob3IgKFwoYW5vbnltb3VzXCkpIC9DcmVhdGlvbkRhdGUgKEQ6MjAyNjA1MjkwNDA3MDErMDAnMDAnKSAvQ3JlYXRvciAoXCh1bnNwZWNpZmllZFwpKSAvS2V5d29yZHMgKCkgL01vZERhdGUgKEQ6MjAyNjA1MjkwNDA3MDErMDAnMDAnKSAvUHJvZHVjZXIgKFJlcG9ydExhYiBQREYgTGlicmFyeSAtIFwob3BlbnNvdXJjZVwpKSAKICAvU3ViamVjdCAoXCh1bnNwZWNpZmllZFwpKSAvVGl0bGUgKFwoYW5vbnltb3VzXCkpIC9UcmFwcGVkIC9GYWxzZQo+PgplbmRvYmoKOCAwIG9iago8PAovQ291bnQgMiAvS2lkcyBbIDQgMCBSIDUgMCBSIF0gL1R5cGUgL1BhZ2VzCj4+CmVuZG9iago5IDAgb2JqCjw8Ci9GaWx0ZXIgWyAvQVNDSUk4NURlY29kZSAvRmxhdGVEZWNvZGUgXSAvTGVuZ3RoIDEyNDEKPj4Kc3RyZWFtCkdiIi9mOTVpOUUmQkY4OCdaMk4pZTdJTUosUnVDNWpcWkBaPyhqbSgiQ2JPQThLXlQpSmJcX25HQFA5VmAzbzIlKjInOW9YQ3E3QVpTVXFDYD0rMC9SIiwscSEnIVUvblQrbm42aDFQTixTSDdSa1RtOyEvTjM0TSdUQV4nVSx1Wy08KkBCaiY1SXI+Ki9IOlApQCM2ZigudGh1cjtfTlUuKls8VzA/bDpdVzxnSHRLcW83SDJcUTdqbDI/QVpPSktSTjJzQ0hvSkplLj9HaGhWX0UwPHNDVUVLb1VmSCZjV3FrJllxSF1bI0xaQipfJSUqIVVKWUIlOmNPWlp0L3MnWUE8MGpZcDxgRCJYKFwuJi0hVW1mOWdfZ3B0V1ZEZnEuaEFgQVZDJCs5aVgsS3JkaW5WPy5sMXQzTyhMRDs8TWVHYTVYMjxFNGsyQz9qOCdAcUtFRC40UDBbMXE7R2BoLlZFR09iYyVSPCg4VDNwUSlLcUtqdCklX1FpZEsuMXEkMD9AUCxWZkRVaztcL2txZCtnakQpTGE0ODdTTDtvSUAvYmI/NiRmKmBBNjhrV25uJVYiNF5hN1xfV2BJPGtgN18jZExzJThZcUYzUDokR3A9UTpKNUlxcUNtQGQ1cDM0J15AS286Ly9uYTtsKjRoS3FmWT5fJzJUNS4uIWNaRDo8NElXMVY9RitPYidqcF5mWj04SCZeOzlNZzNlYkohZEE8K2Urcls4TiJTTSdyYjsuREozWFROYG0ldWklTCdUcG0haE1UQ10uJDNvbU5vTWxuQTwpXVIqZiM8TCVRKSslI3RRZVlGOD8lRypKQmVLW0VmUj4yPFMyYU5ITjNvJjdFJDdLcV81aTQzP2NLWnUhbzUucW5fOEI0VG0sQS8+OzspN2hsS0lrck5YNjBpUFo7ZkF1TkAuWGgxWU11OGc0VSNqQVtgR1BKLUtqQ0E+RTFJRGpTY29kaHEmPDlcIiRGPV4mKmRwazpEbSxNKVZTW1QlUzUtbUtJNCdCSXFLMjJyMWFkPS1oVERXOztrLC1FOTBfVUNDUDpxNWo9Y0RFOUoyTkJJbFc8azsiRC1VYmtHWSNHKVMoRzFeMG0uJ1E0YHIzaG1pSEJVREhrYT5fRVRmOCtuaFldMzEraU5mZT9vQDVzOS5aVi8qSSlSKEg9cktZQ1Ysck1aclMlVSdeZTBYbGVWUjJhJGxbdFBUY2dWUEFKS2pMLyRfQzQnPGBaSkdnViNGIjk6aTZFYGhBM2dvYGo5Nys4XjFvQz1aIjJoPlxYUFxVUEMjNloxYmMjXEdtYEkwMSsjSFtMM0FwXSdeVTddKEkzcFV0UGhQS2tfI15ZcjJhVGZEWUNTZUAkZS9jMiV1bk46LWF1WTRDQCM2KlBYLkYiMjE7M04iKmFWQFhJQStvKDREYUpHQmJCQDRMNkVOKClhVDAzVEtJKUFuOUxrM3RlXzxWdEA4W00pajxSUnVwPlkyOnBoOy1IZi1ZcUQmREtHOj5sMVhXJVhscE5gb3BEOjQ0NFE0TVhlKSlsR1IwOXNyWkYsI2cnJ0JOPnVUU2EpZi0+Ojo5PHVsJzQxdGBUcGxhNTN0KW86JlJTZDBgOkFqVWQvN0gzX3VWS2FAO1pLZUpDXFlqUS0+XX4+ZW5kc3RyZWFtCmVuZG9iagoxMCAwIG9iago8PAovRmlsdGVyIFsgL0FTQ0lJODVEZWNvZGUgL0ZsYXRlRGVjb2RlIF0gL0xlbmd0aCA4MjcKPj4Kc3RyZWFtCkdhdFUyZ0ovXFIlIjZIJ3BsUWNaTm9yVGVYa0tMTSJmXF5qJkJJMScsZ14qT1dtbSp1PmtUcWIsaSdgci09Z2JMSUkrNCUyP181ZydgVkxDISdWMWZyWC9hSC11T1BcOGdxRWtrQDQuKzdaRjNAVzUwJDhWN2Y+JF9HZjo5ZWZHVjlcSEpsTD11XSozV2U/bCUpMm1jZC5VKGM0ImxBYkdoOkApZjg8Lz4/ITNZNk4zO1gyQ0hST28sKz9DLWkubVMhPlo1LTdSL0lhU10vSS0hRi9nbGQ/QUwrZkRBVlQ/JVAyVVpDcjpiWyYmIVQ2b1ZnZVJfOldtLnJTYlc6PXJFX08xZk0/RUdgajEkRG0zUlRgbmxHWVcjRjUoSSxNV1FzS0Uualgqcj9QQTUkT0osQEMiIyojZ2ciVSwpMEtPJWNnO0NjRjhIYUkhcHJfcmkiMCNkOkhJdVZedVJNKyhFMjtgWzM5a0UwLj9AV01ZOVc2KHNiVClVb1dSNkdCR0VjcSxGViFNLlk+TWJKYVpGRicubkpDbFM1cVtuMFBCZFwyOD9BcVhaXWJrUz9gU19AdC11RGFnQSNaJzdYS0tdXEYnWHUrVys3Tj9NIk4iQmI3YCtER3VbJltoVUlpUTVxW2gqNjhyISZxZlwvNiFERDM/ZF9ZWyk1Vm1EdEY0bVxATy4yNHUvIy8hYWxMNkZVWlxZUz1lO05iW1VHbm9HazspJSkoR2gzXCVtLm4oSy4oITdgJ01BKjUxbWMzS2hvNEdNPS1udERWQFlVczNqSDk/KU5cN0EoaWNBWW9PUyhubUFeTGMpNi1OR1guNmo7SUFoLFxFXjxKNXMkYlA+O1M0XygvMWJFOS5kSGdkVkBcODJmTmskISZKVDMiSSkrMERvXEtXZUddUkEpV1NQSzFBTVcrIVZUM2cxR2JpVVtNYSVBT2phSG5oc2krW0JwOTdfXi9rcHBlMiFRKj1NVz47MVx1UnRITSY1N0Vka1xRVEFePC5HXj1cRy5pMy5fWUYiYSQ/J2oqRkVhQFFjWSEiLDMiZThXYjcwc2NrMEMtVTVxUjNOLlA2I1laVGpkWDJwWy9iK34+ZW5kc3RyZWFtCmVuZG9iagp4cmVmCjAgMTEKMDAwMDAwMDAwMCA2NTUzNSBmIAowMDAwMDAwMDYxIDAwMDAwIG4gCjAwMDAwMDAxMDIgMDAwMDAgbiAKMDAwMDAwMDIwOSAwMDAwMCBuIAowMDAwMDAwMzIxIDAwMDAwIG4gCjAwMDAwMDA1MTQgMDAwMDAgbiAKMDAwMDAwMDcwOCAwMDAwMCBuIAowMDAwMDAwNzc2IDAwMDAwIG4gCjAwMDAwMDEwNTYgMDAwMDAgbiAKMDAwMDAwMTEyMSAwMDAwMCBuIAowMDAwMDAyNDUzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL0lEIApbPDhjNWJkNTRkZjNmNzMxNzE1OTU5OWEyN2MyNDlkMDk0Pjw4YzViZDU0ZGYzZjczMTcxNTk1OTlhMjdjMjQ5ZDA5ND5dCiUgUmVwb3J0TGFiIGdlbmVyYXRlZCBQREYgZG9jdW1lbnQgLS0gZGlnZXN0IChvcGVuc291cmNlKQoKL0luZm8gNyAwIFIKL1Jvb3QgNiAwIFIKL1NpemUgMTEKPj4Kc3RhcnR4cmVmCjMzNzEKJSVFT0YK">&#x1F511; Answer Key</a>
+      <a class="btn btn-pdf" download="3G_L3_vocab_sheet_student.pdf" href="data:application/pdf;base64,JVBERi0xLjQKJZOMi54gUmVwb3J0TGFiIEdlbmVyYXRlZCBQREYgZG9jdW1lbnQgKG9wZW5zb3VyY2UpCjEgMCBvYmoKPDwKL0YxIDIgMCBSIC9GMiAzIDAgUiAvRjMgNCAwIFIKPj4KZW5kb2JqCjIgMCBvYmoKPDwKL0Jhc2VGb250IC9IZWx2ZXRpY2EgL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcgL05hbWUgL0YxIC9TdWJ0eXBlIC9UeXBlMSAvVHlwZSAvRm9udAo+PgplbmRvYmoKMyAwIG9iago8PAovQmFzZUZvbnQgL0hlbHZldGljYS1Cb2xkIC9FbmNvZGluZyAvV2luQW5zaUVuY29kaW5nIC9OYW1lIC9GMiAvU3VidHlwZSAvVHlwZTEgL1R5cGUgL0ZvbnQKPj4KZW5kb2JqCjQgMCBvYmoKPDwKL0Jhc2VGb250IC9IZWx2ZXRpY2EtT2JsaXF1ZSAvRW5jb2RpbmcgL1dpbkFuc2lFbmNvZGluZyAvTmFtZSAvRjMgL1N1YnR5cGUgL1R5cGUxIC9UeXBlIC9Gb250Cj4+CmVuZG9iago1IDAgb2JqCjw8Ci9Db250ZW50cyA5IDAgUiAvTWVkaWFCb3ggWyAwIDAgNjEyIDc5MiBdIC9QYXJlbnQgOCAwIFIgL1Jlc291cmNlcyA8PAovRm9udCAxIDAgUiAvUHJvY1NldCBbIC9QREYgL1RleHQgL0ltYWdlQiAvSW1hZ2VDIC9JbWFnZUkgXQo+PiAvUm90YXRlIDAgL1RyYW5zIDw8Cgo+PiAKICAvVHlwZSAvUGFnZQo+PgplbmRvYmoKNiAwIG9iago8PAovUGFnZU1vZGUgL1VzZU5vbmUgL1BhZ2VzIDggMCBSIC9UeXBlIC9DYXRhbG9nCj4+CmVuZG9iago3IDAgb2JqCjw8Ci9BdXRob3IgKGFub255bW91cykgL0NyZWF0aW9uRGF0ZSAoRDoyMDI2MDUyOTA0MTYyNSswMCcwMCcpIC9DcmVhdG9yIChhbm9ueW1vdXMpIC9LZXl3b3JkcyAoKSAvTW9kRGF0ZSAoRDoyMDI2MDUyOTA0MTYyNSswMCcwMCcpIC9Qcm9kdWNlciAoUmVwb3J0TGFiIFBERiBMaWJyYXJ5IC0gXChvcGVuc291cmNlXCkpIAogIC9TdWJqZWN0ICh1bnNwZWNpZmllZCkgL1RpdGxlICh1bnRpdGxlZCkgL1RyYXBwZWQgL0ZhbHNlCj4+CmVuZG9iago4IDAgb2JqCjw8Ci9Db3VudCAxIC9LaWRzIFsgNSAwIFIgXSAvVHlwZSAvUGFnZXMKPj4KZW5kb2JqCjkgMCBvYmoKPDwKL0ZpbHRlciBbIC9BU0NJSTg1RGVjb2RlIC9GbGF0ZURlY29kZSBdIC9MZW5ndGggMjA1Ngo+PgpzdHJlYW0KR2IhbGBnUHVxOyY7S1pQJ1FvZmRkQCEybSs9MG5zS0w+a1VKWCUxPTcpaD1UM3E/XTpwMUFycV9sKClIWC9BK2IsW1ApJD08ayhOai1kWkNwJXJmNzZBLDtLcUw/JFZHV15jTUlaYmZnYmhtdC5fU0goMDRJc2VkQG1hJnNLUEdWMCdGPSlzbklrXWlmYlVwczAtL25iOWBxc0ElZi1bbDRkX29RVWcnIl4haV9CYGA+Xz5fWUtQXlAyQCwqNz84aihESGlyOT1mRilyVz8sKGR1bzU6aEdrazR1dSEtRVxwY2hiVWAjTEMkXElZVmQ8YkhIKGpnVSNIKCouSFdvKE42TS5NdU5bYTBgTU9DJXJzST86ZWJcMklHRD1APFxzZ14mVlA7K3AiK3UiWllrLD9RXSJUNCNsYWMiWChrODY3UzwsN1srNURZQyYkR04wanJdcFpIWihOJEhHcnEpRGEjYlY+K29gMiFJX2VvOD4pZyMoMTJIVVdoWzElXEtRQDJpPTFbNkdBPEo5PEQlJ042UDpXTzB1aG9DIShScFROTjQ8aV5WTjZFZC4pXGVDUUlRam02SDJYKnJHNEgxYnUjS25camkwRmI0KiIlX2dFYEVEXE01M2JKbi5QUFFVXSIkKSwpcHInUlRudWQpSFNCPSVVVjY+N2whXTFtbzAyKygpbytYTyoiSmZcR2w+L2NjOTVyQWEtckpZayJQM3Fkc2kuJmJCPFBtPltmWk5SM10vdCtxbCRANV48cFwjR1wlNDI5MzovSls3LHQpQHU/LGk9PnBzV01HSDEjVCRqSDI+Uzk0VD0xKSducDk5ZyQ7TSMxVlpRal89U1smKVs7ak1wZ2M3Pj02YFNRWTtXYCgrS2x0TFYpb151dU9PSjIpVyJrMlZaJD9dLjFaTzFNZFpnNG5fNj5oODdyRUVDQEk9VWk5NzhDJU1WSUllSyxaMWg9JkZVal1tdSRmSV86SjshZFxbU2xtTWJrKUhJKnFvbC9gaiVOVzQ+PzFrRzZoRWpgVSRRISl1WylQJUxTIUwvbmw1SlAwPEdmRF5BdUtKMVghNDlrInI6Xk9CQnVVJS8tOGVKOzREP2g9dFNpcCsnIS9YY1ZnVyFcWU4vLVddRl5mWV1JZ2xic0wqPldqMk1QUyVESFBudGhBRTxVKi4xXXBJUUxuK0kiYWQsMUYsSTlAdTFUNSFmK0cjUigkKDtDNF5lQjE7R0BZMm5rbSIzTz9jM0NcXkFOQWZFO2U5WXAlUjpJZUJPLDEyUGBRLWlRbFY6SmxzPCwyTiVKZU5xYmFEMUo2SFkxIzcmS0VhImovQ3E4byMvJ2xvVlA8Sjc8b3AiMVUxNycuWkFoTFIrIidkc2tKZFwzYGQqUCtOMlU5TFhKZFNcayRVZ3EnPjhCNSw3KjBaQmhccltFQE0wKC1jODtENGsuOzc6LVVkTC1FLjkrP2A2W15PcjNYUFNxbVYvJGdwbCNZLG4sIiE1WU8+NFY1QFt0UzVEYjkzJTY6JjRySlhUdF9MPXReKzUqNihERz5WZkdZRVYiUFFmZSkhWzQsTyV1LHVAPCttY1gxSk9oM2NldS9NZSI7YyZjbF41YHJbOGNNTyllL0oodE1JUzd1XGtsLylCL3NXTlRsLGUnT18kZUM2clg0TVhCLEglXGknVEYrdFwoZk1vQSZtJjFqTWBcbV9RaWVuOVJTPWNlJFRoOG1mNjBGby5XLDxUO1chXlpNNVJGU0gtWG9xRmc8TXRAbG90VG1gMThbNltzXmo1JD1HWyVfKENcW1FcUG5ZZyRfMFFjOEYxcko6PVQiI1RlXChSYV9vSCQiKmdBNHVsJy8yKERHZzdEZkpEUWJzOl0sbl0sZ1dpOjtHOkdEU0luJFUkJThpMz80LUhZZy5PRWIuQSNybT1RcjFtVyhJdV1KZ0dVaTQ3RWdeVDxRbXVNQl5VY2VWbV4mKDJVSXQ2W3UoYD5cSzlMOWJidFVzZ20kI3I+XlxUbzdWPzU2T0hPSHE6cFF0WCxcOyw7OElBLFZSJDNidUtwKm9rJnVOYnE6ODF1cCRDXEA5LWAmXjctQyk7IUBDXmI4ayJgNSxZQkJJTiY+SVRYcFw6azgmJjU3YGJPL24jPDldO1hfQkUqbVpvT1wvJUAoXCpHPVExMmViRVU1RHBUR1FeV0BKYz9KNG0uMzIia0Yycj5QN0U5ZVtta04tQUA6STxANic6OmNOW09AWjVucEorNk5YZCFxN0BWYFVCOHQ/IWNQaVchYzVKLSxacTk0QVMhOUM3XzY+aGcyMjYvJGtgL2UlRmQnaiQlO0FGXT02R1A/I28yKTkidDRMMFdqakJTQ15PKEYyYyhKYDg0PWgjXDBgYCUuYjY7OE89V3BbZkwmQ09gbVBgWldKSVNMNm00P0ZTPk1rPlBrU1EwVlcjXDYydEp1bj5CcVQzT2FTLG4wYnBhMSlaUyVAR0BAMmBOLlsmJiFKO0hpP105OWtVYzVlc145XFtAImpjVyhTV2pzQ1JxWTovXU9xUjZQIjMoIV1NXV5WSEVyQio0P2ZubkRpRDhEVFtZKjJCSF1qVjVjW2RuMydCPSolLyI+MiloRFllRClKMzRZaypkI2VgdXBdblIkMD42OmJzQ2xLPEhXXW9bKixJSVhrP2tDOi5XPmQoXnBHZDA1NV5iPUcwZkRqWkQmJCtOMG9dJis3Pz0zQDhCKV9vW0taWSN+PmVuZHN0cmVhbQplbmRvYmoKeHJlZgowIDEwCjAwMDAwMDAwMDAgNjU1MzUgZiAKMDAwMDAwMDA2MSAwMDAwMCBuIAowMDAwMDAwMTEyIDAwMDAwIG4gCjAwMDAwMDAyMTkgMDAwMDAgbiAKMDAwMDAwMDMzMSAwMDAwMCBuIAowMDAwMDAwNDQ2IDAwMDAwIG4gCjAwMDAwMDA2MzkgMDAwMDAgbiAKMDAwMDAwMDcwNyAwMDAwMCBuIAowMDAwMDAwOTY4IDAwMDAwIG4gCjAwMDAwMDEwMjcgMDAwMDAgbiAKdHJhaWxlcgo8PAovSUQgCls8MmMyOGQzNjM4NDkyZGIzYTk2MzAzYjgzMDRmMDdiODc+PDJjMjhkMzYzODQ5MmRiM2E5NjMwM2I4MzA0ZjA3Yjg3Pl0KJSBSZXBvcnRMYWIgZ2VuZXJhdGVkIFBERiBkb2N1bWVudCAtLSBkaWdlc3QgKG9wZW5zb3VyY2UpCgovSW5mbyA3IDAgUgovUm9vdCA2IDAgUgovU2l6ZSAxMAo+PgpzdGFydHhyZWYKMzE3NAolJUVPRgo=">&#x1F4D6; Vocab Sheet</a>
+      <a class="btn btn-pdf" download="3G_L3_vocab_sheet_key.pdf" href="data:application/pdf;base64,JVBERi0xLjQKJZOMi54gUmVwb3J0TGFiIEdlbmVyYXRlZCBQREYgZG9jdW1lbnQgKG9wZW5zb3VyY2UpCjEgMCBvYmoKPDwKL0YxIDIgMCBSIC9GMiAzIDAgUgo+PgplbmRvYmoKMiAwIG9iago8PAovQmFzZUZvbnQgL0hlbHZldGljYSAvRW5jb2RpbmcgL1dpbkFuc2lFbmNvZGluZyAvTmFtZSAvRjEgL1N1YnR5cGUgL1R5cGUxIC9UeXBlIC9Gb250Cj4+CmVuZG9iagozIDAgb2JqCjw8Ci9CYXNlRm9udCAvSGVsdmV0aWNhLUJvbGQgL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcgL05hbWUgL0YyIC9TdWJ0eXBlIC9UeXBlMSAvVHlwZSAvRm9udAo+PgplbmRvYmoKNCAwIG9iago8PAovQ29udGVudHMgOCAwIFIgL01lZGlhQm94IFsgMCAwIDYxMiA3OTIgXSAvUGFyZW50IDcgMCBSIC9SZXNvdXJjZXMgPDwKL0ZvbnQgMSAwIFIgL1Byb2NTZXQgWyAvUERGIC9UZXh0IC9JbWFnZUIgL0ltYWdlQyAvSW1hZ2VJIF0KPj4gL1JvdGF0ZSAwIC9UcmFucyA8PAoKPj4gCiAgL1R5cGUgL1BhZ2UKPj4KZW5kb2JqCjUgMCBvYmoKPDwKL1BhZ2VNb2RlIC9Vc2VOb25lIC9QYWdlcyA3IDAgUiAvVHlwZSAvQ2F0YWxvZwo+PgplbmRvYmoKNiAwIG9iago8PAovQXV0aG9yIChhbm9ueW1vdXMpIC9DcmVhdGlvbkRhdGUgKEQ6MjAyNjA1MjkwNDE2MjUrMDAnMDAnKSAvQ3JlYXRvciAoYW5vbnltb3VzKSAvS2V5d29yZHMgKCkgL01vZERhdGUgKEQ6MjAyNjA1MjkwNDE2MjUrMDAnMDAnKSAvUHJvZHVjZXIgKFJlcG9ydExhYiBQREYgTGlicmFyeSAtIFwob3BlbnNvdXJjZVwpKSAKICAvU3ViamVjdCAodW5zcGVjaWZpZWQpIC9UaXRsZSAodW50aXRsZWQpIC9UcmFwcGVkIC9GYWxzZQo+PgplbmRvYmoKNyAwIG9iago8PAovQ291bnQgMSAvS2lkcyBbIDQgMCBSIF0gL1R5cGUgL1BhZ2VzCj4+CmVuZG9iago4IDAgb2JqCjw8Ci9GaWx0ZXIgWyAvQVNDSUk4NURlY29kZSAvRmxhdGVEZWNvZGUgXSAvTGVuZ3RoIDIxMDUKPj4Kc3RyZWFtCkdiIWxgRC9VKFgmQkVdKjtwN20iaUhrQzY9LEJQclZHUWcwJD0iaFpYXm1xSEczLkE9Y1JEPEpMW1hUVGNKSkU1QmNOWCVgMCcmSW9CamNpaFRYbGwzdCYiVzpXMzpeMU9xdSpxIU1icTZHaUwiI1tNLV01RC8iZFcyYmpPO0Y7YUdlT1UiM0VgUDcmbGRPNW9QUWBFY1NuaUVXV2k3UE4+UE4vVUtRLy0rJnUvJjEuUmw6PyFfKClnLCMrYSNRLFdNbmVXa3BbKTtLTW88VWNhXXEjMXFjZ1c9UWdGb19PRFc6XkhaPztGPSJHaC4mbyQ/TzgqMDM4dDVQUE9iYD9FXjVpcEQ4YjBxVTheZXJycUcwLjg9JkgqUmkzWFA9bytdPjJeWlFBU2ZUaXFVWmYyNTVQNjJfaj48ImwxKDVlPG4xa14yXWYhPThZWzVQKENJOlMmTDRERDJkbGAiLE0+VW0tQCQhaz5aRkc9KzAydTUrKTlTI0I9JHBvVVptUnNNXidkNSxnWSMoYG9mVWklYmpOV2FJXC5ZQUUnaGoxKkpMTVdlZDwtMkoxc0UkU2x1Z0JlN0xkWUEkJWROVVdcMVdlP18iOCJxZC5uTVk0JFd0QV80OSJNNUtBTnQuPWxXQSFeUGsyLTkxYV9zPkJKKGpEPU0lY1BwPnNbIiMwNjhaajdrRkczQFMyQ1xJM1kpPWY4LWIyMCEqdVkpLTtQLT9mPTVqUXE5QUlSITBFPmFwTm08NWxPTTNVPGVoOmhmKyMkSUw3QmEjK0wyJkxqbCshO0dzXiErPipaZCxpcydWbUc6Oj1ZOENySk5KSjQnalI3TiE9aUlsL2FIZk5fQFoyKCguIzdjPCZWQy42QSwkOk02VE5FU0x1dFNXNCxjNiFuLSxANWFAdUVaM2M0dFlsJkhFSFdTM1orTzpCMnAtKmdPSjczZzhBN1xrJ0FLY0M9ZFpfM1lCaWhoVlJYQUMvY2w9IT9SWmZBRjlbaHQqMXRUQzs6bnMqPj8qNzA3WmgvWlxYTnQwZVM/LWhpVjhhNkU1bjt1XjJZWCtoNztxOGZlOTJ1bnBFaklybT45XlM6IW9TImAiMENJVVJTa1BIRlpuOmExXVdIUC0+WDldPU1oN1ZCLEo5Il1NWy5IUChWUDo9YTlrXz0tW05JU3VJNSxyTy4vKmByJjNFZ0Q9N0tWQm41KVJDNTtsVnBiPmxaVT9RKURZOE1GVGdONG8nJEU8bUJWWF4jRW9WLENDNlBvLTxFWDdAW1NhYmknLDRnZm8uTTlLSCptdEAnY19tU2IrPDgrSzVeUT1qSktIOTpEJEQnInQwPWJKN1E9Rl9QQkZRLEpacTFwJWFSVkhnOmsuTjQoTGc9I2chNyokbERLRlNRITg4UV1VNyY3LW1MaExFLiZDRlZUZ0U8NihhcmojbyI7KkQ5JjBZQnEmSlc5RytAOFg5QUJKYSNUdDA7Q21EV1NtcCwzbkBhMGJAPS49NloqWiM5OmAxTXBzWDE0XiNYPFtSV3Q1Vm9QKE5NKV0qYyJBTmdsSjZFVmozOFc6PTpoUzljPVhGdCpFXDhAPm1XbFlUYFNVW2opVzQzNzBhKy4sXnJmL0NhT1I5WWFLNiJfLkcwRUYpSjdOQzc8QFlBNEpPJlpZKSliRlYtb1xtKVdlJzFwVThVJVpkSHNqdSRHOGMrJUJnL1RBYUJPSXVbVjEzLyMvQGwmc1xZPT4jWVhASl0ySnJ0KE9ULWQlYzxtOlYxXWgzTzNnUWMlM2ZdX0ZvOXFFPmQ4LnE+IkQ+VVdsbUZbUT1ZWldWbTVMISFlUypObGcvIiYvdTFBL0pKLy1XY3AwZEZYJW9oPUM/LTUsIUM0UCNHRG5ST1w1RFNBNT1bJzcyJkhmKSFiIU00SGlmWTVaVmU7RF1tJGFXRDBNP1wzMSFIOVQ/IU9CNG8xNExUQVolXm4iLVY3W0xRJ1dCSFBoLSJmO3Ivak8sRHVTX11FNyRUISp1aUxMMFtwXiolUEZmR1ptKj05dD1OYCdgaChhbmovRVo0QGNbcD4+Lz0jTXBWXjg4Pj9OKk9rOk4qY20jVTVjcElHalFxOypbJGktZllUSyUrSlFDJ0hgOTpjT09OX048MmxzP0ZcWGZoWCdcMF9yN201V2xZck8vKGVnViQwUS5TWl5uIVxAI2MlZnBFQ2VxX2o4Ij48b2kvOFQ2JWcmQlZNRDBXM3Nwb1lGc3Aja2FBXiQmN09HRzQyLjU2OVdzT2luRjVZWzNtOkhAQHAwPmJDMWdGWU0rOztUVEljclVhWEZERVZZKCJqMlxrTz9URzBZXT44NywyVkhcIy1vSnJPa0hLTHE3O0JUM0FzJDRvRCdpKWgkMURMOWpaIWFPNFtSVTRaQD1VKiZcQjpbbk8vT2pxVmM+Wk1mO1RXJEAuUTcpOkNhRipsK0JSOTA3UTllTVcpXV5PRFRZMmhMZGZPT2RgOGMmaEkvX0dsczVbLG1XOlxbRUUpVWNYMThEUSpoTUA+SmIoalNjakRhTkNnVmc9SlAkUTo+WnJyP3Ewa11WYmUzXSQpLF4ubGo9KE9mS2FDN3VsYjhRbHFvLmIuRFkvczZlI0NKMiRfVkRkIWJaSzZWajhAaCxtZWktNEImc20kYiVhXktgQEclXiphKThWPWw9TDpGKDIkalFNKUVWWG46S1VcUV1EK2cvcSE4ZVQ2Wi0zUSJVNiE8Z1dkL3FzYU4yMGxLa0dxLik6Nj9eQDEpckhHbS9iWkUhKE8yMVwqRGZOMG1vSDBrSTtucn4+ZW5kc3RyZWFtCmVuZG9iagp4cmVmCjAgOQowMDAwMDAwMDAwIDY1NTM1IGYgCjAwMDAwMDAwNjEgMDAwMDAgbiAKMDAwMDAwMDEwMiAwMDAwMCBuIAowMDAwMDAwMjA5IDAwMDAwIG4gCjAwMDAwMDAzMjEgMDAwMDAgbiAKMDAwMDAwMDUxNCAwMDAwMCBuIAowMDAwMDAwNTgyIDAwMDAwIG4gCjAwMDAwMDA4NDMgMDAwMDAgbiAKMDAwMDAwMDkwMiAwMDAwMCBuIAp0cmFpbGVyCjw8Ci9JRCAKWzw5ODFlNzY1Y2I4ZTNjNjkxZmNjZmUzZDI5MTlhMDlhZT48OTgxZTc2NWNiOGUzYzY5MWZjY2ZlM2QyOTE5YTA5YWU+XQolIFJlcG9ydExhYiBnZW5lcmF0ZWQgUERGIGRvY3VtZW50IC0tIGRpZ2VzdCAob3BlbnNvdXJjZSkKCi9JbmZvIDYgMCBSCi9Sb290IDUgMCBSCi9TaXplIDkKPj4Kc3RhcnR4cmVmCjMwOTgKJSVFT0YK">&#x1F5DD;&#xFE0F; Vocab Key</a>
+      <a class="btn btn-yt" href="https://www.youtube.com/watch?v=SLSNiM-qXLk" target="_blank">&#x1F3B5; Rounding Song</a>
+      <a class="btn btn-yt" href="https://www.youtube.com/watch?v=UzqGvewI3XA" target="_blank">&#x1F3B5; Rounding Numbers</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══ COMING SOON ════════════════════════════════════════════════════════ -->
+<div class="section-header" style="margin-top:32px">&#x1F51C; More 3rd Grade &mdash; Coming Soon</div>
+<div class="lessons-grid">
+  <div class="coming-card" data-grade="grade3" data-status="soon">
+    <h3>3rd Grade Lessons 4+</h3>
+    <p style="font-size:0.85rem;margin-top:6px">Multiplication, division, rounding, fractions &amp; more &mdash; coming as we build!</p>
+  </div>
+</div>
+
+</main>
+
+<footer>
+  <strong>Ms. Newby Teaches</strong> &middot; Math Intervention Curriculum &middot; Built for Acadiance Applied Math Progress Monitoring &middot; Grades 4&ndash;6 Special Education<br>
+  <span style="font-size:0.8rem;opacity:0.7">Each lesson: 10-min instruction + 20-min practice &middot; Aligned to 2nd &amp; 3rd Grade CCSS Math Standards</span>
+</footer>
 
 <script>
-const comingSkills=[[2,"Comparing Numbers","Greater than, less than, equal to using symbols","Number Sense"],[3,"Place Value - Tens & Ones","Identify tens and ones in 2-digit numbers","Place Value"],[4,"Counting On to Add","Use a number line to count on from the larger number","Addition"],[5,"Making Ten to Add","Decompose numbers to make a ten when adding","Addition"],[6,"Subtracting Within 20","Count back or use fact families to subtract","Subtraction"],[7,"Odd & Even Numbers","Identify odd and even numbers using groups of 2","Number Sense"],[8,"Skip Counting by 2s, 5s, 10s","Count forward and backward by 2, 5, and 10","Patterns"],[9,"Measuring Length","Use a ruler to measure objects to nearest inch/cm","Measurement"],[10,"Telling Time to the Half Hour","Read analog and digital clocks","Measurement"],[11,"Counting Coins","Identify and count pennies, nickels, dimes, quarters","Money"],[12,"Shapes & Their Attributes","Name and describe 2D and 3D shapes","Geometry"],[13,"Fractions - Halves & Fourths","Identify equal parts of a shape","Fractions"],[14,"Word Problems - Addition","Solve one-step add word problems","Operations"],[15,"Word Problems - Subtraction","Solve one-step subtract word problems","Operations"]];
-const grid=document.getElementById('comingGrid');
-comingSkills.forEach(([num,title,desc,tag])=>{const n=String(num).padStart(2,'0');grid.innerHTML+=`<div class="lesson-card coming-soon" data-status="coming" data-tags="${title.toLowerCase()} ${tag.toLowerCase()}"><div class="card-top"><div class="lesson-num" style="color:#94A3B8">${n}</div><div class="card-meta"><h3>${title}</h3><p>${desc}</p><div style="margin-top:.35rem"><span class="skill-tag" style="background:#F1F5F9;color:#64748B">&#128204; ${tag}</span><span class="skill-tag" style="background:#F1F5F9;color:#64748B">2nd Grade</span></div></div><span class="status-badge badge-coming">&#128284; Soon</span></div><div class="card-resources"><div style="text-align:center;padding:1rem 0;color:#94A3B8;font-size:.85rem;font-weight:700;">&#128247; Share the Acadiance skill screenshot<br>with Claude to generate this lesson</div><div class="resource-row"><span class="res-link disabled"><span class="icon">&#128421;</span> Slide Deck</span><span class="res-link disabled"><span class="icon">&#128203;</span> Lesson Guide</span><span class="res-link disabled"><span class="icon">&#9999;</span> Practice PDF</span><span class="res-link disabled"><span class="icon">&#128273;</span> Answer Key</span><span class="res-link disabled"><span class="icon">&#128214;</span> Vocab Sheet</span><span class="res-link disabled"><span class="icon">&#128477;</span> Vocab Key</span></div></div></div>`;});
-for(let i=16;i<=100;i++){const n=String(i).padStart(2,'0');grid.innerHTML+=`<div class="lesson-card coming-soon" data-status="coming" data-tags="lesson ${n}"><div class="card-top"><div class="lesson-num" style="color:#CBD5E1">${n}</div><div class="card-meta"><h3>Lesson ${i} - Acadiance Skill</h3><p>Share the skill screenshot to generate this lesson package</p></div><span class="status-badge badge-coming">&#128284; Soon</span></div><div class="card-resources"><div style="text-align:center;padding:.8rem 0;color:#CBD5E1;font-size:.82rem;font-weight:700;">Not yet generated</div></div></div>`;}
-let currentFilter='all';
-function setFilter(f,btn){currentFilter=f;document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');filterCards();}
-function filterCards(){const q=document.getElementById('searchInput').value.toLowerCase();const allCards=document.querySelectorAll('.lesson-card');let vis=0;allCards.forEach(card=>{const grade=card.dataset.grade||'';const status=card.dataset.status||'';const matchFilter=currentFilter==='all'||(currentFilter==='ready'&&status==='ready')||(currentFilter==='coming'&&status==='coming')||(currentFilter==='2nd'&&grade==='2nd')||(currentFilter==='3rd'&&grade==='3rd');const matchSearch=!q||(card.dataset.tags||'').includes(q)||card.querySelector('h3').textContent.toLowerCase().includes(q);const show=matchFilter&&matchSearch;card.style.display=show?'':'none';if(show)vis++;});document.getElementById('countLabel').textContent=`Showing ${vis} lesson${vis!==1?'s':''}`;const showComing=currentFilter==='all'||currentFilter==='coming';const show2nd=currentFilter==='all'||currentFilter==='ready'||currentFilter==='2nd';const show3rd=currentFilter==='all'||currentFilter==='3rd';document.getElementById('comingSoonLabel').style.display=showComing?'':'none';document.getElementById('grade2Label').style.display=show2nd?'':'none';document.getElementById('grade3Label').style.display=show3rd?'':'none';}
-const readyCount=document.querySelectorAll('[data-status="ready"]').length;const totalLessons=100;const pct=Math.round(readyCount/totalLessons*100);document.getElementById('prog-fill').style.width=Math.max(pct,1)+'%';document.getElementById('prog-pct').textContent=pct+'%';document.getElementById('stat-ready').textContent=readyCount;document.getElementById('stat-coming').textContent=totalLessons-readyCount;document.getElementById('hdr-complete').textContent=`${readyCount} of ${totalLessons} Ready`;
-filterCards();
+// Slideshow embedded as base64 — opens in new tab
+var SLIDESHOW_B64 = "PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImVuIj4KPGhlYWQ+CjxtZXRhIGNoYXJzZXQ9IlVURi04Ij4KPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRoPWRldmljZS13aWR0aCwgaW5pdGlhbC1zY2FsZT0xLjAiPgo8dGl0bGU+M0cgTGVzc29uIDMg4oCUIFJvdW5kaW5nIHRvIE5lYXJlc3QgMTAgJiAxMDAgwrcgTXMuIE5ld2J5IFRlYWNoZXM8L3RpdGxlPgo8c3R5bGU+CiAgKiB7IGJveC1zaXppbmc6IGJvcmRlci1ib3g7IG1hcmdpbjogMDsgcGFkZGluZzogMDsgfQogIGJvZHkgeyBmb250LWZhbWlseTogJ1NlZ29lIFVJJywgc3lzdGVtLXVpLCBzYW5zLXNlcmlmOyBiYWNrZ3JvdW5kOiAjMWExYTJlOyBjb2xvcjogIzFhMWEyZTsgbWluLWhlaWdodDogMTAwdmg7IGRpc3BsYXk6IGZsZXg7IGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47IH0KICAudG9wYmFyIHsgYmFja2dyb3VuZDogIzE2MjEzZTsgY29sb3I6ICNlMGUwZTA7IGRpc3BsYXk6IGZsZXg7IGp1c3RpZnktY29udGVudDogc3BhY2UtYmV0d2VlbjsgYWxpZ24taXRlbXM6IGNlbnRlcjsgcGFkZGluZzogMTBweCAyMHB4OyBmb250LXNpemU6IDAuOXJlbTsgYm9yZGVyLWJvdHRvbTogM3B4IHNvbGlkICMwZjM0NjA7IGZsZXgtc2hyaW5rOiAwOyB9CiAgLnRvcGJhciAubGVzc29uLWlkIHsgZm9udC13ZWlnaHQ6IDcwMDsgY29sb3I6ICNlOTQ1NjA7IGxldHRlci1zcGFjaW5nOiAxcHg7IH0KICAudG9wYmFyIC5mdWxsc2NyZWVuLWJ0biB7IGJhY2tncm91bmQ6ICMwZjM0NjA7IGNvbG9yOiAjZTBlMGUwOyBib3JkZXI6IDFweCBzb2xpZCAjZTk0NTYwOyBib3JkZXItcmFkaXVzOiA2cHg7IHBhZGRpbmc6IDVweCAxMnB4OyBjdXJzb3I6IHBvaW50ZXI7IGZvbnQtc2l6ZTogMC44NXJlbTsgfQogIC50b3BiYXIgLmZ1bGxzY3JlZW4tYnRuOmhvdmVyIHsgYmFja2dyb3VuZDogI2U5NDU2MDsgfQogIC5zbGlkZS13cmFwcGVyIHsgZmxleDogMTsgZGlzcGxheTogZmxleDsgYWxpZ24taXRlbXM6IGNlbnRlcjsganVzdGlmeS1jb250ZW50OiBjZW50ZXI7IHBhZGRpbmc6IDIwcHg7IH0KICAuc2xpZGUgeyBkaXNwbGF5OiBub25lOyBiYWNrZ3JvdW5kOiAjZmZmZmZmOyBib3JkZXItcmFkaXVzOiAxOHB4OyBwYWRkaW5nOiAzNnB4IDQwcHg7IG1heC13aWR0aDogODIwcHg7IHdpZHRoOiAxMDAlOyBib3gtc2hhZG93OiAwIDhweCA0MHB4IHJnYmEoMCwwLDAsMC41KTsgYW5pbWF0aW9uOiBmYWRlSW4gMC4zcyBlYXNlOyB9CiAgLnNsaWRlLmFjdGl2ZSB7IGRpc3BsYXk6IGJsb2NrOyB9CiAgQGtleWZyYW1lcyBmYWRlSW4geyBmcm9tIHsgb3BhY2l0eTogMDsgdHJhbnNmb3JtOiB0cmFuc2xhdGVZKDhweCk7IH0gdG8geyBvcGFjaXR5OiAxOyB0cmFuc2Zvcm06IHRyYW5zbGF0ZVkoMCk7IH0gfQogIC5zbGlkZS10aXRsZS1tYWluIHsgdGV4dC1hbGlnbjogY2VudGVyOyBwYWRkaW5nOiAxMHB4IDA7IH0KICAuc2xpZGUtdGl0bGUtbWFpbiAuYmlnLWVtb2ppIHsgZm9udC1zaXplOiAzLjVyZW07IG1hcmdpbi1ib3R0b206IDEwcHg7IH0KICAuc2xpZGUtdGl0bGUtbWFpbiBoMSB7IGZvbnQtc2l6ZTogMnJlbTsgY29sb3I6ICMwZjM0NjA7IGxpbmUtaGVpZ2h0OiAxLjI7IG1hcmdpbi1ib3R0b206IDEwcHg7IH0KICAuc2xpZGUtdGl0bGUtbWFpbiAuc3VidGl0bGUgeyBmb250LXNpemU6IDEuMDVyZW07IGNvbG9yOiAjNTU1OyBtYXJnaW4tYm90dG9tOiAyMHB4OyB9CiAgLnRhZy1yb3cgeyBkaXNwbGF5OiBmbGV4OyBmbGV4LXdyYXA6IHdyYXA7IGdhcDogOHB4OyBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjsgbWFyZ2luLXRvcDogMTZweDsgfQogIC50YWcgeyBiYWNrZ3JvdW5kOiAjZjBmNGZmOyBib3JkZXI6IDJweCBzb2xpZCAjMGYzNDYwOyBib3JkZXItcmFkaXVzOiAyMHB4OyBwYWRkaW5nOiA1cHggMTRweDsgZm9udC1zaXplOiAwLjg1cmVtOyBmb250LXdlaWdodDogNjAwOyBjb2xvcjogIzBmMzQ2MDsgfQogIC50YWcucmVkIHsgYmFja2dyb3VuZDogI2ZmZjBmMjsgYm9yZGVyLWNvbG9yOiAjZTk0NTYwOyBjb2xvcjogI2U5NDU2MDsgfQogIC5zbGlkZSBoMiB7IGZvbnQtc2l6ZTogMS41cmVtOyBjb2xvcjogIzBmMzQ2MDsgbWFyZ2luLWJvdHRvbTogMTZweDsgcGFkZGluZy1ib3R0b206IDhweDsgYm9yZGVyLWJvdHRvbTogM3B4IHNvbGlkICNlOTQ1NjA7IGRpc3BsYXk6IGZsZXg7IGFsaWduLWl0ZW1zOiBjZW50ZXI7IGdhcDogMTBweDsgfQogIC5ydWxlLWJveCB7IGJhY2tncm91bmQ6ICNmZmY4ZTE7IGJvcmRlcjogM3B4IHNvbGlkICNmNWE2MjM7IGJvcmRlci1yYWRpdXM6IDEycHg7IHBhZGRpbmc6IDE2cHggMjBweDsgbWFyZ2luOiAxNHB4IDA7IGZvbnQtc2l6ZTogMS4wNXJlbTsgfQogIC5ydWxlLWJveCBzdHJvbmcgeyBjb2xvcjogI2M0N2EwMDsgfQogIC5nb2xkZW4tcnVsZSB7IGJhY2tncm91bmQ6ICNmMGY0ZmY7IGJvcmRlcjogM3B4IHNvbGlkICMwZjM0NjA7IGJvcmRlci1yYWRpdXM6IDEycHg7IHBhZGRpbmc6IDE4cHggMjRweDsgbWFyZ2luOiAxNnB4IDA7IHRleHQtYWxpZ246IGNlbnRlcjsgfQogIC5nb2xkZW4tcnVsZSAucnVsZS10aXRsZSB7IGZvbnQtc2l6ZTogMS4xcmVtOyBmb250LXdlaWdodDogNzAwOyBjb2xvcjogIzBmMzQ2MDsgbWFyZ2luLWJvdHRvbTogMTJweDsgfQogIC5yb3VuZC1vcHRpb25zIHsgZGlzcGxheTogZmxleDsgZ2FwOiAxNnB4OyBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjsgbWFyZ2luLXRvcDogMTBweDsgZmxleC13cmFwOiB3cmFwOyB9CiAgLnJvdW5kLW9wdGlvbiB7IGZsZXg6IDE7IG1pbi13aWR0aDogMTYwcHg7IHBhZGRpbmc6IDE0cHg7IGJvcmRlci1yYWRpdXM6IDEwcHg7IHRleHQtYWxpZ246IGNlbnRlcjsgZm9udC13ZWlnaHQ6IDcwMDsgZm9udC1zaXplOiAxcmVtOyB9CiAgLnJvdW5kLWRvd24geyBiYWNrZ3JvdW5kOiAjZTNmMmZkOyBib3JkZXI6IDJweCBzb2xpZCAjMTU2NWMwOyBjb2xvcjogIzE1NjVjMDsgfQogIC5yb3VuZC11cCB7IGJhY2tncm91bmQ6ICNmY2U0ZWM7IGJvcmRlcjogMnB4IHNvbGlkICNjNjI4Mjg7IGNvbG9yOiAjYzYyODI4OyB9CiAgLnJvdW5kLW9wdGlvbiAuYmlnLW51bSB7IGZvbnQtc2l6ZTogMS44cmVtOyBkaXNwbGF5OiBibG9jazsgbWFyZ2luLWJvdHRvbTogNnB4OyB9CiAgLmV4YW1wbGUtdGFibGUgeyB3aWR0aDogMTAwJTsgYm9yZGVyLWNvbGxhcHNlOiBjb2xsYXBzZTsgbWFyZ2luOiAxNnB4IDA7IGZvbnQtc2l6ZTogMXJlbTsgYm9yZGVyLXJhZGl1czogMTBweDsgb3ZlcmZsb3c6IGhpZGRlbjsgYm94LXNoYWRvdzogMCAycHggOHB4IHJnYmEoMCwwLDAsMC4xKTsgfQogIC5leGFtcGxlLXRhYmxlIHRoIHsgYmFja2dyb3VuZDogIzBmMzQ2MDsgY29sb3I6IHdoaXRlOyBwYWRkaW5nOiAxMnB4IDE2cHg7IHRleHQtYWxpZ246IGNlbnRlcjsgZm9udC1zaXplOiAwLjk1cmVtOyB9CiAgLmV4YW1wbGUtdGFibGUgdGQgeyBwYWRkaW5nOiAxMnB4IDE2cHg7IHRleHQtYWxpZ246IGNlbnRlcjsgYm9yZGVyLWJvdHRvbTogMXB4IHNvbGlkICNlMGUwZTA7IGZvbnQtc2l6ZTogMS4xcmVtOyBmb250LXdlaWdodDogNjAwOyB9CiAgLmV4YW1wbGUtdGFibGUgdHI6bnRoLWNoaWxkKGV2ZW4pIHRkIHsgYmFja2dyb3VuZDogI2Y4ZjlmZjsgfQogIC5leGFtcGxlLXRhYmxlIC5hbnN3ZXIgeyBjb2xvcjogI2U5NDU2MDsgZm9udC1zaXplOiAxLjNyZW07IH0KICAuc3RlcHMgeyBsaXN0LXN0eWxlOiBub25lOyBtYXJnaW46IDE0cHggMDsgfQogIC5zdGVwcyBsaSB7IGRpc3BsYXk6IGZsZXg7IGFsaWduLWl0ZW1zOiBmbGV4LXN0YXJ0OyBnYXA6IDE0cHg7IG1hcmdpbi1ib3R0b206IDE0cHg7IHBhZGRpbmc6IDEycHggMTZweDsgYmFja2dyb3VuZDogI2Y4ZjlmZjsgYm9yZGVyLXJhZGl1czogMTBweDsgYm9yZGVyLWxlZnQ6IDRweCBzb2xpZCAjMGYzNDYwOyB9CiAgLnN0ZXBzIGxpLmRvbmUgeyBib3JkZXItbGVmdC1jb2xvcjogIzJlN2QzMjsgYmFja2dyb3VuZDogI2YxZjhlOTsgfQogIC5zdGVwLW51bSB7IGJhY2tncm91bmQ6ICMwZjM0NjA7IGNvbG9yOiB3aGl0ZTsgYm9yZGVyLXJhZGl1czogNTAlOyB3aWR0aDogMjhweDsgaGVpZ2h0OiAyOHB4OyBkaXNwbGF5OiBmbGV4OyBhbGlnbi1pdGVtczogY2VudGVyOyBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjsgZm9udC13ZWlnaHQ6IDcwMDsgZm9udC1zaXplOiAwLjlyZW07IGZsZXgtc2hyaW5rOiAwOyB9CiAgLnN0ZXAtbnVtLmRvbmUgeyBiYWNrZ3JvdW5kOiAjMmU3ZDMyOyB9CiAgLnN0ZXAtdGV4dCB7IGZsZXg6IDE7IGZvbnQtc2l6ZTogMC45OHJlbTsgbGluZS1oZWlnaHQ6IDEuNTsgfQogIC5zdGVwLXRleHQgc3Ryb25nIHsgY29sb3I6ICMwZjM0NjA7IH0KICAuc3RlcC10ZXh0IC5oaWdobGlnaHQgeyBiYWNrZ3JvdW5kOiAjZmZmMTc2OyBwYWRkaW5nOiAxcHggNXB4OyBib3JkZXItcmFkaXVzOiAzcHg7IGZvbnQtd2VpZ2h0OiA3MDA7IH0KICAudm9jYWItZ3JpZCB7IGRpc3BsYXk6IGdyaWQ7IGdyaWQtdGVtcGxhdGUtY29sdW1uczogMWZyIDFmcjsgZ2FwOiAxMnB4OyBtYXJnaW46IDE0cHggMDsgfQogIC52b2NhYi1jYXJkIHsgYmFja2dyb3VuZDogI2YwZjRmZjsgYm9yZGVyOiAycHggc29saWQgIzBmMzQ2MDsgYm9yZGVyLXJhZGl1czogMTBweDsgcGFkZGluZzogMTJweCAxNHB4OyB9CiAgLnZvY2FiLWNhcmQgLndvcmQgeyBmb250LXdlaWdodDogODAwOyBjb2xvcjogI2U5NDU2MDsgZm9udC1zaXplOiAxcmVtOyBtYXJnaW4tYm90dG9tOiA0cHg7IH0KICAudm9jYWItY2FyZCAuZGVmaW5pdGlvbiB7IGZvbnQtc2l6ZTogMC44OHJlbTsgY29sb3I6ICMzMzM7IGxpbmUtaGVpZ2h0OiAxLjQ7IH0KICAudm9jYWItY2FyZCAuZXhhbXBsZSB7IGZvbnQtc2l6ZTogMC44MnJlbTsgY29sb3I6ICM2NjY7IG1hcmdpbi10b3A6IDRweDsgZm9udC1zdHlsZTogaXRhbGljOyB9CiAgLnB2LWJveCB7IGRpc3BsYXk6IGZsZXg7IGdhcDogMDsganVzdGlmeS1jb250ZW50OiBjZW50ZXI7IG1hcmdpbjogMTRweCAwOyBmb250LXNpemU6IDFyZW07IGZvbnQtd2VpZ2h0OiA3MDA7IH0KICAucHYtY2VsbCB7IGJvcmRlcjogMnB4IHNvbGlkICMwZjM0NjA7IHBhZGRpbmc6IDEwcHggMTZweDsgdGV4dC1hbGlnbjogY2VudGVyOyBtaW4td2lkdGg6IDgwcHg7IH0KICAucHYtY2VsbDpmaXJzdC1jaGlsZCB7IGJvcmRlci1yYWRpdXM6IDhweCAwIDAgOHB4OyB9CiAgLnB2LWNlbGw6bGFzdC1jaGlsZCB7IGJvcmRlci1yYWRpdXM6IDAgOHB4IDhweCAwOyB9CiAgLnB2LWNlbGwuaGlnaGxpZ2h0LWNlbGwgeyBiYWNrZ3JvdW5kOiAjZmZmMTc2OyB9CiAgLnB2LWNlbGwgLnB2LWxhYmVsIHsgZm9udC1zaXplOiAwLjcycmVtOyBjb2xvcjogIzY2NjsgZGlzcGxheTogYmxvY2s7IG1hcmdpbi1ib3R0b206IDRweDsgZm9udC13ZWlnaHQ6IDQwMDsgfQogIC5wdi1jZWxsIC5wdi1kaWdpdCB7IGZvbnQtc2l6ZTogMS44cmVtOyBjb2xvcjogIzBmMzQ2MDsgfQogIC5wdi1jZWxsLmhpZ2hsaWdodC1jZWxsIC5wdi1kaWdpdCB7IGNvbG9yOiAjZTk0NTYwOyB9CiAgLnVuZGVybGluZS1kaWdpdCB7IHRleHQtZGVjb3JhdGlvbjogdW5kZXJsaW5lOyB0ZXh0LXVuZGVybGluZS1vZmZzZXQ6IDNweDsgY29sb3I6ICNlOTQ1NjA7IGZvbnQtd2VpZ2h0OiA4MDA7IH0KICAud2UtZG8tYm94IHsgYmFja2dyb3VuZDogI2YzZTVmNTsgYm9yZGVyOiAzcHggc29saWQgIzdiMWZhMjsgYm9yZGVyLXJhZGl1czogMTJweDsgcGFkZGluZzogMjBweCAyNHB4OyBtYXJnaW46IDE0cHggMDsgdGV4dC1hbGlnbjogY2VudGVyOyB9CiAgLndlLWRvLWJveCAucHJvbXB0IHsgZm9udC1zaXplOiAxLjFyZW07IGZvbnQtd2VpZ2h0OiA3MDA7IGNvbG9yOiAjN2IxZmEyOyBtYXJnaW4tYm90dG9tOiAxNHB4OyB9CiAgLmJsYW5rLXRhYmxlIHsgd2lkdGg6IDEwMCU7IGJvcmRlci1jb2xsYXBzZTogY29sbGFwc2U7IG1hcmdpbjogMTBweCBhdXRvOyBtYXgtd2lkdGg6IDQ4MHB4OyBib3JkZXItcmFkaXVzOiA4cHg7IG92ZXJmbG93OiBoaWRkZW47IH0KICAuYmxhbmstdGFibGUgdGggeyBiYWNrZ3JvdW5kOiAjN2IxZmEyOyBjb2xvcjogd2hpdGU7IHBhZGRpbmc6IDEwcHggMTRweDsgZm9udC1zaXplOiAwLjlyZW07IH0KICAuYmxhbmstdGFibGUgdGQgeyBwYWRkaW5nOiAxMnB4IDE0cHg7IHRleHQtYWxpZ246IGNlbnRlcjsgYm9yZGVyOiAycHggc29saWQgI2NlOTNkODsgZm9udC1zaXplOiAxLjFyZW07IGZvbnQtd2VpZ2h0OiA2MDA7IH0KICAuYmxhbmstdGFibGUgLmJsYW5rLWNlbGwgeyBiYWNrZ3JvdW5kOiB3aGl0ZTsgY29sb3I6ICNjY2M7IGZvbnQtc3R5bGU6IGl0YWxpYzsgZm9udC1zaXplOiAwLjg1cmVtOyB9CiAgLnJldmVhbC1idG4geyBiYWNrZ3JvdW5kOiAjN2IxZmEyOyBjb2xvcjogd2hpdGU7IGJvcmRlcjogbm9uZTsgYm9yZGVyLXJhZGl1czogOHB4OyBwYWRkaW5nOiAxMHB4IDI0cHg7IGN1cnNvcjogcG9pbnRlcjsgZm9udC1zaXplOiAwLjk1cmVtOyBmb250LXdlaWdodDogNjAwOyBtYXJnaW4tdG9wOiAxMnB4OyB9CiAgLnJldmVhbC1idG46aG92ZXIgeyBiYWNrZ3JvdW5kOiAjOWMyN2IwOyB9CiAgLmFuc3dlci1yZXZlYWwgeyBkaXNwbGF5OiBub25lOyBtYXJnaW4tdG9wOiAxMHB4OyBmb250LXNpemU6IDEuMXJlbTsgZm9udC13ZWlnaHQ6IDcwMDsgY29sb3I6ICMyZTdkMzI7IH0KICAuYW5zd2VyLXJldmVhbC52aXNpYmxlIHsgZGlzcGxheTogYmxvY2s7IH0KICAucmV2aWV3LWNhcmQgeyBiYWNrZ3JvdW5kOiAjZjhmOWZmOyBib3JkZXI6IDJweCBzb2xpZCAjMGYzNDYwOyBib3JkZXItcmFkaXVzOiAxMHB4OyBwYWRkaW5nOiAxNHB4OyB0ZXh0LWFsaWduOiBjZW50ZXI7IH0KICAuY29sb3ItY2hlY2sgeyBkaXNwbGF5OiBmbGV4OyBnYXA6IDEycHg7IGp1c3RpZnktY29udGVudDogY2VudGVyOyBtYXJnaW4tdG9wOiAxNnB4OyBmbGV4LXdyYXA6IHdyYXA7IH0KICAuY29sb3ItYnRuIHsgcGFkZGluZzogOHB4IDIwcHg7IGJvcmRlci1yYWRpdXM6IDIwcHg7IGZvbnQtd2VpZ2h0OiA3MDA7IGZvbnQtc2l6ZTogMC45cmVtOyBib3JkZXI6IG5vbmU7IGN1cnNvcjogZGVmYXVsdDsgfQogIC5jb2xvci1idG4uZ3JlZW4geyBiYWNrZ3JvdW5kOiAjYzhlNmM5OyBjb2xvcjogIzJlN2QzMjsgYm9yZGVyOiAycHggc29saWQgIzJlN2QzMjsgfQogIC5jb2xvci1idG4ub3JhbmdlIHsgYmFja2dyb3VuZDogI2ZmZTBiMjsgY29sb3I6ICNlNjUxMDA7IGJvcmRlcjogMnB4IHNvbGlkICNlNjUxMDA7IH0KICAubmF2LWJhciB7IGJhY2tncm91bmQ6ICMxNjIxM2U7IGRpc3BsYXk6IGZsZXg7IGp1c3RpZnktY29udGVudDogY2VudGVyOyBhbGlnbi1pdGVtczogY2VudGVyOyBnYXA6IDI0cHg7IHBhZGRpbmc6IDE0cHggMjBweDsgZmxleC1zaHJpbms6IDA7IH0KICAubmF2LWJ0biB7IGJhY2tncm91bmQ6ICMwZjM0NjA7IGNvbG9yOiB3aGl0ZTsgYm9yZGVyOiBub25lOyBib3JkZXItcmFkaXVzOiA4cHg7IHBhZGRpbmc6IDEwcHggMjRweDsgY3Vyc29yOiBwb2ludGVyOyBmb250LXNpemU6IDEuMXJlbTsgZm9udC13ZWlnaHQ6IDcwMDsgfQogIC5uYXYtYnRuOmhvdmVyIHsgYmFja2dyb3VuZDogI2U5NDU2MDsgfQogIC5uYXYtYnRuOmRpc2FibGVkIHsgYmFja2dyb3VuZDogIzMzMzsgY29sb3I6ICM2NjY7IGN1cnNvcjogZGVmYXVsdDsgfQogIC5zbGlkZS1jb3VudGVyIHsgY29sb3I6ICNlMGUwZTA7IGZvbnQtc2l6ZTogMXJlbTsgZm9udC13ZWlnaHQ6IDYwMDsgbWluLXdpZHRoOiA2MHB4OyB0ZXh0LWFsaWduOiBjZW50ZXI7IH0KICBAbWVkaWEgKG1heC13aWR0aDogNjAwcHgpIHsgLnNsaWRlIHsgcGFkZGluZzogMjBweDsgfSAudm9jYWItZ3JpZCB7IGdyaWQtdGVtcGxhdGUtY29sdW1uczogMWZyOyB9IC5yb3VuZC1vcHRpb25zIHsgZmxleC1kaXJlY3Rpb246IGNvbHVtbjsgfSAuc2xpZGUtdGl0bGUtbWFpbiBoMSB7IGZvbnQtc2l6ZTogMS41cmVtOyB9IH0KPC9zdHlsZT4KPC9oZWFkPgo8Ym9keT4KCjxkaXYgY2xhc3M9InRvcGJhciI+CiAgPHNwYW4gY2xhc3M9Imxlc3Nvbi1pZCI+M3JkIEdyYWRlIMK3IExlc3NvbiAzPC9zcGFuPgogIDxidXR0b24gY2xhc3M9ImZ1bGxzY3JlZW4tYnRuIiBvbmNsaWNrPSJ0b2dnbGVGdWxsc2NyZWVuKCkiPiYjeDI2RjY7IEZ1bGxzY3JlZW4gKEYpPC9idXR0b24+CjwvZGl2PgoKPGRpdiBjbGFzcz0ic2xpZGUtd3JhcHBlciI+CgogIDxkaXYgY2xhc3M9InNsaWRlIGFjdGl2ZSIgaWQ9InNsaWRlLTEiPgogICAgPGRpdiBjbGFzcz0ic2xpZGUtdGl0bGUtbWFpbiI+CiAgICAgIDxkaXYgY2xhc3M9ImJpZy1lbW9qaSI+JiN4MUY1MjI7PC9kaXY+CiAgICAgIDxoMT5Sb3VuZGluZyB0byB0aGUgTmVhcmVzdCAxMCBhbmQgMTAwPC9oMT4KICAgICAgPGRpdiBjbGFzcz0ic3VidGl0bGUiPkxvb2sgYXQgdGhlIG5leHQgZGlnaXQgJm1pZGRvdDsgUm91bmQgdXAgb3IgZG93biAmbWlkZG90OyBGaWxsIGluIHRoZSB0YWJsZSE8L2Rpdj4KICAgICAgPGRpdiBjbGFzcz0idGFnLXJvdyI+CiAgICAgICAgPHNwYW4gY2xhc3M9InRhZyI+JiN4MUYzOTM7IDNyZCBHcmFkZTwvc3Bhbj4KICAgICAgICA8c3BhbiBjbGFzcz0idGFnIHJlZCI+JiN4MUY1MjI7IFJvdW5kaW5nPC9zcGFuPgogICAgICAgIDxzcGFuIGNsYXNzPSJ0YWciPiYjeDFGNDY1OyBTbWFsbCBHcm91cDwvc3Bhbj4KICAgICAgICA8c3BhbiBjbGFzcz0idGFnIj4mI3gxRjRDQjsgTGVzc29uIDMgb2YgMjA8L3NwYW4+CiAgICAgIDwvZGl2PgogICAgPC9kaXY+CiAgPC9kaXY+CgogIDxkaXYgY2xhc3M9InNsaWRlIiBpZD0ic2xpZGUtMiI+CiAgICA8aDI+JiN4MUY5NDc7IFRoZSBSb3VuZGluZyBSdWxlICZtZGFzaDsgTWVtb3JpemUgVGhpcyE8L2gyPgogICAgPGRpdiBjbGFzcz0iZ29sZGVuLXJ1bGUiPgogICAgICA8ZGl2IGNsYXNzPSJydWxlLXRpdGxlIj4mI3gxRjQ0MDsgTG9vayBhdCB0aGUgZGlnaXQgdG8gdGhlIFJJR0hUIG9mIHRoZSBwbGFjZSB5b3UgYXJlIHJvdW5kaW5nIHRvPC9kaXY+CiAgICAgIDxkaXYgY2xhc3M9InJvdW5kLW9wdGlvbnMiPgogICAgICAgIDxkaXYgY2xhc3M9InJvdW5kLW9wdGlvbiByb3VuZC1kb3duIj4KICAgICAgICAgIDxzcGFuIGNsYXNzPSJiaWctbnVtIj4wICZuZGFzaDsgNDwvc3Bhbj4KICAgICAgICAgIFNUQVkgJm1pZGRvdDsgUm91bmQgRG93bjxicj4KICAgICAgICAgIDxzbWFsbD5LZWVwIHRoZSBkaWdpdCB0aGUgc2FtZTxicj5DaGFuZ2UgdGhlIHJlc3QgdG8gemVyb3M8L3NtYWxsPgogICAgICAgIDwvZGl2PgogICAgICAgIDxkaXYgY2xhc3M9InJvdW5kLW9wdGlvbiByb3VuZC11cCI+CiAgICAgICAgICA8c3BhbiBjbGFzcz0iYmlnLW51bSI+NSAmbmRhc2g7IDk8L3NwYW4+CiAgICAgICAgICBHTyBVUCAmbWlkZG90OyBSb3VuZCBVcDxicj4KICAgICAgICAgIDxzbWFsbD5BZGQgMSB0byB0aGUgZGlnaXQ8YnI+Q2hhbmdlIHRoZSByZXN0IHRvIHplcm9zPC9zbWFsbD4KICAgICAgICA8L2Rpdj4KICAgICAgPC9kaXY+CiAgICA8L2Rpdj4KICAgIDxkaXYgY2xhc3M9InJ1bGUtYm94Ij4KICAgICAgJiN4MUY0QTE7IDxzdHJvbmc+TWVtb3J5IHRyaWNrOjwvc3Ryb25nPiAiMCZuZGFzaDs0LCBzdGF5IG9uIHRoZSBmbG9vciEgNSZuZGFzaDs5LCBnbyB1cCB0aGUgdmluZSEiICYjeDFGMzNGOwogICAgPC9kaXY+CiAgPC9kaXY+CgogIDxkaXYgY2xhc3M9InNsaWRlIiBpZD0ic2xpZGUtMyI+CiAgICA8aDI+JiN4MUY0NDA7IFdhdGNoIE1lICZtZGFzaDsgUm91bmQgNTU5IHRvIHRoZSBOZWFyZXN0IDEwPC9oMj4KICAgIDxkaXYgY2xhc3M9InB2LWJveCI+CiAgICAgIDxkaXYgY2xhc3M9InB2LWNlbGwiPjxzcGFuIGNsYXNzPSJwdi1sYWJlbCI+SHVuZHJlZHM8L3NwYW4+PHNwYW4gY2xhc3M9InB2LWRpZ2l0Ij41PC9zcGFuPjwvZGl2PgogICAgICA8ZGl2IGNsYXNzPSJwdi1jZWxsIGhpZ2hsaWdodC1jZWxsIj48c3BhbiBjbGFzcz0icHYtbGFiZWwiPlRlbnMgJmxhcnI7IHJvdW5kIEhFUkU8L3NwYW4+PHNwYW4gY2xhc3M9InB2LWRpZ2l0Ij41PC9zcGFuPjwvZGl2PgogICAgICA8ZGl2IGNsYXNzPSJwdi1jZWxsIj48c3BhbiBjbGFzcz0icHYtbGFiZWwiPk9uZXMgJmxhcnI7IGxvb2sgSEVSRTwvc3Bhbj48c3BhbiBjbGFzcz0icHYtZGlnaXQiPjk8L3NwYW4+PC9kaXY+CiAgICA8L2Rpdj4KICAgIDx1bCBjbGFzcz0ic3RlcHMiPgogICAgICA8bGkgY2xhc3M9ImRvbmUiPjxkaXYgY2xhc3M9InN0ZXAtbnVtIGRvbmUiPjE8L2Rpdj48ZGl2IGNsYXNzPSJzdGVwLXRleHQiPjxzdHJvbmc+VW5kZXJsaW5lIHRoZSBURU5TIGRpZ2l0Ljwvc3Ryb25nPiBJbiA1PHNwYW4gY2xhc3M9InVuZGVybGluZS1kaWdpdCI+NTwvc3Bhbj45LCB1bmRlcmxpbmUgdGhlIHRlbnMgcGxhY2UuIFRoYXQgaXMgd2hlcmUgd2UgYXJlIHJvdW5kaW5nLjwvZGl2PjwvbGk+CiAgICAgIDxsaSBjbGFzcz0iZG9uZSI+PGRpdiBjbGFzcz0ic3RlcC1udW0gZG9uZSI+MjwvZGl2PjxkaXYgY2xhc3M9InN0ZXAtdGV4dCI+PHN0cm9uZz5Mb29rIGF0IHRoZSBkaWdpdCB0byB0aGUgUklHSFQgKG9uZXMgcGxhY2UpLjwvc3Ryb25nPiBUaGUgb25lcyBkaWdpdCBpcyA8c3BhbiBjbGFzcz0iaGlnaGxpZ2h0Ij45PC9zcGFuPi48L2Rpdj48L2xpPgogICAgICA8bGkgY2xhc3M9ImRvbmUiPjxkaXYgY2xhc3M9InN0ZXAtbnVtIGRvbmUiPjM8L2Rpdj48ZGl2IGNsYXNzPSJzdGVwLXRleHQiPjxzdHJvbmc+OSBpcyA1Jm5kYXNoOzkgJnJhcnI7IEdPIFVQITwvc3Ryb25nPiBBZGQgMSB0byB0aGUgdGVucyBkaWdpdDogNSArIDEgPSA8c3BhbiBjbGFzcz0iaGlnaGxpZ2h0Ij42PC9zcGFuPi48L2Rpdj48L2xpPgogICAgICA8bGkgY2xhc3M9ImRvbmUiPjxkaXYgY2xhc3M9InN0ZXAtbnVtIGRvbmUiPiYjeDI3MDU7PC9kaXY+PGRpdiBjbGFzcz0ic3RlcC10ZXh0Ij48c3Ryb25nPkNoYW5nZSB0aGUgb25lcyBkaWdpdCB0byB6ZXJvLjwvc3Ryb25nPiBBbnN3ZXI6IDxzcGFuIGNsYXNzPSJoaWdobGlnaHQiPjU2MDwvc3Bhbj4gJiN4MjcwNTs8L2Rpdj48L2xpPgogICAgPC91bD4KICA8L2Rpdj4KCiAgPGRpdiBjbGFzcz0ic2xpZGUiIGlkPSJzbGlkZS00Ij4KICAgIDxoMj4mI3gxRjQ0MDsgV2F0Y2ggTWUgJm1kYXNoOyBSb3VuZCA1NTkgdG8gdGhlIE5lYXJlc3QgMTAwPC9oMj4KICAgIDxkaXYgY2xhc3M9InB2LWJveCI+CiAgICAgIDxkaXYgY2xhc3M9InB2LWNlbGwgaGlnaGxpZ2h0LWNlbGwiPjxzcGFuIGNsYXNzPSJwdi1sYWJlbCI+SHVuZHJlZHMgJmxhcnI7IHJvdW5kIEhFUkU8L3NwYW4+PHNwYW4gY2xhc3M9InB2LWRpZ2l0Ij41PC9zcGFuPjwvZGl2PgogICAgICA8ZGl2IGNsYXNzPSJwdi1jZWxsIj48c3BhbiBjbGFzcz0icHYtbGFiZWwiPlRlbnMgJmxhcnI7IGxvb2sgSEVSRTwvc3Bhbj48c3BhbiBjbGFzcz0icHYtZGlnaXQiPjU8L3NwYW4+PC9kaXY+CiAgICAgIDxkaXYgY2xhc3M9InB2LWNlbGwiPjxzcGFuIGNsYXNzPSJwdi1sYWJlbCI+T25lczwvc3Bhbj48c3BhbiBjbGFzcz0icHYtZGlnaXQiPjk8L3NwYW4+PC9kaXY+CiAgICA8L2Rpdj4KICAgIDx1bCBjbGFzcz0ic3RlcHMiPgogICAgICA8bGkgY2xhc3M9ImRvbmUiPjxkaXYgY2xhc3M9InN0ZXAtbnVtIGRvbmUiPjE8L2Rpdj48ZGl2IGNsYXNzPSJzdGVwLXRleHQiPjxzdHJvbmc+VW5kZXJsaW5lIHRoZSBIVU5EUkVEUyBkaWdpdC48L3N0cm9uZz4gSW4gPHNwYW4gY2xhc3M9InVuZGVybGluZS1kaWdpdCI+NTwvc3Bhbj41OSwgdW5kZXJsaW5lIHRoZSBodW5kcmVkcyBwbGFjZS48L2Rpdj48L2xpPgogICAgICA8bGkgY2xhc3M9ImRvbmUiPjxkaXYgY2xhc3M9InN0ZXAtbnVtIGRvbmUiPjI8L2Rpdj48ZGl2IGNsYXNzPSJzdGVwLXRleHQiPjxzdHJvbmc+TG9vayBhdCB0aGUgZGlnaXQgdG8gdGhlIFJJR0hUICh0ZW5zIHBsYWNlKS48L3N0cm9uZz4gVGhlIHRlbnMgZGlnaXQgaXMgPHNwYW4gY2xhc3M9ImhpZ2hsaWdodCI+NTwvc3Bhbj4uPC9kaXY+PC9saT4KICAgICAgPGxpIGNsYXNzPSJkb25lIj48ZGl2IGNsYXNzPSJzdGVwLW51bSBkb25lIj4zPC9kaXY+PGRpdiBjbGFzcz0ic3RlcC10ZXh0Ij48c3Ryb25nPjUgaXMgNSZuZGFzaDs5ICZyYXJyOyBHTyBVUCE8L3N0cm9uZz4gQWRkIDEgdG8gdGhlIGh1bmRyZWRzIGRpZ2l0OiA1ICsgMSA9IDxzcGFuIGNsYXNzPSJoaWdobGlnaHQiPjY8L3NwYW4+LjwvZGl2PjwvbGk+CiAgICAgIDxsaSBjbGFzcz0iZG9uZSI+PGRpdiBjbGFzcz0ic3RlcC1udW0gZG9uZSI+JiN4MjcwNTs8L2Rpdj48ZGl2IGNsYXNzPSJzdGVwLXRleHQiPjxzdHJvbmc+Q2hhbmdlIHRoZSB0ZW5zIEFORCBvbmVzIGRpZ2l0cyB0byB6ZXJvLjwvc3Ryb25nPiBBbnN3ZXI6IDxzcGFuIGNsYXNzPSJoaWdobGlnaHQiPjYwMDwvc3Bhbj4gJiN4MjcwNTs8L2Rpdj48L2xpPgogICAgPC91bD4KICA8L2Rpdj4KCiAgPGRpdiBjbGFzcz0ic2xpZGUiIGlkPSJzbGlkZS01Ij4KICAgIDxoMj4mI3gxRjUzNzsgTW9yZSBFeGFtcGxlcyAmbWRhc2g7IFNlZSB0aGUgUGF0dGVybiE8L2gyPgogICAgPHRhYmxlIGNsYXNzPSJleGFtcGxlLXRhYmxlIj4KICAgICAgPHRoZWFkPjx0cj48dGg+TnVtYmVyPC90aD48dGg+Li4udG8gdGhlIE5lYXJlc3QgMTA8L3RoPjx0aD4uLi50byB0aGUgTmVhcmVzdCAxMDA8L3RoPjwvdHI+PC90aGVhZD4KICAgICAgPHRib2R5PgogICAgICAgIDx0cj48dGQ+NTU5PC90ZD48dGQgY2xhc3M9ImFuc3dlciI+NTYwICYjeDI3MDU7PC90ZD48dGQgY2xhc3M9ImFuc3dlciI+NjAwICYjeDI3MDU7PC90ZD48L3RyPgogICAgICAgIDx0cj48dGQ+NjczPC90ZD48dGQgY2xhc3M9ImFuc3dlciI+NjcwICYjeDI3MDU7PC90ZD48dGQgY2xhc3M9ImFuc3dlciI+NzAwICYjeDI3MDU7PC90ZD48L3RyPgogICAgICAgIDx0cj48dGQ+NzcxPC90ZD48dGQgY2xhc3M9ImFuc3dlciI+NzcwICYjeDI3MDU7PC90ZD48dGQgY2xhc3M9ImFuc3dlciI+ODAwICYjeDI3MDU7PC90ZD48L3RyPgogICAgICAgIDx0cj48dGQ+MjQzPC90ZD48dGQgY2xhc3M9ImFuc3dlciI+MjQwICYjeDI3MDU7PC90ZD48dGQgY2xhc3M9ImFuc3dlciI+MjAwICYjeDI3MDU7PC90ZD48L3RyPgogICAgICA8L3Rib2R5PgogICAgPC90YWJsZT4KICAgIDxkaXYgY2xhc3M9InJ1bGUtYm94Ij4KICAgICAgJiN4MUY0QTE7IDxzdHJvbmc+Tm90aWNlOjwvc3Ryb25nPiBSb3VuZGluZyB0byB0aGUgbmVhcmVzdCAxMCBnaXZlcyBhIG1vcmUgRVhBQ1QgYW5zd2VyLiBSb3VuZGluZyB0byB0aGUgbmVhcmVzdCAxMDAgZ2l2ZXMgYSBtb3JlIEdFTkVSQUwgYW5zd2VyLgogICAgPC9kaXY+CiAgPC9kaXY+CgogIDxkaXYgY2xhc3M9InNsaWRlIiBpZD0ic2xpZGUtNiI+CiAgICA8aDI+JiN4MUY0RDY7IFJvdW5kaW5nIFZvY2FidWxhcnk8L2gyPgogICAgPGRpdiBjbGFzcz0idm9jYWItZ3JpZCI+CiAgICAgIDxkaXYgY2xhc3M9InZvY2FiLWNhcmQiPjxkaXYgY2xhc3M9IndvcmQiPlJvdW5kPC9kaXY+PGRpdiBjbGFzcz0iZGVmaW5pdGlvbiI+VG8gY2hhbmdlIGEgbnVtYmVyIHRvIHRoZSBuZWFyZXN0IHRlbiwgaHVuZHJlZCwgb3Igb3RoZXIgcGxhY2UuPC9kaXY+PGRpdiBjbGFzcz0iZXhhbXBsZSI+RXhhbXBsZTogNDcgcm91bmRzIHRvIDUwPC9kaXY+PC9kaXY+CiAgICAgIDxkaXYgY2xhc3M9InZvY2FiLWNhcmQiPjxkaXYgY2xhc3M9IndvcmQiPk5lYXJlc3QgVGVuPC9kaXY+PGRpdiBjbGFzcz0iZGVmaW5pdGlvbiI+VGhlIG11bHRpcGxlIG9mIDEwIHRoYXQgaXMgY2xvc2VzdCB0byB5b3VyIG51bWJlci48L2Rpdj48ZGl2IGNsYXNzPSJleGFtcGxlIj5FeGFtcGxlOiA2NzMgJnJhcnI7IDY3MDwvZGl2PjwvZGl2PgogICAgICA8ZGl2IGNsYXNzPSJ2b2NhYi1jYXJkIj48ZGl2IGNsYXNzPSJ3b3JkIj5OZWFyZXN0IEh1bmRyZWQ8L2Rpdj48ZGl2IGNsYXNzPSJkZWZpbml0aW9uIj5UaGUgbXVsdGlwbGUgb2YgMTAwIHRoYXQgaXMgY2xvc2VzdCB0byB5b3VyIG51bWJlci48L2Rpdj48ZGl2IGNsYXNzPSJleGFtcGxlIj5FeGFtcGxlOiA2NzMgJnJhcnI7IDcwMDwvZGl2PjwvZGl2PgogICAgICA8ZGl2IGNsYXNzPSJ2b2NhYi1jYXJkIj48ZGl2IGNsYXNzPSJ3b3JkIj5EaWdpdDwvZGl2PjxkaXYgY2xhc3M9ImRlZmluaXRpb24iPkFueSBzaW5nbGUgbnVtYmVyIDAmbmRhc2g7OS4gTnVtYmVycyBhcmUgbWFkZSBvZiBkaWdpdHMuPC9kaXY+PGRpdiBjbGFzcz0iZXhhbXBsZSI+RXhhbXBsZTogNDU2IGhhcyAzIGRpZ2l0czogNCwgNSwgYW5kIDY8L2Rpdj48L2Rpdj4KICAgICAgPGRpdiBjbGFzcz0idm9jYWItY2FyZCI+PGRpdiBjbGFzcz0id29yZCI+VGVucyBQbGFjZTwvZGl2PjxkaXYgY2xhc3M9ImRlZmluaXRpb24iPlRoZSBzZWNvbmQgZGlnaXQgZnJvbSB0aGUgcmlnaHQgaW4gYSBudW1iZXIuPC9kaXY+PGRpdiBjbGFzcz0iZXhhbXBsZSI+SW4gNDU2LCB0aGUgdGVucyBkaWdpdCBpcyA1PC9kaXY+PC9kaXY+CiAgICAgIDxkaXYgY2xhc3M9InZvY2FiLWNhcmQiPjxkaXYgY2xhc3M9IndvcmQiPkh1bmRyZWRzIFBsYWNlPC9kaXY+PGRpdiBjbGFzcz0iZGVmaW5pdGlvbiI+VGhlIHRoaXJkIGRpZ2l0IGZyb20gdGhlIHJpZ2h0IGluIGEgbnVtYmVyLjwvZGl2PjxkaXYgY2xhc3M9ImV4YW1wbGUiPkluIDQ1NiwgdGhlIGh1bmRyZWRzIGRpZ2l0IGlzIDQ8L2Rpdj48L2Rpdj4KICAgIDwvZGl2PgogIDwvZGl2PgoKICA8ZGl2IGNsYXNzPSJzbGlkZSIgaWQ9InNsaWRlLTciPgogICAgPGgyPiYjeDFGOTFEOyBXZSBEbyAmbWRhc2g7IFdyaXRlIG9uIFlvdXIgV2hpdGVib2FyZCE8L2gyPgogICAgPGRpdiBjbGFzcz0id2UtZG8tYm94Ij4KICAgICAgPGRpdiBjbGFzcz0icHJvbXB0Ij4mI3gyNzBGOyYjeEZFMEY7IEZpbGwgaW4gdGhlIHRhYmxlIGZvciB0aGUgbnVtYmVyIDI0MyE8L2Rpdj4KICAgICAgPHRhYmxlIGNsYXNzPSJibGFuay10YWJsZSI+CiAgICAgICAgPHRoZWFkPjx0cj48dGg+TnVtYmVyPC90aD48dGg+Li4udG8gdGhlIE5lYXJlc3QgMTA8L3RoPjx0aD4uLi50byB0aGUgTmVhcmVzdCAxMDA8L3RoPjwvdHI+PC90aGVhZD4KICAgICAgICA8dGJvZHk+PHRyPjx0ZD4yNDM8L3RkPjx0ZCBjbGFzcz0iYmxhbmstY2VsbCI+X19fX188L3RkPjx0ZCBjbGFzcz0iYmxhbmstY2VsbCI+X19fX188L3RkPjwvdHI+PC90Ym9keT4KICAgICAgPC90YWJsZT4KICAgICAgPGRpdiBzdHlsZT0ibWFyZ2luLXRvcDoxMnB4OyBmb250LXNpemU6MC45cmVtOyBjb2xvcjojNTU1OyI+CiAgICAgICAgPHN0cm9uZz5IaW50IGZvciBuZWFyZXN0IDEwOjwvc3Ryb25nPiBMb29rIGF0IHRoZSBvbmVzIGRpZ2l0ICgzKS4gSXMgMyBpbiAwJm5kYXNoOzQgb3IgNSZuZGFzaDs5Pzxicj4KICAgICAgICA8c3Ryb25nPkhpbnQgZm9yIG5lYXJlc3QgMTAwOjwvc3Ryb25nPiBMb29rIGF0IHRoZSB0ZW5zIGRpZ2l0ICg0KS4gSXMgNCBpbiAwJm5kYXNoOzQgb3IgNSZuZGFzaDs5PwogICAgICA8L2Rpdj4KICAgICAgPGJ1dHRvbiBjbGFzcz0icmV2ZWFsLWJ0biIgb25jbGljaz0iZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2Fuc3dlcjcnKS5jbGFzc0xpc3QudG9nZ2xlKCd2aXNpYmxlJykiPiYjeDFGNTM3OyBTaG93IEFuc3dlcjwvYnV0dG9uPgogICAgICA8ZGl2IGNsYXNzPSJhbnN3ZXItcmV2ZWFsIiBpZD0iYW5zd2VyNyI+CiAgICAgICAgMjQwICYjeDI3MDU7IChvbmVzPTMsIHRoYXQgaXMgMCZuZGFzaDs0LCBTVEFZICZyYXJyOyAyNDApICZuYnNwO3wmbmJzcDsgMjAwICYjeDI3MDU7ICh0ZW5zPTQsIHRoYXQgaXMgMCZuZGFzaDs0LCBTVEFZICZyYXJyOyAyMDApCiAgICAgIDwvZGl2PgogICAgPC9kaXY+CiAgPC9kaXY+CgogIDxkaXYgY2xhc3M9InNsaWRlIiBpZD0ic2xpZGUtOCI+CiAgICA8aDI+JiN4MUYzQzY7IExldCdzIENoZWNrIE91ciBXb3JrITwvaDI+CiAgICA8dGFibGUgY2xhc3M9ImV4YW1wbGUtdGFibGUiPgogICAgICA8dGhlYWQ+PHRyPjx0aD5OdW1iZXI8L3RoPjx0aD4uLi50byB0aGUgTmVhcmVzdCAxMDwvdGg+PHRoPi4uLnRvIHRoZSBOZWFyZXN0IDEwMDwvdGg+PC90cj48L3RoZWFkPgogICAgICA8dGJvZHk+CiAgICAgICAgPHRyPjx0ZD41NTk8L3RkPjx0ZCBjbGFzcz0iYW5zd2VyIj41NjAgJiN4MjcwNTs8L3RkPjx0ZCBjbGFzcz0iYW5zd2VyIj42MDAgJiN4MjcwNTs8L3RkPjwvdHI+CiAgICAgICAgPHRyPjx0ZD42NzM8L3RkPjx0ZCBjbGFzcz0iYW5zd2VyIj42NzAgJiN4MjcwNTs8L3RkPjx0ZCBjbGFzcz0iYW5zd2VyIj43MDAgJiN4MjcwNTs8L3RkPjwvdHI+CiAgICAgICAgPHRyPjx0ZD43NzE8L3RkPjx0ZCBjbGFzcz0iYW5zd2VyIj43NzAgJiN4MjcwNTs8L3RkPjx0ZCBjbGFzcz0iYW5zd2VyIj44MDAgJiN4MjcwNTs8L3RkPjwvdHI+CiAgICAgICAgPHRyPjx0ZD4yNDM8L3RkPjx0ZCBjbGFzcz0iYW5zd2VyIj4yNDAgJiN4MjcwNTs8L3RkPjx0ZCBjbGFzcz0iYW5zd2VyIj4yMDAgJiN4MjcwNTs8L3RkPjwvdHI+CiAgICAgIDwvdGJvZHk+CiAgICA8L3RhYmxlPgogICAgPGRpdiBjbGFzcz0icnVsZS1ib3giIHN0eWxlPSJ0ZXh0LWFsaWduOmNlbnRlcjsiPgogICAgICAmI3gxRjk0NzsgPHN0cm9uZz5UaGUgUnVsZTo8L3N0cm9uZz4gTG9vayBSSUdIVCAmbWlkZG90OyAwJm5kYXNoOzQgPSBTVEFZICZtaWRkb3Q7IDUmbmRhc2g7OSA9IEdPIFVQICZtaWRkb3Q7IENoYW5nZSB0aGUgcmVzdCB0byB6ZXJvcyEKICAgIDwvZGl2PgogICAgPGRpdiBjbGFzcz0iY29sb3ItY2hlY2siPgogICAgICA8c3BhbiBjbGFzcz0iY29sb3ItYnRuIGdyZWVuIj4mI3gxRjdFMjsgR290IGl0IHJpZ2h0ID0gR1JFRU48L3NwYW4+CiAgICAgIDxzcGFuIGNsYXNzPSJjb2xvci1idG4gb3JhbmdlIj4mI3gxRjdFMDsgTmVlZCBtb3JlIHByYWN0aWNlID0gT1JBTkdFPC9zcGFuPgogICAgPC9kaXY+CiAgICA8ZGl2IHN0eWxlPSJ0ZXh0LWFsaWduOmNlbnRlcjsgbWFyZ2luLXRvcDoxNHB4OyBmb250LXNpemU6MXJlbTsgY29sb3I6IzBmMzQ2MDsgZm9udC13ZWlnaHQ6NjAwOyI+CiAgICAgICYjeDFGNTIyOyBZb3UgY2FuIHJvdW5kIHRvIHRoZSBuZWFyZXN0IDEwIEFORCAxMDAgJm1kYXNoOyB0aGF0IGlzIGEgM3JkIGdyYWRlIHN1cGVycG93ZXIhICYjeDJCNTA7CiAgICA8L2Rpdj4KICA8L2Rpdj4KCjwvZGl2PgoKPGRpdiBjbGFzcz0ibmF2LWJhciI+CiAgPGJ1dHRvbiBjbGFzcz0ibmF2LWJ0biIgaWQ9InByZXZCdG4iIG9uY2xpY2s9ImNoYW5nZVNsaWRlKC0xKSIgZGlzYWJsZWQ+JiM5NjY0OzwvYnV0dG9uPgogIDxzcGFuIGNsYXNzPSJzbGlkZS1jb3VudGVyIiBpZD0ic2xpZGVDb3VudGVyIj4xIC8gODwvc3Bhbj4KICA8YnV0dG9uIGNsYXNzPSJuYXYtYnRuIiBpZD0ibmV4dEJ0biIgb25jbGljaz0iY2hhbmdlU2xpZGUoMSkiPiYjOTY1NDs8L2J1dHRvbj4KPC9kaXY+Cgo8c2NyaXB0PgogIGxldCBjdXJyZW50ID0gMTsKICBjb25zdCB0b3RhbCA9IDg7CiAgZnVuY3Rpb24gY2hhbmdlU2xpZGUoZGlyKSB7CiAgICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnc2xpZGUtJyArIGN1cnJlbnQpLmNsYXNzTGlzdC5yZW1vdmUoJ2FjdGl2ZScpOwogICAgY3VycmVudCArPSBkaXI7CiAgICBpZiAoY3VycmVudCA8IDEpIGN1cnJlbnQgPSAxOwogICAgaWYgKGN1cnJlbnQgPiB0b3RhbCkgY3VycmVudCA9IHRvdGFsOwogICAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3NsaWRlLScgKyBjdXJyZW50KS5jbGFzc0xpc3QuYWRkKCdhY3RpdmUnKTsKICAgIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdzbGlkZUNvdW50ZXInKS50ZXh0Q29udGVudCA9IGN1cnJlbnQgKyAnIC8gJyArIHRvdGFsOwogICAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3ByZXZCdG4nKS5kaXNhYmxlZCA9IChjdXJyZW50ID09PSAxKTsKICAgIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCduZXh0QnRuJykuZGlzYWJsZWQgPSAoY3VycmVudCA9PT0gdG90YWwpOwogIH0KICBkb2N1bWVudC5hZGRFdmVudExpc3RlbmVyKCdrZXlkb3duJywgZnVuY3Rpb24oZSkgewogICAgaWYgKGUua2V5ID09PSAnQXJyb3dSaWdodCcgfHwgZS5rZXkgPT09ICdBcnJvd0Rvd24nKSBjaGFuZ2VTbGlkZSgxKTsKICAgIGlmIChlLmtleSA9PT0gJ0Fycm93TGVmdCcgfHwgZS5rZXkgPT09ICdBcnJvd1VwJykgY2hhbmdlU2xpZGUoLTEpOwogICAgaWYgKGUua2V5ID09PSAnZicgfHwgZS5rZXkgPT09ICdGJykgdG9nZ2xlRnVsbHNjcmVlbigpOwogIH0pOwogIGZ1bmN0aW9uIHRvZ2dsZUZ1bGxzY3JlZW4oKSB7CiAgICBpZiAoIWRvY3VtZW50LmZ1bGxzY3JlZW5FbGVtZW50KSB7IGRvY3VtZW50LmRvY3VtZW50RWxlbWVudC5yZXF1ZXN0RnVsbHNjcmVlbigpOyB9CiAgICBlbHNlIHsgZG9jdW1lbnQuZXhpdEZ1bGxzY3JlZW4oKTsgfQogIH0KPC9zY3JpcHQ+CjwvYm9keT4KPC9odG1sPgo=";
+function openSlideshow() {
+  var html = atob(SLIDESHOW_B64);
+  var blob = new Blob([html], {type: 'text/html'});
+  var url  = URL.createObjectURL(blob);
+  window.open(url, '_blank');
+}
+
+// Filter
+function filterCards(type, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.card, .coming-card').forEach(c => {
+    var show = type === 'all'
+      || (type === 'ready' && c.dataset.status === 'ready')
+      || (type === 'soon'  && c.dataset.status === 'soon')
+      || (type === 'grade2' && c.dataset.grade === 'grade2')
+      || (type === 'grade3' && c.dataset.grade === 'grade3');
+    c.style.display = show ? '' : 'none';
+  });
+  document.querySelectorAll('.section-header').forEach(h => {
+    var g = h.dataset.grade;
+    h.style.display = (!g || type === 'all' || type === g) ? '' : 'none';
+  });
+}
+
+// Search
+function searchCards(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.card').forEach(c => {
+    c.style.display = (!q || c.dataset.title.includes(q)) ? '' : 'none';
+  });
+}
 </script>
 </body>
 </html>
